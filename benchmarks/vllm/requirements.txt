@@ -1,0 +1,7 @@
+# Install this file only inside a fresh Linux/WSL environment.
+# The pinned runtime was verified on 2026-09-11 with CUDA-visible RTX 4060.
+vllm==0.29.0
+# Keep FlashInfer's JIT compiler aligned with torch's CUDA 13.2 runtime.
+nvidia-cuda-nvcc==13.2.78 ; platform_system == "Linux"
+nvidia-cuda-crt==13.2.78 ; platform_system == "Linux"
+nvidia-nvvm==13.2.78 ; platform_system == "Linux"

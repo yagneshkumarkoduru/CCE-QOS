@@ -14,12 +14,13 @@ Simulated Annealing        6461.85      159.31       -6.93     3563.48     2226.
 Lookahead                  6794.39      154.40      -11.85     3603.50     2573.34     84.72      500.35       51.61      700.00      0.00
 Beam Search                6794.39      154.40      -11.85     3603.50     2573.34     84.72      500.35       51.61      700.00      0.00
 
-[APR / Quantum Stub]
+[APR / Quantum (local-search fallback)]
 Strategy                      Cost      Energy    Pairwise     Latency        DRAM       BW%        Idle   Feasible%    PeakSRAM    Spills
 ------------------------------------------------------------------------------------------------------------------------------------------
-CCE + APR                  5669.65      160.28       -5.97     3456.25     2226.24     86.74      353.10       51.61      670.00      0.00
-Quantum (Stub)             9756.86      164.94       -1.30     3834.24     3474.24     82.44      731.02       45.16      700.00      0.00
+CCE + APR                  6287.24      160.43       -5.82     3479.19     2483.64     86.57      376.05       67.74      720.00      0.00
+Quantum (local-search fallback)     9756.86      164.94       -1.30     3834.24     3474.24     82.44      731.02       45.16      700.00      0.00
 
 [X Metric]
 CCE vs baseline: -0.4926
-Quantum stub vs baseline: -1.0197
+Quantum (local-search fallback) vs baseline: -1.0197
+Quantum backend used: local_search_fallback

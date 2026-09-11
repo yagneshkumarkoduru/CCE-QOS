@@ -461,6 +461,7 @@
           "end_temp": 0.04,
           "acceptance_ratio": 0.01875,
           "tabu_size": 80,
+          "warm_started": false,
           "penalties": {
             "sram_capacity": 1.0,
             "bandwidth_capacity": 1.0,
@@ -1070,6 +1071,7 @@
           "end_temp": 0.04,
           "acceptance_ratio": 0.121875,
           "tabu_size": 80,
+          "warm_started": false,
           "penalties": {
             "sram_capacity": 1.0,
             "bandwidth_capacity": 1.0,
@@ -1199,8 +1201,6 @@
         20,
         6,
         7,
-        8,
-        13,
         2,
         9,
         21,
@@ -1210,12 +1210,14 @@
         24,
         25,
         12,
+        8,
+        13,
         14,
         15,
         16,
+        17,
         26,
         27,
-        17,
         23,
         28,
         29,
@@ -1223,39 +1225,39 @@
       ],
       "evaluation": {
         "breakdown": {
-          "dram_access": 2226.24,
-          "sram_reuse_loss": 811.9932,
-          "bandwidth_congestion": 1815.2298962676036,
-          "pipeline_stalls": 264.68456774083427,
-          "fusion_gain": 245.788,
-          "parallelism_loss": 738.1564647766322,
-          "penalty_cost": 59.1344961233963,
-          "total_cost": 5669.650624908466
+          "dram_access": 2483.64,
+          "sram_reuse_loss": 926.8332,
+          "bandwidth_congestion": 1665.2873770438225,
+          "pipeline_stalls": 275.09620300874417,
+          "fusion_gain": 318.824,
+          "parallelism_loss": 1212.2888745704465,
+          "penalty_cost": 42.91620767136547,
+          "total_cost": 6287.237862294379
         },
         "memory": {
-          "dram_access": 2226.24,
-          "sram_reuse_loss": 672.8000000000001,
-          "peak_sram_usage": 670.0,
-          "idle_cycles": 90.30499999999999,
+          "dram_access": 2483.64,
+          "sram_reuse_loss": 768.5000000000001,
+          "peak_sram_usage": 720.0,
+          "idle_cycles": 102.845,
           "bank_conflict_cycles": 8.58,
           "spill_count": 0.0,
-          "avg_sram_utilization": 0.7172939068100358,
-          "prefetch_bytes_saved": 573.76,
+          "avg_sram_utilization": 0.6653225806451613,
+          "prefetch_bytes_saved": 646.36,
           "violations": {
             "sram_capacity": 0.0,
             "memory_bank_conflict": 0.002767741935483871
           }
         },
         "bandwidth": {
-          "bandwidth_congestion": 1649.8640637319133,
-          "pipeline_stalls": 262.79696774083425,
-          "avg_utilization": 0.867398278998588,
-          "read_utilization": 0.867398278998588,
-          "write_utilization": 0.6650288126057312,
-          "backlog_pressure": 0.9855224999968576,
+          "bandwidth_congestion": 1513.5886903929786,
+          "pipeline_stalls": 273.20860300874415,
+          "avg_utilization": 0.8656818137300052,
+          "read_utilization": 0.8656818137300052,
+          "write_utilization": 0.6650288126057313,
+          "backlog_pressure": 0.8826431468723934,
           "violations": {
-            "bandwidth_capacity": 15.0,
-            "bandwidth_imbalance": 0.2023694663928568
+            "bandwidth_capacity": 10.0,
+            "bandwidth_imbalance": 0.20065300112427387
           }
         },
         "fusion": {
@@ -1281,42 +1283,47 @@
               30
             ]
           ],
-          "fusion_gain": 245.788,
+          "fusion_gain": 318.824,
           "fused_triplets": [
             [
               1,
               3,
               4
+            ],
+            [
+              15,
+              16,
+              17
             ]
           ]
         },
         "violation_rate": {
           "sram_capacity": 0.0,
-          "bandwidth_capacity": 0.4838709677419355,
+          "bandwidth_capacity": 0.3225806451612903,
           "dependency_conflict": 0.0,
-          "dram_pressure": 0.2532696245733788,
+          "dram_pressure": 0.28255290102389075,
           "memory_bank_conflict": 0.002767741935483871,
-          "bandwidth_imbalance": 0.2023694663928568
+          "bandwidth_imbalance": 0.20065300112427387
         },
         "cost_impact": {
-          "sram_capacity": 0.13865284010932225,
-          "bandwidth_capacity": 0.3551582052894391,
+          "sram_capacity": 0.1412178319320322,
+          "bandwidth_capacity": 0.2956484104060345,
           "dependency_conflict": 0.0,
-          "dram_pressure": 0.38014419180478054,
-          "memory_bank_conflict": 0.0016358440049095326,
-          "bandwidth_imbalance": 0.00033904019605770846
+          "dram_pressure": 0.3784221973270621,
+          "memory_bank_conflict": 0.0014596659138978495,
+          "bandwidth_imbalance": 0.00028685073377066967
         },
-        "feasibility": 0.5160843912591051,
-        "latency_cycles": 3456.2497961158333,
+        "feasibility": 0.6773747138397503,
+        "latency_cycles": 3479.1859994807746,
         "derived": {
           "critical_path_cycles": 1746.0,
-          "frontier_mean": 1.903225806451613
+          "frontier_mean": 2.4516129032258065
         },
         "energy_breakdown": {
           "unary_cost": 98.04548799999999,
-          "pairwise_total": -5.970747132179397,
+          "pairwise_total": -5.81932653580242,
           "constant": 68.20000000000002,
-          "total_energy": 160.27474086782064
+          "total_energy": 160.4261614641976
         },
         "qubo_snapshot": {
           "num_variables": 4247,
@@ -1331,75 +1338,92 @@
           {
             "round": 1,
             "objective": 160.27474086782064,
+            "penalized_objective": 160.27474086782064,
+            "violation_mass": 15.001383870967741,
             "penalties": {
+              "dependency_conflict": 1.0,
+              "memory_bank_conflict": 0.9034724741448812,
               "dram_pressure": 1.4560291771989093,
-              "bandwidth_capacity": 1.6485787941414054,
               "bandwidth_imbalance": 0.9823359438712058,
               "sram_capacity": 1.0831917040655934,
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9034724741448812
+              "bandwidth_capacity": 1.6485787941414054
             }
           },
           {
             "round": 2,
-            "objective": 162.853683693854,
+            "objective": 160.27474086782064,
+            "penalized_objective": 162.853683693854,
+            "violation_mass": 15.001383870967741,
             "penalties": {
+              "dependency_conflict": 1.0,
+              "memory_bank_conflict": 0.9069449482897624,
               "dram_pressure": 1.9120583543978187,
-              "bandwidth_capacity": 2.297157588282811,
               "bandwidth_imbalance": 1.1646718877424114,
               "sram_capacity": 1.1663834081311868,
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9069449482897624
+              "bandwidth_capacity": 2.297157588282811
             }
           },
           {
             "round": 3,
-            "objective": 163.38924295377743,
+            "objective": 158.23135730171055,
+            "penalized_objective": 163.38924295377743,
+            "violation_mass": 13.001383870967741,
             "penalties": {
+              "dependency_conflict": 1.0,
+              "memory_bank_conflict": 0.910345071623314,
               "dram_pressure": 2.351274350989824,
-              "bandwidth_capacity": 2.9138476254617713,
               "bandwidth_imbalance": 1.3329707988320623,
               "sram_capacity": 1.243442714825797,
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.910345071623314
+              "bandwidth_capacity": 2.9138476254617713
             }
           },
           {
             "round": 4,
-            "objective": 163.94765763119392,
+            "objective": 156.40093347159416,
+            "penalized_objective": 163.94765763119392,
+            "violation_mass": 12.001383870967741,
             "penalties": {
+              "dependency_conflict": 1.0,
+              "memory_bank_conflict": 0.9137383422506472,
               "dram_pressure": 2.79733096275418,
-              "bandwidth_capacity": 3.4879196805125066,
               "bandwidth_imbalance": 1.50274119180497,
               "sram_capacity": 1.32172391362641,
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9137383422506472
+              "bandwidth_capacity": 3.4879196805125066
             }
           },
           {
             "round": 5,
-            "objective": 167.80998432545135,
+            "objective": 157.83654300303283,
+            "penalized_objective": 167.80998432545135,
+            "violation_mass": 13.001383870967741,
             "penalties": {
+              "dependency_conflict": 1.0,
+              "memory_bank_conflict": 0.9172132315385025,
               "dram_pressure": 3.1803333391326447,
-              "bandwidth_capacity": 4.133358965750154,
               "bandwidth_imbalance": 1.6705606436170093,
               "sram_capacity": 1.3886791791326252,
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9172132315385025
+              "bandwidth_capacity": 4.133358965750154
             }
           }
         ],
         "final_penalties": {
+          "dependency_conflict": 1.0,
+          "memory_bank_conflict": 0.9172132315385025,
           "dram_pressure": 3.1803333391326447,
-          "bandwidth_capacity": 4.133358965750154,
           "bandwidth_imbalance": 1.6705606436170093,
           "sram_capacity": 1.3886791791326252,
-          "dependency_conflict": 1.0,
-          "memory_bank_conflict": 0.9172132315385025
+          "bandwidth_capacity": 4.133358965750154
+        },
+        "polish": {
+          "starts": 4,
+          "iterations": 300,
+          "objective": 160.4261614641976,
+          "violation_mass": 10.001383870967741,
+          "selected": true
         }
       }
     },
-    "quantum_stub": {
+    "quantum_candidates": {
       "order": [
         0,
         1,
@@ -3637,9 +3661,9 @@
             0,
             22
           ],
-          "backend": "qaoa_stub_local_search"
+          "backend": "local_search_fallback"
         },
-        "backend": "qaoa_stub_local_search"
+        "backend": "local_search_fallback"
       }
     }
   },
@@ -3684,6 +3708,7 @@
         "end_temp": 0.04,
         "acceptance_ratio": 0.121875,
         "tabu_size": 80,
+        "warm_started": false,
         "penalties": {
           "sram_capacity": 1.0,
           "bandwidth_capacity": 1.0,
@@ -4077,5 +4102,5 @@
     "cce_vs_baseline": -0.4925737188586482,
     "quantum_vs_baseline": -1.019704153882257
   },
-  "runtime_seconds": 102.5279484000057
+  "runtime_seconds": 140.28719070000807
 }

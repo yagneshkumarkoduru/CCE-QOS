@@ -8,3 +8,5 @@
 *.toc
 *.out
 *.log
+benchmarks/vllm/results/
+benchmarks/vllm/traces/*.jsonl

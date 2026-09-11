@@ -1,6 +1,5 @@
 """
-Tier 2 Benchmark: CCE-QUBO and Adaptive Penalty Refinement (APR)
-Alias / wrapper module for cce_qubo_benchmark.py
+QUBO-APR Engine benchmark (alias / wrapper module for cce_qubo_benchmark.py).
 """
 
 try:

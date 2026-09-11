@@ -305,10 +305,14 @@ class SchedulingEngine:
         iterations: int,
         start_temp: float,
         end_temp: float,
+        initial_order: Sequence[int] | None = None,
     ) -> ScheduleResult:
-        current = self._biased_complete_order([], penalties, exploration_noise=0.0)
-        if not self._is_valid(current):
-            current = self._random_topological_order()
+        if initial_order is not None and self._is_valid(initial_order):
+            current = list(int(x) for x in initial_order)
+        else:
+            current = self._biased_complete_order([], penalties, exploration_noise=0.0)
+            if not self._is_valid(current):
+                current = self._random_topological_order()
         current_score = evaluator(current)
 
         best = list(current)
@@ -363,6 +367,45 @@ class SchedulingEngine:
                 "end_temp": end_temp,
                 "acceptance_ratio": accepted / max(1, iterations),
                 "tabu_size": tabu_limit,
+                "warm_started": initial_order is not None,
                 "penalties": penalties,
             },
         )
+
+    def feasibility_preserving_descent(
+        self,
+        initial_order: Sequence[int],
+        score_fn: Callable[[Sequence[int]], Tuple[float, float]],
+        iterations: int = 200,
+        tolerance: float = 1e-9,
+    ) -> Tuple[List[int], float, float]:
+        """
+        Feasibility-preserving local descent on the true objective.
+
+        score_fn(order) must return (objective, constraint_mass). Starting from
+        a schedule, only neighbor moves are accepted that either strictly
+        reduce the constraint mass or keep it unchanged while strictly
+        reducing the objective; the constraint mass therefore never increases
+        and the objective improves monotonically at equal constraint mass.
+        Uses this engine's swap/insert/block-reverse move operators.
+        """
+        current = list(int(x) for x in initial_order)
+        if not self._is_valid(current):
+            raise ValueError("feasibility_preserving_descent requires a valid starting order.")
+
+        current_objective, current_constraint = score_fn(current)
+        for _ in range(max(0, iterations)):
+            proposal = self._neighbor(current)
+            proposal_objective, proposal_constraint = score_fn(proposal)
+            improved = (
+                proposal_constraint < current_constraint - 1e-12
+                or (
+                    proposal_constraint <= current_constraint + 1e-12
+                    and proposal_objective < current_objective - tolerance
+                )
+            )
+            if improved:
+                current = proposal
+                current_objective = proposal_objective
+                current_constraint = proposal_constraint
+        return current, current_objective, current_constraint

@@ -65,8 +65,10 @@ class LLMKVCacheCCEScheduler:
         print(f"[+] Energy Reduction via CCE:     {energy_saved_pct:.2f}%")
         print(f"[+] LLM Inter-Token Latency (ITL): LRU = {lru_itl_ms:.1f} ms -> CCE = {cce_itl_ms:.1f} ms ({speedup:.2f}x speedup)")
 
-        # Save plot
-        out_png = os.path.join(os.path.dirname(__file__), 'fig_cce_llm_kvcache_energy.png')
+        # Save plot into the shared figures/ directory (not the repo root).
+        figures_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'figures')
+        os.makedirs(figures_dir, exist_ok=True)
+        out_png = os.path.join(figures_dir, 'fig_cce_llm_kvcache_energy.png')
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.8))
 
         # Subplot 1: Energy Dissipation Breakdown

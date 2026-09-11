@@ -1,18 +1,39 @@
 """
-Tier 1 Exact CP-SAT Solver Runner for CCE-QOS.
-Solves NPU task DAGs with exact global optimality guarantees.
+Exact CP-SAT Scheduler Runner for CCE-QOS.
+Solves NPU task DAGs with exact global optimality guarantees via Google OR-Tools CP-SAT.
 """
 
+import sys
+import traceback
+
 try:
-    from ortools_cpsat_engine import ExactCPSATScheduler
-except ImportError:
-    from .ortools_cpsat_engine import ExactCPSATScheduler
+    try:
+        # Package-relative import (works when run as a module:
+        # python -m implementations.v1_exact_cpsat_solver.main_cpsat_runner)
+        from .ortools_cpsat_engine import ExactCPSATScheduler
+    except ImportError:
+        # Bare import fallback (works when run as a script:
+        # python implementations/v1_exact_cpsat_solver/main_cpsat_runner.py)
+        from ortools_cpsat_engine import ExactCPSATScheduler
+    from ortools.sat.python import cp_model
+except ImportError as exc:
+    cp_model = None
+    ExactCPSATScheduler = None
+    _IMPORT_ERROR = exc
+else:
+    _IMPORT_ERROR = None
 
 
 def run_cpsat_benchmark():
     print("=" * 70)
-    print("TIER 1: EXACT OR-TOOLS CP-SAT COMPILER SCHEDULING")
+    print("EXACT OR-TOOLS CP-SAT COMPILER SCHEDULING")
     print("=" * 70)
+
+    if ExactCPSATScheduler is None:
+        print(f"[FAIL] Could not import the CP-SAT engine. Real reason below.")
+        print(f"       Import error: {_IMPORT_ERROR}")
+        traceback.print_exc()
+        sys.exit(1)
 
     # 6-node synthetic NPU DAG
     tasks = [
@@ -38,7 +59,7 @@ def run_cpsat_benchmark():
     print(f"Optimal Makespan: {res['makespan']} cycles")
     print(f"Schedule Map    : {res['schedule']}")
     print(f"Solve Time      : {res['solver_runtime_s']:.3f} s")
-    print("Tier 1 exact global scheduling verified.\n")
+    print("Exact global scheduling verified.\n")
 
 
 if __name__ == "__main__":

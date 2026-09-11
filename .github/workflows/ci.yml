@@ -21,20 +21,24 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy scipy matplotlib ortools
+          pip install numpy scipy matplotlib ortools scikit-optimize pytest
 
       - name: Bytecode Syntax Compilation Check
         run: |
           python -m compileall implementations/
 
-      - name: Run Tier 1 Exact CP-SAT Solver
+      - name: Run Exact CP-SAT Scheduler
         run: |
           python implementations/v1_exact_cpsat_solver/main_cpsat_runner.py
 
-      - name: Run Tier 2 CCE-QUBO APR Benchmark
+      - name: Run QUBO-APR Engine Benchmark
         run: |
           python implementations/v2_cce_qubo_apr_engine/cce_qubo_benchmark.py
 
-      - name: Run Tier 3 LLM KV-Cache Paging Scheduler
+      - name: Run KV-Cache Paging Scheduler
         run: |
           python implementations/v3_llm_kvcache_continuous_batching/llm_kvcache_paging_scheduler.py
+
+      - name: Run pytest suite
+        run: |
+          python -m pytest -q tests

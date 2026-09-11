@@ -1,23 +1,17 @@
-﻿## FORMULATION COMPARISON (Latest run)
+# CCE-QOS benchmark results table
+# Current pipeline output, regenerated 2026-09-10.
+# Full tables: metrics.txt and outputs/metrics.txt (identical content).
 
-[Old Formulation: Cost-Based]
-- Best classical cost: 4168.69 (Lookahead)
-- Quantum cost: 4439.67
-- Quantum + APR cost: 4168.69
+[Baseline Cost Objective]
+- Greedy baseline: Greedy: cost 5669.65, energy 5669.65, latency 3456.25 cycles, feasibility 51.61%
+- Best classical search: Lookahead: cost 4168.69, energy 4168.69, latency 3390.81 cycles, feasibility 54.83%
 
-[New Formulation: Energy-Based]
-- Best classical cost: 4170.84 (Lookahead)
-- Quantum cost: 4441.83
-- Quantum + APR cost: 4216.92
-- Quantum + APR feasibility improved from 54.83% to 58.06%
+[CCE-QUBO Objective (energy formulation)]
+- Best classical search on the CCE-QUBO energy: Lookahead: cost 6794.39, energy 154.40, latency 3603.50 cycles, feasibility 51.61%
+- CCE + APR: CCE + APR: cost 6287.24, energy 160.43, latency 3479.19 cycles, feasibility 67.74%
+- Quantum (local-search fallback): Quantum (local-search fallback): cost 9756.86, energy 164.94, latency 3834.24 cycles, feasibility 45.16%
 
-[Old vs New Highlights]
-- Lookahead cost delta: -2.15 (-0.05%)
-- Quantum cost delta: -2.16 (-0.05%)
-- Quantum + APR cost delta: -48.23 (-1.16%), with +3.23% feasibility gain and +2.84 cycle latency improvement
-
-[X Factor]
-X = (baseline_cost - optimized_cost) / baseline_cost
-- classical_methods: baseline 5669.65 -> optimized 4168.69, X = 0.2647
-- quantum: baseline 5669.65 -> optimized 4439.67, X = 0.2169
-- quantum_plus_new_formulation: baseline 5669.65 -> optimized 4216.92, X = 0.2562
+[X Metric]
+- CCE vs baseline: -0.4926
+- Quantum (local-search fallback) vs baseline: -1.0197
+- Quantum backend used: local_search_fallback

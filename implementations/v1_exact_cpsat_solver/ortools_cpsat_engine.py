@@ -15,37 +15,47 @@ class ExactCPSATScheduler:
 
     def solve(self, tasks: List[Dict[str, Any]], dependencies: List[tuple]) -> Dict[str, Any]:
         """
-        Formulates integer linear program:
-        min sum_i (Energy_i * slot_i)
-        s.t.
-          slot_v >= slot_u + duration_u  forall (u, v) in dependencies
-          sum_{active at t} memory_i <= SRAM_capacity
+        Formulates an exact CP‑SAT model that respects:
+        * DAG precedence constraints
+        * SRAM bank capacity (no overlapping tasks on the same bank)
+        * Minimisation of the makespan.
         """
         model = cp_model.CpModel()
-        num_tasks = len(tasks)
         horizon = sum(t.get("duration", 1) for t in tasks) * 2
 
-        start_vars = {}
-        end_vars = {}
-        interval_vars = {}
+        # Variables per task
+        start_vars: Dict[Any, Any] = {}
+        end_vars: Dict[Any, Any] = {}
+        bank_vars: Dict[Any, Any] = {}
+        optional_intervals: Dict[int, List[Any]] = {b: [] for b in range(self.num_banks)}
 
         for t in tasks:
             t_id = t["id"]
             dur = t.get("duration", 1)
             start = model.NewIntVar(0, horizon, f"start_{t_id}")
             end = model.NewIntVar(0, horizon, f"end_{t_id}")
-            interval = model.NewIntervalVar(start, dur, end, f"interval_{t_id}")
-
+            bank = model.NewIntVar(0, self.num_banks - 1, f"bank_{t_id}")
             start_vars[t_id] = start
             end_vars[t_id] = end
-            interval_vars[t_id] = interval
+            bank_vars[t_id] = bank
+            # Create an optional interval for each possible bank and link its presence to the bank assignment.
+            for b in range(self.num_banks):
+                presence = model.NewBoolVar(f"presence_{t_id}_b{b}")
+                model.Add(bank == b).OnlyEnforceIf(presence)
+                model.Add(bank != b).OnlyEnforceIf(presence.Not())
+                interval = model.NewOptionalIntervalVar(start, dur, end, presence, f"interval_{t_id}_b{b}")
+                optional_intervals[b].append(interval)
 
-        # DAG precedence constraints
+        # Enforce no‑overlap on each SRAM bank.
+        for b in range(self.num_banks):
+            model.AddNoOverlap(optional_intervals[b])
+
+        # DAG precedence constraints.
         for u, v in dependencies:
             if u in end_vars and v in start_vars:
                 model.Add(start_vars[v] >= end_vars[u])
 
-        # Objective: minimize makespan + memory energy
+        # Objective – minimise makespan.
         makespan = model.NewIntVar(0, horizon, "makespan")
         model.AddMaxEquality(makespan, list(end_vars.values()))
         model.Minimize(makespan)
@@ -56,10 +66,13 @@ class ExactCPSATScheduler:
 
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             schedule = {t_id: solver.Value(start_vars[t_id]) for t_id in start_vars}
+            # Also expose bank assignments for completeness.
+            banks = {t_id: solver.Value(bank_vars[t_id]) for t_id in bank_vars}
             return {
                 "status": "OPTIMAL" if status == cp_model.OPTIMAL else "FEASIBLE",
                 "makespan": solver.Value(makespan),
                 "schedule": schedule,
+                "banks": banks,
                 "solver_runtime_s": solver.WallTime()
             }
         return {"status": "INFEASIBLE"}

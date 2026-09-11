@@ -12,7 +12,13 @@ from fusion_logic import FusionLogic
 from graph_builder import load_hardware_config, load_operator_graph
 from memory_hierarchy import MemoryHierarchy
 from penalty_tuner import PenaltyTuner
-from quantum_interface import ProblemSpec, build_qubo, qubo_energy, run_qaoa_stub
+from quantum_interface import (
+    ProblemSpec,
+    build_qubo,
+    qubo_energy,
+    run_qaoa_statevector,
+    run_qaoa_stub,
+)
 from qubo_types import QUBOData
 from schedule_analysis import ScheduleAnalysis
 from schedule_explainer import ScheduleExplainer
@@ -294,6 +300,157 @@ def _run_suite(graph, config, penalties, evaluate, objective_fn, seed_offset):
     return out
 
 
+def _violation_mass(evaluation: Mapping[str, Any]) -> float:
+    """Aggregate hard-constraint mass (mirrors the feasibility accounting)."""
+    memory = evaluation.get("memory", {}) or {}
+    bandwidth = evaluation.get("bandwidth", {}) or {}
+    rates = evaluation.get("violation_rate", {}) or {}
+    return (
+        float((memory.get("violations", {}) or {}).get("sram_capacity", 0.0))
+        + float((bandwidth.get("violations", {}) or {}).get("bandwidth_capacity", 0.0))
+        + 0.5 * float(rates.get("memory_bank_conflict", 0.0))
+    )
+
+
+def _run_apr_arm(
+    graph: OperatorGraph,
+    config: Mapping[str, Any],
+    penalties: Mapping[str, float],
+    cce: CCEEvaluator,
+    objective_fn,
+) -> Dict[str, Any]:
+    """
+    Adaptive Penalty Refinement (APR) arm.
+
+    Diagnosis of the earlier regression (see EVIDENCE.md): rounds were compared
+    on the QUBO energy evaluated at each round's own penalty multipliers, so
+    growing multipliers inflated the recorded objective monotonically
+    (160.27 -> 167.81 across five rounds at identical schedules) and the
+    round-1 (lowest-penalty) schedule always won the best-candidate selection,
+    leaving APR indistinguishable from greedy. The historical cost of 4943.55
+    was the same artifact: a true cost near 4169-4300 plus ~650-775 of
+    inflated penalty terms recorded with multipliers escalated to 14.
+
+    Fixes implemented here:
+    - Canonical candidate ranking: lexicographic (violation mass, energy at
+      the base multipliers). Penalty-scale-free, so inflated rounds can no
+      longer mask better schedules.
+    - Penalty annealing: when a round does not improve the best-known
+      violation mass for `anneal_patience` consecutive rounds, multipliers
+      decay by `anneal_decay` back toward the configured base values (they
+      never drop below base). Escalation itself stays driven by the tuner's
+      measured violation rates.
+    - Feasibility-preserving polish: a final local descent (swap/insert/
+      block-reverse moves) that only accepts moves which strictly reduce the
+      violation mass, or keep it unchanged while strictly reducing the
+      canonical energy.
+    """
+    apr_cfg = dict(config.get("apr", {}))
+    search_cfg = dict(config.get("search", {}))
+    tuner = PenaltyTuner(
+        eta1=float(apr_cfg.get("eta1", 0.9)),
+        eta2=float(apr_cfg.get("eta2", 0.6)),
+        lam_min=float(apr_cfg.get("lam_min", 0.1)),
+        lam_max=float(apr_cfg.get("lam_max", 20.0)),
+    )
+    rounds = max(1, int(apr_cfg.get("rounds", 5)))
+    iterations = max(1, int(apr_cfg.get("iterations_per_round", 70)))
+    anneal_patience = max(1, int(apr_cfg.get("anneal_patience", 2)))
+    anneal_decay = float(apr_cfg.get("anneal_decay", 0.75))
+    polish_iterations = max(0, int(apr_cfg.get("polish_iterations", 300)))
+
+    base_penalties = dict(penalties)
+    cur_pen = dict(penalties)
+    best_key: Tuple[float, float] | None = None
+    best_payload: Dict[str, Any] | None = None
+    candidates: Dict[Tuple[float, float], List[int]] = {}
+    zero_violation_rounds = 0
+    trace: list = []
+
+    for rnd in range(rounds):
+        engine = SchedulingEngine(graph, random_seed=900 + rnd * 17)
+        result = engine.simulated_annealing(
+            penalties=cur_pen,
+            evaluator=lambda o: float(objective_fn(cce.evaluate(o, penalties=cur_pen))),
+            iterations=iterations,
+            start_temp=float(search_cfg.get("annealing_start_temp", 3.0)),
+            end_temp=float(search_cfg.get("annealing_end_temp", 0.05)),
+        )
+        order = _complete_order(result.order, graph)
+        ev_penalized = cce.evaluate(order, penalties=cur_pen)
+        ev_canonical = cce.evaluate(order, penalties=penalties)
+        round_violation = _violation_mass(ev_canonical)
+        round_objective = float(ev_canonical["energy_breakdown"]["total_energy"])
+        key = (round(round_violation, 6), round(round_objective, 6))
+        candidates[key] = order
+        if best_key is None or key < best_key:
+            best_key, best_payload = key, {"order": order, "evaluation": ev_canonical}
+
+        # Anneal once zero violations hold for anneal_patience consecutive
+        # rounds; escalation itself stays driven by the tuner's measured
+        # violation rates.
+        if round_violation <= 1e-9:
+            zero_violation_rounds += 1
+        else:
+            zero_violation_rounds = 0
+        cur_pen = tuner.update(cur_pen, ev_penalized.get("violation_rate", {}), ev_penalized.get("cost_impact", {}))
+        if zero_violation_rounds >= anneal_patience:
+            cur_pen = {
+                pen_key: max(float(base_penalties.get(pen_key, tuner.lam_min)), pen_value * anneal_decay)
+                for pen_key, pen_value in cur_pen.items()
+            }
+        trace.append(
+            {
+                "round": rnd + 1,
+                "objective": round_objective,
+                "penalized_objective": float(ev_penalized["energy_breakdown"]["total_energy"]),
+                "violation_mass": round_violation,
+                "penalties": dict(cur_pen),
+            }
+        )
+
+    assert best_key is not None and best_payload is not None
+
+    # Feasibility-preserving polish: lexicographic descent from each round
+    # candidate; the final answer keeps the lexicographic best.
+    polish_selected = False
+    polished_objective = float(best_payload["evaluation"]["energy_breakdown"]["total_energy"])
+    polished_violation = best_key[0]
+    starts = sorted(candidates.items())
+    for start_idx, (_start_key, start_order) in enumerate(starts):
+        polish_engine = SchedulingEngine(graph, random_seed=900 + rounds * 191 + start_idx * 131)
+        cand_order, cand_objective, cand_violation = polish_engine.feasibility_preserving_descent(
+            start_order,
+            lambda o: (lambda e: (float(e["energy_breakdown"]["total_energy"]), _violation_mass(e)))(
+                cce.evaluate(o, penalties=penalties)
+            ),
+            iterations=polish_iterations,
+        )
+        cand_key = (round(cand_violation, 6), round(cand_objective, 6))
+        if cand_key < best_key:
+            best_key = cand_key
+            best_payload = {"order": cand_order, "evaluation": cce.evaluate(cand_order, penalties=penalties)}
+            polished_objective = cand_objective
+            polished_violation = cand_violation
+            polish_selected = True
+
+    return {
+        "order": best_payload["order"],
+        "evaluation": best_payload["evaluation"],
+        "metadata": {
+            "round_trace": trace,
+            "final_penalties": cur_pen,
+            "polish": {
+                "starts": len(starts),
+                "iterations": polish_iterations,
+                "objective": polished_objective,
+                "violation_mass": polished_violation,
+                "selected": polish_selected,
+            },
+        },
+    }
+
+
 def _x_metric(base_eval, cand_eval, weights):
     def improve(old, new):
         return 0.0 if abs(old) < 1e-9 else (old - new) / abs(old)
@@ -306,6 +463,53 @@ def _x_metric(base_eval, cand_eval, weights):
         + float(weights.get("dram", 0.25)) * improve(base_eval["memory"].get("dram_access", 0.0), cand_eval["memory"].get("dram_access", 0.0))
         + float(weights.get("stalls", 0.2)) * improve(base_idle, cand_idle)
     )
+
+
+def _format_results_table(
+    baseline_summary: Mapping[str, Mapping[str, Any]],
+    cce_summary: Mapping[str, Mapping[str, Any]],
+    extra: Mapping[str, Mapping[str, Any]],
+    x_cce: float,
+    x_quantum: float,
+    quantum_label: str,
+    quantum_backend: str,
+    generated: str,
+) -> str:
+    """Compact digest of one pipeline run (same numbers as metrics.txt)."""
+
+    def row(summary: Mapping[str, Any]) -> str:
+        return (
+            f"{summary['strategy']}: cost {summary['total_cost']:.2f}, "
+            f"energy {summary['total_energy']:.2f}, "
+            f"latency {summary['latency']:.2f} cycles, "
+            f"feasibility {summary['feasibility_percent']:.2f}%"
+        )
+
+    greedy = baseline_summary.get("Greedy")
+    best_base = min(baseline_summary.values(), key=lambda item: item["total_cost"])
+    best_cce = min(cce_summary.values(), key=lambda item: item["total_energy"])
+    lines = [
+        "# CCE-QOS benchmark results table",
+        f"# Current pipeline output, regenerated {generated}.",
+        "# Full tables: metrics.txt and outputs/metrics.txt (identical content).",
+        "",
+        "[Baseline Cost Objective]",
+    ]
+    if greedy is not None:
+        lines.append(f"- Greedy baseline: {row(greedy)}")
+    lines.append(f"- Best classical search: {row(best_base)}")
+    lines.append("")
+    lines.append("[CCE-QUBO Objective (energy formulation)]")
+    lines.append(f"- Best classical search on the CCE-QUBO energy: {row(best_cce)}")
+    for name in ("CCE + APR", quantum_label):
+        if name in extra:
+            lines.append(f"- {name}: {row(extra[name])}")
+    lines.append("")
+    lines.append("[X Metric]")
+    lines.append(f"- CCE vs baseline: {x_cce:.4f}")
+    lines.append(f"- {quantum_label} vs baseline: {x_quantum:.4f}")
+    lines.append(f"- Quantum backend used: {quantum_backend}")
+    return "\n".join(lines) + "\n"
 
 
 def main() -> None:
@@ -333,46 +537,57 @@ def main() -> None:
     baseline = _run_suite(graph, config, penalties, eval_cost, obj_cost, seed_offset=0)
     cce_suite = _run_suite(graph, config, penalties, eval_cce, obj_energy, seed_offset=400)
 
-    apr_cfg = dict(config.get("apr", {}))
-    tuner = PenaltyTuner(
-        eta1=float(apr_cfg.get("eta1", 0.9)),
-        eta2=float(apr_cfg.get("eta2", 0.6)),
-        lam_min=float(apr_cfg.get("lam_min", 0.1)),
-        lam_max=float(apr_cfg.get("lam_max", 20.0)),
-    )
-    cur_pen = dict(penalties)
-    best_apr = None
-    best_apr_obj = float("inf")
-    apr_trace = []
-    for rnd in range(int(apr_cfg.get("rounds", 5))):
-        engine = SchedulingEngine(graph, random_seed=900 + rnd * 17)
-        res = engine.simulated_annealing(
-            penalties=cur_pen,
-            evaluator=lambda o: float(obj_energy(cce.evaluate(o, penalties=cur_pen))),
-            iterations=int(apr_cfg.get("iterations_per_round", config.get("search", {}).get("annealing_iterations", 180))),
-            start_temp=float(config.get("search", {}).get("annealing_start_temp", 3.0)),
-            end_temp=float(config.get("search", {}).get("annealing_end_temp", 0.05)),
-        )
-        ev = cce.evaluate(res.order, penalties=cur_pen)
-        obj = obj_energy(ev)
-        if obj < best_apr_obj:
-            best_apr_obj = obj
-            best_apr = {"order": _complete_order(res.order, graph), "evaluation": ev}
-        cur_pen = tuner.update(cur_pen, ev.get("violation_rate", {}), ev.get("cost_impact", {}))
-        apr_trace.append({"round": rnd + 1, "objective": obj, "penalties": dict(cur_pen)})
-    cce_apr = {"order": best_apr["order"], "evaluation": best_apr["evaluation"], "metadata": {"round_trace": apr_trace, "final_penalties": cur_pen}}
+    cce_apr = _run_apr_arm(graph, config, penalties, cce, obj_energy)
 
     qubo_data = cce.build_qubo_data(penalties=penalties)
-    candidates = run_qaoa_stub(qubo_data, num_samples=int(config.get("quantum", {}).get("samples", 48)), num_steps=int(config.get("quantum", {}).get("iterations", 220)), seed=int(config.get("experiment", {}).get("seed", 17)) + 1234)
+    q_cfg = dict(config.get("quantum", {}))
+    seed = int(config.get("experiment", {}).get("seed", 17)) + 1234
+    quantum_backend = "local_search_fallback"
+    quantum_candidates: list = []
+    if qubo_data.num_variables <= 12:
+        # Real statevector QAOA via QAOA_solver.py: only feasible for small
+        # problem sizes (2^num_qubits statevector). The arm sweeps circuit
+        # depths p = 1..p_max with a COBYLA budget per depth and keeps the
+        # depth with the best ground-state approximation ratio. Falls back to
+        # the deterministic classical local-search fallback on any failure.
+        try:
+            quantum_candidates = run_qaoa_statevector(
+                qubo_data,
+                num_samples=int(q_cfg.get("samples", 48)),
+                p_layers=int(q_cfg.get("layers", 2)),
+                seed=seed,
+                p_sweep=bool(q_cfg.get("p_sweep", True)),
+                p_max=int(q_cfg.get("p_max", 3)),
+                cobyla_budget=int(q_cfg.get("cobyla_budget", 60)),
+            )
+            if quantum_candidates:
+                quantum_backend = "qaoa_statevector"
+        except Exception:
+            quantum_candidates = []
+            quantum_backend = "local_search_fallback"
+    if not quantum_candidates:
+        # Large QUBOs (the 31-node example workload has 4247 variables, far
+        # beyond a 2^n statevector) use a deterministic classical multi-start
+        # bit-flip local search on the QUBO energy, exposed through the same
+        # candidate-generation interface. Labeled honestly as a fallback.
+        quantum_candidates = run_qaoa_stub(
+            qubo_data,
+            num_samples=int(q_cfg.get("samples", 48)),
+            num_steps=int(q_cfg.get("iterations", 220)),
+            seed=seed,
+        )
+        quantum_backend = "local_search_fallback"
+
+    quantum_label = "Quantum (QAOA)" if quantum_backend == "qaoa_statevector" else "Quantum (local-search fallback)"
     best_q = None
     best_q_obj = float("inf")
-    for c in candidates:
+    for c in quantum_candidates:
         order = _complete_order(c.get("schedule_projection", []), graph)
         ev = cce.evaluate(order, penalties=penalties)
         obj = obj_energy(ev)
         if obj < best_q_obj:
             best_q_obj = obj
-            best_q = {"order": order, "evaluation": ev, "metadata": {"candidate": c, "backend": "qaoa_stub_local_search"}}
+            best_q = {"order": order, "evaluation": ev, "metadata": {"candidate": c, "backend": quantum_backend}}
     quantum_stub = best_q
 
     ablations = {
@@ -387,7 +602,7 @@ def main() -> None:
     cce_summary = {k: analysis.summarize(k, v["evaluation"]) for k, v in cce_suite.items()}
     extra = {
         "CCE + APR": analysis.summarize("CCE + APR", cce_apr["evaluation"]),
-        "Quantum (Stub)": analysis.summarize("Quantum (Stub)", quantum_stub["evaluation"]),
+        quantum_label: analysis.summarize(quantum_label, quantum_stub["evaluation"]),
     }
 
     best_base = min(baseline.items(), key=lambda kv: obj_cost(kv[1]["evaluation"]))
@@ -404,35 +619,58 @@ def main() -> None:
             "baseline_cost": baseline,
             "cce_qubo": cce_suite,
             "cce_qubo_apr": cce_apr,
-            "quantum_stub": quantum_stub,
+            # Backend is "qaoa_statevector" (real statevector QAOA, small QUBOs
+            # only) or "local_search_fallback" (deterministic classical
+            # multi-start bit-flip search on the QUBO energy, large QUBOs).
+            "quantum_candidates": quantum_stub,
         },
         "ablations": ablations,
         "x_metric": {"weights": x_weights, "cce_vs_baseline": x_cce, "quantum_vs_baseline": x_quantum},
         "runtime_seconds": time.perf_counter() - start,
     }
     (output_dir / "schedules.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
-    (output_dir / "metrics.txt").write_text(
+    metrics_text = (
         "[Baseline Cost Objective]\n"
         + analysis.comparison_table(baseline_summary)
         + "\n\n[CCE-QUBO Objective]\n"
         + analysis.comparison_table(cce_summary)
-        + "\n\n[APR / Quantum Stub]\n"
+        + f"\n\n[APR / {quantum_label}]\n"
         + analysis.comparison_table(extra)
         + "\n\n[X Metric]\n"
-        + f"CCE vs baseline: {x_cce:.4f}\nQuantum stub vs baseline: {x_quantum:.4f}\n",
-        encoding="utf-8",
+        + f"CCE vs baseline: {x_cce:.4f}\n"
+        + f"{quantum_label} vs baseline: {x_quantum:.4f}\n"
+        + f"Quantum backend used: {quantum_backend}\n"
+    )
+    (output_dir / "metrics.txt").write_text(metrics_text, encoding="utf-8")
+    results_table_text = _format_results_table(
+        baseline_summary,
+        cce_summary,
+        extra,
+        x_cce,
+        x_quantum,
+        quantum_label,
+        quantum_backend,
+        time.strftime("%Y-%m-%d"),
     )
     explanations = [explainer.explain(name, payload, baseline_summary[name]) for name, payload in baseline.items()]
     explanations.extend(explainer.explain(name, payload, cce_summary[name]) for name, payload in cce_suite.items())
     explanations.append(explainer.explain("CCE + APR", cce_apr, extra["CCE + APR"]))
-    explanations.append(explainer.explain("Quantum (Stub)", quantum_stub, extra["Quantum (Stub)"]))
-    (output_dir / "explanations.txt").write_text("\n\n".join(explanations) + "\n", encoding="utf-8")
+    explanations.append(explainer.explain(quantum_label, quantum_stub, extra[quantum_label]))
+    explanations_text = "\n\n".join(explanations) + "\n"
+    (output_dir / "explanations.txt").write_text(explanations_text, encoding="utf-8")
+    # Root-level benchmark files are regenerated from this same run so the
+    # repository root and outputs/ always agree in format and numbers.
+    (root / "metrics.txt").write_text(metrics_text, encoding="utf-8")
+    (root / "results_table.txt").write_text(results_table_text, encoding="utf-8")
+    (root / "schedules.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    (root / "explanations.txt").write_text(explanations_text, encoding="utf-8")
 
     print("Experiment completed.")
     print(f"Best baseline: {best_base[0]}")
     print(f"Best CCE-QUBO: {best_cce[0]}")
     print(f"X (CCE vs baseline): {x_cce:.4f}")
-    print(f"X (Quantum stub vs baseline): {x_quantum:.4f}")
+    print(f"X ({quantum_label} vs baseline): {x_quantum:.4f}")
+    print(f"Quantum backend: {quantum_backend}")
     print(f"Saved outputs to: {output_dir}")
 
 

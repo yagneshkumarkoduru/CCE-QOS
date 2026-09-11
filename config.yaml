@@ -72,12 +72,18 @@
   "quantum": {
     "layers": 3,
     "iterations": 160,
-    "walkers": 7
+    "walkers": 7,
+    "p_sweep": true,
+    "p_max": 3,
+    "cobyla_budget": 60
   },
   "apr": {
     "rounds": 5,
     "iterations_per_round": 70,
     "classical_warmup_iterations": 180,
+    "anneal_patience": 1,
+    "anneal_decay": 0.75,
+    "polish_iterations": 300,
     "initial_penalties": {
       "sram_capacity": 1.0,
       "bandwidth_capacity": 1.0,

@@ -1,7 +1,12 @@
-from pathlib import Path
+﻿from pathlib import Path
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+
+# All publication figures are written into the shared figures/ directory,
+# never the repository root.
+FIG_DIR = Path(__file__).resolve().parent / 'figures'
+FIG_DIR.mkdir(exist_ok=True)
 
 
 def maybe_load_outputs(path='outputs/schedules.json'):
@@ -52,7 +57,7 @@ def main():
             color=['#4C78A8', '#F58518', '#54A24B'])
     plt.ylabel('Average Cost')
     plt.tight_layout()
-    plt.savefig('fig_cost_comparison.png', dpi=300)
+    plt.savefig(FIG_DIR / 'fig_cost_comparison.png', dpi=300)
 
     # Required classical figure 2.
     comp = stats['energy_components']
@@ -77,7 +82,7 @@ def main():
     plt.ylabel('Energy Contribution')
     plt.legend(fontsize=8)
     plt.tight_layout()
-    plt.savefig('fig_energy_breakdown.png', dpi=300)
+    plt.savefig(FIG_DIR / 'fig_energy_breakdown.png', dpi=300)
 
     # Required classical figure 3.
     fig, ax1 = plt.subplots(figsize=(7, 4.2))
@@ -94,7 +99,7 @@ def main():
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper right', fontsize=8)
     fig.tight_layout()
-    fig.savefig('fig_apr_convergence.png', dpi=300)
+    fig.savefig(FIG_DIR / 'fig_apr_convergence.png', dpi=300)
 
     # Required classical figure 4.
     base = stats['ablation_cost'][0]
@@ -103,7 +108,7 @@ def main():
     plt.bar(stats['ablation_labels'], delta, color=['#54A24B', '#F58518', '#E45756', '#72B7B2'])
     plt.ylabel('Cost Increase vs Full Model (%)')
     plt.tight_layout()
-    plt.savefig('fig_ablation.png', dpi=300)
+    plt.savefig(FIG_DIR / 'fig_ablation.png', dpi=300)
 
     # Quantum figure 1: energy vs iteration.
     plt.figure(figsize=(6.4, 4.0))
@@ -114,7 +119,7 @@ def main():
     plt.ylabel('QAOA Objective')
     plt.legend()
     plt.tight_layout()
-    plt.savefig('fig_qaoa_energy_iteration.png', dpi=300)
+    plt.savefig(FIG_DIR / 'fig_qaoa_energy_iteration.png', dpi=300)
 
     # Quantum figure 2: violation vs APR iteration.
     plt.figure(figsize=(6.4, 4.0))
@@ -124,7 +129,7 @@ def main():
     plt.ylabel('Violation Rate')
     plt.legend()
     plt.tight_layout()
-    plt.savefig('fig_quantum_violation_apr.png', dpi=300)
+    plt.savefig(FIG_DIR / 'fig_quantum_violation_apr.png', dpi=300)
 
     # Quantum figure 3: side-by-side boxplots for cost and latency.
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.2))
@@ -136,7 +141,7 @@ def main():
     axes[1].set_title('Latency Distribution')
     axes[1].tick_params(axis='x', rotation=20)
     fig.tight_layout()
-    fig.savefig('fig_quantum_boxplot_cost_latency.png', dpi=300)
+    fig.savefig(FIG_DIR / 'fig_quantum_boxplot_cost_latency.png', dpi=300)
 
 
 if __name__ == '__main__':

@@ -11,9 +11,9 @@
 
 The energy efficiency of modern Neural Processing Units (NPUs) is critically bounded by data movement across the on-chip SRAM/DRAM memory hierarchy rather than peak arithmetic multiply-accumulate throughput. While state-of-the-art deep learning compilers (e.g., Apache TVM, XLA, MLIR) optimize individual kernel loop nests, end-to-end global operator scheduling across constrained multi-bank SRAM and shared DRAM channels remains governed by greedy heuristics or decoupled phase-ordered passes. These decoupled passes ignore the non-linear coupling between inter-operator tensor reuse, SRAM bank conflicts, and dynamic voltage/frequency scaling (DVFS).
 
-In this paper, we introduce **CCE-QOS**, a mathematical optimization framework and compiler that formulates NPU operator scheduling as a Constraint-Coupled Energy (CCE) Quadratic Unconstrained Binary Optimization (QUBO) Hamiltonian. To overcome the severe pathology of penalty tuning in constrained binary optimization—where static penalties either generate invalid schedules or collapse the objective landscape—we introduce **Adaptive Penalty Refinement (APR)**: a dynamic Lagrangian update law that provably drives hard constraint violations (precedence, memory budget, single-execution) to zero within finite iterations while converging toward the true global energy optimum.
+In this paper, we introduce **CCE-QOS**, a mathematical optimization framework and compiler that formulates NPU operator scheduling as a Constraint-Coupled Energy (CCE) Quadratic Unconstrained Binary Optimization (QUBO) Hamiltonian. To overcome the severe pathology of penalty tuning in constrained binary optimization—where static penalties either generate invalid schedules or collapse the objective landscape—we introduce **Adaptive Penalty Refinement (APR)**: a dynamic Lagrangian update law with penalty annealing and a feasibility-preserving polish that empirically reduces hard constraint violations (precedence, memory budget, single-execution) on the tested workloads (measured: 51.61% to 67.74% feasibility, the maximum across pipeline methods). A general finite-iteration convergence proof is not established; treat APR as an empirically motivated heuristic (see `EVIDENCE.md`).
 
-We construct an end-to-end Python compiler pipeline featuring exact McCormick linearization via Google OR-Tools CP-SAT, a variational Quantum Approximate Optimization Algorithm (QAOA) statevector simulation engine, and an analytical Pareto exploration engine. Across production edge deep learning workloads, CCE-QOS achieves a **25.62% total energy reduction**, a **79.5% memory stall reduction**, and guarantees **100% feasible schedules**, defining a new theoretical and empirical frontier for domain-specific compiler design.
+We construct an end-to-end Python compiler pipeline featuring exact McCormick linearization via Google OR-Tools CP-SAT, a variational Quantum Approximate Optimization Algorithm (QAOA) statevector simulation engine with seeded, reproducible parameter optimization and a depth sweep over p = 1..3, and an analytical Pareto exploration engine. On the synthetic benchmark workloads in `metrics.txt` / `results_table.txt` (all current-pipeline outputs, regenerated 2026-09-10), the energy-based formulation with APR reaches the measured maximum feasibility of **67.74%** (up from 51.61% for greedy, +16.13pp) while keeping the lowest latency in the CCE-QUBO table (3479.19 cycles); the best classical search in the cost formulation reaches 4168.69 versus the greedy 5669.65 (26.47% cost reduction). On the energy formulation APR trades 3.9% higher QUBO energy (160.43 vs 154.40) for the feasibility gain and a 7.5% lower cost than the same-arm classical Lookahead (6287.24 vs 6794.39). All results are Python benchmarks on example workloads, not production deployments or hardware measurements; see `EVIDENCE.md` for exact sources.
 
 ---
 
@@ -78,7 +78,7 @@ Rearranging gives:
 
 $$\sum_m \lambda_m^{(k)} \text{Violations}_m(\mathbf{x}^{(k)}) \le H_{\text{obj}}(\mathbf{x}^*) - H_{\text{obj}}(\mathbf{x}^{(k)}) \le \Delta H_{\max} < \infty$$
 
-Under the update law, if $\text{Violations}_m(\mathbf{x}^{(k)}) > 0$, then $\lambda_m^{(k)} \to \infty$ geometrically. However, the product $\lambda_m^{(k)} \text{Violations}_m$ is bounded above by $\Delta H_{\max}$. Thus, $\text{Violations}_m(\mathbf{x}^{(k)})$ must vanish to zero in finite iterations $k^*$, proving finite termination at a 100% feasible schedule. $\blacksquare$
+Under the update law, if $\text{Violations}_m(\mathbf{x}^{(k)}) > 0$, then $\lambda_m^{(k)}$ grows geometrically, which empirically pressures violations downward on the tested workloads (measured: 51.61% to 67.74% feasibility on the energy formulation). The implementation additionally anneals multipliers back toward their base values once zero violations hold for consecutive rounds, and polishes the selected schedule with a feasibility-preserving local descent on the true objective. A general proof of monotonic finite-iteration convergence to zero violations is NOT established here: the sketch above assumes the minimizer sequence cooperates with the penalty growth, which need not hold. Treat APR as an empirically motivated heuristic pending a repaired proof. $\blacksquare$ (proof status: incomplete, see `EVIDENCE.md`)
 
 ---
 
@@ -150,24 +150,28 @@ $$y_{ij} \le x_i, \quad y_{ij} \le x_j, \quad y_{ij} \ge x_i + x_j - 1, \quad y_
 
 ### 4.1 Comparative Scheduling Results
 
-| Compiler / Strategy | Total Energy ($\mu$J) | Latency ($\mu$s) | Pipeline Stalls (%) | Feasibility (%) | Improvement over Baseline |
+| Compiler / Strategy | Cost (scheduler units) | Energy (QUBO units) | Latency (cycles) | Feasibility (%) | Improvement over Baseline |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Greedy Topological** | 5751.05 | 3456.25 | 14.8 | 51.6% | 0.00% (Baseline) |
-| **Simulated Annealing** | 4529.03 | 3495.89 | 9.2 | 51.6% | 21.25% |
-| **Lookahead Tree Search** | 4294.09 | 3396.75 | 6.4 | 54.8% | 25.33% |
-| **Variational QAOA (p=2)** | 4528.35 | 3449.68 | 8.1 | 54.8% | 21.26% |
-| **CCE-QOS (OR-Tools)** | 4216.92 | 3387.97 | 3.1 | 91.5% | 26.68% |
-| **CCE-QOS + APR (Ours)** | **4168.69** | **3390.81** | **3.0** | **100.0%** | **25.62% Net Energy Reduction** |
+| **Greedy Topological** (cost formulation) | 5669.65 | 5669.65 | 3456.25 | 51.61% | 0.00% (Baseline) |
+| **Simulated Annealing** (cost formulation) | 4443.10 | 4443.10 | 3488.46 | 51.61% | 21.61% cost reduction vs greedy |
+| **Lookahead Tree Search** (best classical, cost formulation) | **4168.69** | 4168.69 | 3390.81 | 54.83% | **26.47% cost reduction vs greedy** |
+| **Lookahead / Beam Search** (best classical on the CCE-QUBO energy) | 6794.39 | **154.40** | 3603.50 | 51.61% | best classical QUBO energy |
+| **Simulated Annealing** (CCE-QUBO energy) | 6461.85 | 159.31 | 3563.48 | 58.06% | 58.06% feasibility |
+| **CCE + APR** (energy formulation, ours) | 6287.24 | 160.43 | **3479.19** | **67.74%** | **+16.13pp feasibility vs greedy, 7.5% lower cost than Lookahead within the CCE-QUBO evaluation** |
+| Quantum (local-search fallback, honestly labeled) | 9756.86 | 164.94 | 3834.24 | 45.16% | classical fallback for the 4247-variable workload QUBO |
 
-### 4.2 Key Quantitative Breakthroughs
-1. **Energy Dissipation:** **25.62% net energy savings** over baseline scheduling by maximizing in-SRAM tensor reuse.
-2. **Pipeline Stalls:** Reduced memory bus contention and bank conflicts by **79.5%**.
-3. **Schedule Feasibility:** APR achieved **100.0% legal schedules** with zero precedence or memory overflow violations across all tested workloads.
-4. **LLM KV-Cache Co-Scheduling:** Extends CCE QUBO to Large Language Model inference ([`cce_llm_kvcache_scheduler.py`](../../cce_llm_kvcache_scheduler.py)), eliminating 56.0% of DRAM page faults and reducing inter-token latency by **3.54x** (**55.21% energy reduction**).
-4. **Pareto Optimality:** Generated a 13-point non-dominated trade-off frontier allowing systems engineers to select the exact operating point matching thermal and real-time constraints.
+*Sources: `metrics.txt` [Baseline Cost Objective], [CCE-QUBO Objective] and [APR / Quantum (local-search fallback)] sections, and `results_table.txt` - all current-pipeline outputs regenerated 2026-09-10 (root and `outputs/` copies are identical). The example workload's QUBO has 4247 variables, so statevector QAOA is not run there; the QAOA engine itself is measured on the reference 3-qubit instance and an 11-variable workload sub-instance (Section 3). APR trades 3.9% higher QUBO energy (160.43 vs 154.40) for the feasibility gain. Feasibility is the measured maximum (67.74%), not 100%. Latency columns are scheduler-model cycles, not hardware measurements. The earlier 4216.92 / 25.62% / X = 0.2562 figures came from a retired pipeline and are withdrawn (see `EVIDENCE.md`).*
+
+### 4.2 Key Quantitative Findings (measured, synthetic benchmarks)
+1. **Cost (classical, cost formulation):** best classical search reaches 4168.69 versus greedy 5669.65 (**26.47% cost reduction**).
+2. **Schedule Feasibility:** APR with penalty annealing and a feasibility-preserving polish improved feasibility from **51.61% to 67.74%** (+16.13pp) on the energy formulation - the measured maximum across pipeline methods (classical CCE-QUBO methods reach 51.61-58.06%). Full 100% feasibility is NOT achieved in measured runs and is removed as a claim.
+3. **APR tradeoff (energy formulation):** the fixed APR gives up 3.9% QUBO energy (160.43 vs the best classical CCE-QUBO energy 154.40) for the feasibility gain, a 7.5% lower cost than the same-arm Lookahead (6287.24 vs 6794.39), and the lowest latency in the CCE-QUBO table (3479.19 cycles). The earlier "unexplained regression" is now a diagnosed and documented tradeoff (see `EVIDENCE.md`).
+4. **Pipeline stalls:** stall figures require per-run source tracing before reuse; the 79.5% claim is withdrawn pending verification against output files (see `EVIDENCE.md`).
+5. **LLM KV-Cache Capacity Management (simulated, superseding benchmark 2026-09-11):** `implementations/v3_llm_kvcache_continuous_batching/llm_kvcache_paging_scheduler.py` compares static maximum-length reservation with exact-demand paged admission on a 50-request synthetic trace and a 1600-block pool. It records 17.4031 versus 30.2720 output tokens per simulated step and P95 end-to-end latency 402.85 versus 242.20 steps, respectively: 1.7395x modeled throughput and 39.878% lower P95 latency. It is a capacity simulation, not vLLM, GPU, NPU, host-paging, or DRAM-fault measurement. The retired 79,032-to-0 DRAM-fault and 7.95x figures are withdrawn. A separate local vLLM attribution experiment finds stock prefix caching dominates on its synthetic trace; the bounded dispatcher does not improve over FIFO plus stock prefix caching under the recorded configuration (see `EVIDENCE.md`).
+6. **Pareto exploration:** 13-point trade-off frontier generation is implemented; dominance verification against output files is pending (see `EVIDENCE.md`).
 
 ---
 
 ## 5. Conclusion
 
-CCE-QOS demonstrates that formulating operator scheduling as a coupled quadratic Hamiltonian with Adaptive Penalty Refinement breaks the traditional trade-offs of decoupled compiler heuristics. The complete Python-native compilation pipeline provides verifiable optimality, multi-objective Pareto exploration, and quantum-ready compilation for next-generation neural processing units.
+CCE-QOS formulates NPU operator scheduling as a coupled quadratic Hamiltonian with Adaptive Penalty Refinement and evaluates it as a Python benchmark pipeline on synthetic example workloads. Measured results show the best classical search at a 26.47% cost reduction versus greedy in the cost formulation (4168.69 vs 5669.65) and a 51.61%-to-67.74% feasibility improvement on the energy formulation via APR with penalty annealing and a feasibility-preserving polish. Claims of production deployment, SOTA-compiler comparison, hardware measurement, and full feasibility guarantees are explicitly out of scope for this draft; see `EVIDENCE.md`.

@@ -65,13 +65,11 @@ Static penalty coefficients $\lambda_k$ fail across varying DAG topologies: unde
 
 ## 4. LLM KV-Cache Paging & Continuous Prefix Batching
 
-In Large Language Model (LLM) serving, Key-Value (KV) attention caches grow dynamically ($O(L \cdot B \cdot d)$ per sequence). Conventional contiguous memory allocators suffer from:
-1. **Internal fragmentation**: Allocating pre-reserved memory for maximum sequence length ($2048\text{ tokens}$) wastes up to $70\%$ of on-chip memory.
-2. **DRAM Page Faults**: Unaligned memory chunks trigger costly off-chip transfers.
+In Large Language Model (LLM) serving, Key-Value (KV) attention caches grow dynamically ($O(L \cdot B \cdot d)$ per sequence). Static contiguous reservation can create internal fragmentation by reserving maximum sequence length for work that completes earlier. The repository simulator models this capacity-management tradeoff; it does not model host paging, DRAM faults, or a physical NPU page-table implementation.
 
 We formulate block-level paged attention scheduling:
 * Physical memory is partitioned into uniform blocks of size $B_{\text{tok}} = 16\text{ tokens}$.
-* A virtual page table maps logical query KV tokens to physical on-chip SRAM banks non-contiguously.
+* An abstract block map assigns logical KV tokens to an abstract finite block pool non-contiguously.
 * Prompt prefix tokens (e.g., shared system instructions) are shared across concurrent requests via copy-on-write referencing.
 
-This eliminates internal fragmentation, achieving a **$56.0\%$ reduction in DRAM page faults** and a **$3.54\times$ inference token throughput speedup**.
+On the repository's 50-request synthetic capacity trace (`implementations/v3_llm_kvcache_continuous_batching/llm_kvcache_paging_scheduler.py`, 1600-block pool, seed 7), static contiguous reservation completes all work at 17.4031 output tokens per simulated step with P95 end-to-end latency 402.85 steps. Exact-demand paged admission completes the same output-token count at 30.2720 output tokens per step with P95 latency 242.20 steps: 1.7395x modeled throughput and 39.878% lower P95 latency. These figures are deterministic simulation outputs, not vLLM, GPU, NPU, or hardware measurements (see `EVIDENCE.md`).

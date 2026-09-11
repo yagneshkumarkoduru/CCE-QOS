@@ -59,19 +59,19 @@ Bandwidth profile: read util 84.30%, write util 66.50%, backlog pressure 1.08.
 Frontier mean during execution was 2.03.
 
 [CCE + APR]
-Total cost 5669.65, latency 3456.25 cycles, feasibility 51.61%.
-Energy objective: total 160.27 = unary 98.05 + pairwise -5.97.
-Main contributors were DRAM pressure and Bandwidth congestion. Fusion captured 5 pair merges and 1 triplet merges.
-Memory profile: peak SRAM 670.00, spills 0.00, average utilization 0.72.
-Bandwidth profile: read util 86.74%, write util 66.50%, backlog pressure 0.99.
-Frontier mean during execution was 1.90.
+Total cost 6287.24, latency 3479.19 cycles, feasibility 67.74%.
+Energy objective: total 160.43 = unary 98.05 + pairwise -5.82.
+Main contributors were DRAM pressure and Bandwidth congestion. Fusion captured 5 pair merges and 2 triplet merges.
+Memory profile: peak SRAM 720.00, spills 0.00, average utilization 0.67.
+Bandwidth profile: read util 86.57%, write util 66.50%, backlog pressure 0.88.
+Frontier mean during execution was 2.45.
 APR trajectory: sram_capacity 1.08->1.39, bandwidth_capacity 1.65->4.13, bank_conflict 0.90->0.92.
 
-[Quantum (Stub)]
+[Quantum (local-search fallback)]
 Total cost 9756.86, latency 3834.24 cycles, feasibility 45.16%.
 Energy objective: total 164.94 = unary 98.05 + pairwise -1.30.
 Main contributors were DRAM pressure and Bandwidth congestion. Fusion captured 3 pair merges and 1 triplet merges.
 Memory profile: peak SRAM 700.00, spills 0.00, average utilization 0.66.
 Bandwidth profile: read util 82.44%, write util 66.38%, backlog pressure 1.45.
 Frontier mean during execution was 2.26.
-Quantum refinement used backend 'qaoa_stub_local_search' with 0 walkers.
+Quantum refinement used backend 'local_search_fallback' with 0 walkers.
