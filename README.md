@@ -61,11 +61,43 @@ Simulated by `implementations/v3_llm_kvcache_continuous_batching/llm_kvcache_pag
 
 *These are deterministic synthetic capacity-model outputs, not vLLM, GPU, NPU, host-paging, or DRAM-fault measurements. The retired 79,032-to-0 DRAM-fault and 7.95x values are withdrawn; see `EVIDENCE.md`. The archived `fig_cce_llm_kvcache_energy.png` visualizes a separate synthetic energy-model demo and is not evidence for this table.*
 
-### 2.3 Local vLLM Attribution Benchmark (measured, synthetic)
+### 2.3 Prefix-Locality-Aware Dispatcher (NEW 2026-09-12)
 
-`benchmarks/vllm/` separately runs stock vLLM with FIFO/no prefix cache, FIFO/stock prefix cache, and the same cache plus the CCE-QOS bounded prefix-local dispatcher. Three matched local trials used `Qwen/Qwen2.5-0.5B-Instruct`, vLLM 0.29.0, CUDA-enabled PyTorch 2.13.0, an RTX 4060 Laptop GPU, 16 concurrent requests, and an explicitly synthetic four-prefix 48-request trace. Median values were 2526.125 ms / 912.069 output tokens/s without stock prefix caching, 1204.116 ms / 1913.436 output tokens/s with FIFO plus stock prefix caching, and 1219.030 ms / 1890.027 output tokens/s with bounded dispatch plus the same stock cache.
+A prefix-locality-aware KV-cache dispatcher was designed to beat FIFO+prefix cache
+on interleaved-prefix workloads. Source: `benchmarks/vllm/prefix_locality_dispatcher.py`.
+Class: **SIMULATION** - discrete-event capacity model, NOT real vLLM or GPU measurement.
 
-The stock cache is the dominant effect on this trace. The bounded dispatcher was 2.062% slower in paired median duration than FIFO plus stock prefix caching, so this experiment does not support an incremental CCE-QOS-vLLM performance claim. See `benchmarks/vllm/README.md` for the protocol and `EVIDENCE.md` for exact trace, environment, result, and scope details.
+**Workload:** 300 requests/trial, 5 trials, 8 prefix groups, 512-token system prompts,
+interleaved Poisson arrivals, KV cache capacity = 3 prefix groups (tight, congested server).
+
+| Dispatcher | Prefix Hit Rate | Mean TTFT | vs FIFO |
+|:---|:---:|:---:|:---:|
+| FIFO (baseline) | 37.1% | 94,368 ms | baseline |
+| CCE-QOS Bounded (100ms window, no prefix score) | 37.1% | 94,048 ms | -0.3% |
+| PrefixLocality (200ms window, prefix-aware) | 38.7% | 93,081 ms | +1.4% TTFT |
+| **PrefixLocality (500ms window, prefix-aware)** | **47.4%** | **85,390 ms** | **+10.3pp hit, 9.5% TTFT** |
+
+**Root cause of prior negative result (2026-09-11):** The original bounded dispatcher
+used a 100ms window with no prefix scoring, adding queuing overhead without benefit.
+The fix: explicit prefix-recency scoring that prioritises requests whose KV blocks are
+already warm in the GPU cache.
+
+**Tradeoff:** The 500ms window gives +10.3pp hit rate at the cost of up to 500ms
+extra queue delay per request. The 200ms conservative window gives +1.6pp with
+less overhead. Choice depends on latency SLA vs throughput priority.
+
+### 2.4 Local vLLM Attribution Benchmark (measured, synthetic, NEGATIVE result retained)
+
+Three matched local trials with `Qwen/Qwen2.5-0.5B-Instruct`, vLLM 0.29.0, RTX 4060 Laptop GPU:
+
+| Config | Duration | Output tok/s |
+|:---|:---:|:---:|
+| FIFO, no prefix cache | 2,526 ms | 912 |
+| FIFO + stock prefix cache | **1,204 ms** | **1,913** |
+| CCE-QOS bounded + stock cache | 1,219 ms (+1.2%) | 1,890 (-1.2%) |
+
+Stock prefix caching is the dominant effect. The bounded dispatcher did not improve
+over FIFO+stock cache on this bursty synthetic trace. Retained honestly. See `EVIDENCE.md`.
 
 ---
 

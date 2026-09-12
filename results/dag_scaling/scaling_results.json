@@ -1,0 +1,50 @@
+{
+  "description": "CCE-QOS solver scaling on random NPU DAGs of 16-128 nodes",
+  "class": "BENCHMARK (Python scheduler model, synthetic workloads)",
+  "results": [
+    {
+      "n_nodes": 16,
+      "greedy_cost": 9252.9,
+      "sa_cost": 9252.9,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 7.3,
+      "cpsat_cost": 9252.9,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 2468.0,
+      "cpsat_optimal": true
+    },
+    {
+      "n_nodes": 32,
+      "greedy_cost": 19782.4,
+      "sa_cost": 19782.4,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 11.3,
+      "cpsat_cost": 19782.4,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 6901.5,
+      "cpsat_optimal": true
+    },
+    {
+      "n_nodes": 64,
+      "greedy_cost": 36825.6,
+      "sa_cost": 36825.6,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 26.8,
+      "cpsat_cost": 36825.6,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 30244.8,
+      "cpsat_optimal": false
+    },
+    {
+      "n_nodes": 128,
+      "greedy_cost": 73694.0,
+      "sa_cost": 73694.0,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 62.1,
+      "cpsat_cost": 73694.0,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 30895.6,
+      "cpsat_optimal": false
+    }
+  ]
+}

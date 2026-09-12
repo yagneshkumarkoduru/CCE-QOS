@@ -1,0 +1,82 @@
+{
+  "experiment": {
+    "seed": 17,
+    "search_trials": 1,
+    "quantum_trials": 1
+  },
+  "input": {
+    "workload": "benchmarks/workload_48nodes.json"
+  },
+  "output": {
+    "directory": "outputs_48"
+  },
+  "hardware": {
+    "sram_capacity": 720.0,
+    "sram_banks": 6,
+    "max_bytes_per_cycle": 6.6,
+    "read_bytes_per_cycle": 6.4,
+    "write_bytes_per_cycle": 6.9,
+    "bandwidth_window": 4,
+    "backlog_decay": 0.66,
+    "prefetch_slots": 3,
+    "bank_conflict_factor": 0.11,
+    "eviction_idle_factor": 0.038,
+    "write_back_factor": 1.0,
+    "prefetch_ratio": 0.22,
+    "stall_factor": 1.25,
+    "burst_sensitivity": 0.47
+  },
+  "fusion": {
+    "fusible_pairs": [
+      ["conv", "batchnorm"],
+      ["batchnorm", "relu"],
+      ["dense", "relu"]
+    ],
+    "max_tensor_for_fusion": 540.0,
+    "base_gain_factor": 0.09,
+    "compute_overlap_factor": 0.16,
+    "locality_bonus": 0.06
+  },
+  "cost_weights": {
+    "dram_access": 1.0,
+    "sram_reuse_loss": 1.2,
+    "bank_conflict": 0.11,
+    "latency": 0.25
+  },
+  "energy_weights": {
+    "dram": 1.2,
+    "sram": 0.8,
+    "compute": 0.5
+  },
+  "search": {
+    "lookahead_depth": 1,
+    "beam_width": 2,
+    "annealing_iterations": 50,
+    "annealing_start_temp": 1.0,
+    "annealing_end_temp": 0.01
+  },
+  "quantum": {
+    "layers": 1,
+    "iterations": 20,
+    "walkers": 2,
+    "p_sweep": false,
+    "p_max": 1,
+    "cobyla_budget": 20
+  },
+  "apr": {
+    "rounds": 2,
+    "iterations_per_round": 30,
+    "classical_warmup_iterations": 50,
+    "anneal_patience": 1,
+    "anneal_decay": 0.75,
+    "polish_iterations": 50,
+    "initial_penalties": {
+      "sram_capacity": 1.0,
+      "bandwidth_capacity": 1.0,
+      "dependency_conflict": 1.0,
+      "dram_pressure": 1.0,
+      "memory_bank_conflict": 0.9,
+      "bandwidth_imbalance": 0.8
+    }
+  }
+}
