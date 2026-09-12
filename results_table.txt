@@ -1,5 +1,5 @@
 # CCE-QOS benchmark results table
-# Current pipeline output, regenerated 2026-09-10.
+# Current pipeline output, regenerated 2026-09-12.
 # Full tables: metrics.txt and outputs/metrics.txt (identical content).
 
 [Baseline Cost Objective]

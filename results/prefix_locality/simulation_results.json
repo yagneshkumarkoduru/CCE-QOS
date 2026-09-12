@@ -1,0 +1,52 @@
+{
+  "description": "Prefix-locality-aware dispatcher simulation, 5 trials, 300 requests, 4 prefix groups",
+  "class": "SIMULATION - discrete-event model, NOT real vLLM or GPU measurement",
+  "workload": {
+    "requests": 300,
+    "trials": 5,
+    "prefix_groups": 4,
+    "prefix_tokens": 512,
+    "scenario": "RAG (repeating system prompts)"
+  },
+  "results": {
+    "FIFO": {
+      "hit_pct": 37.13,
+      "hit_std": 3.19,
+      "ttft_ms": 94367.87,
+      "ttft_std": 3552.78,
+      "queue_delay_ms": 93756.72,
+      "throughput": 1.25
+    },
+    "CCE-QOS Bounded (window=100ms, no prefix score)": {
+      "hit_pct": 37.07,
+      "hit_std": 2.79,
+      "ttft_ms": 94048.27,
+      "ttft_std": 2353.74,
+      "queue_delay_ms": 93436.84,
+      "throughput": 1.25
+    },
+    "PrefixLocality (window=200ms, prefix-aware)": {
+      "hit_pct": 38.73,
+      "hit_std": 1.21,
+      "ttft_ms": 93081.21,
+      "ttft_std": 2369.05,
+      "queue_delay_ms": 92476.82,
+      "throughput": 1.26
+    },
+    "PrefixLocality (window=500ms, prefix-aware)": {
+      "hit_pct": 47.4,
+      "hit_std": 2.33,
+      "ttft_ms": 85390.22,
+      "ttft_std": 3272.12,
+      "queue_delay_ms": 84822.43,
+      "throughput": 1.32
+    }
+  },
+  "key_findings": {
+    "prefix_hit_pl_pct": 47.4,
+    "prefix_hit_fifo_pct": 37.13,
+    "delta_vs_fifo_pp": 10.27,
+    "delta_vs_cce_pp": 10.33,
+    "ttft_improvement_vs_fifo_pct": 9.51
+  }
+}

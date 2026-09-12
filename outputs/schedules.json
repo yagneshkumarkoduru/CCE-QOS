@@ -1341,12 +1341,12 @@
             "penalized_objective": 160.27474086782064,
             "violation_mass": 15.001383870967741,
             "penalties": {
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9034724741448812,
-              "dram_pressure": 1.4560291771989093,
-              "bandwidth_imbalance": 0.9823359438712058,
               "sram_capacity": 1.0831917040655934,
-              "bandwidth_capacity": 1.6485787941414054
+              "bandwidth_imbalance": 0.9823359438712058,
+              "bandwidth_capacity": 1.6485787941414054,
+              "dram_pressure": 1.4560291771989093,
+              "memory_bank_conflict": 0.9034724741448812,
+              "dependency_conflict": 1.0
             }
           },
           {
@@ -1355,12 +1355,12 @@
             "penalized_objective": 162.853683693854,
             "violation_mass": 15.001383870967741,
             "penalties": {
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9069449482897624,
-              "dram_pressure": 1.9120583543978187,
-              "bandwidth_imbalance": 1.1646718877424114,
               "sram_capacity": 1.1663834081311868,
-              "bandwidth_capacity": 2.297157588282811
+              "bandwidth_imbalance": 1.1646718877424114,
+              "bandwidth_capacity": 2.297157588282811,
+              "dram_pressure": 1.9120583543978187,
+              "memory_bank_conflict": 0.9069449482897624,
+              "dependency_conflict": 1.0
             }
           },
           {
@@ -1369,12 +1369,12 @@
             "penalized_objective": 163.38924295377743,
             "violation_mass": 13.001383870967741,
             "penalties": {
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.910345071623314,
-              "dram_pressure": 2.351274350989824,
-              "bandwidth_imbalance": 1.3329707988320623,
               "sram_capacity": 1.243442714825797,
-              "bandwidth_capacity": 2.9138476254617713
+              "bandwidth_imbalance": 1.3329707988320623,
+              "bandwidth_capacity": 2.9138476254617713,
+              "dram_pressure": 2.351274350989824,
+              "memory_bank_conflict": 0.910345071623314,
+              "dependency_conflict": 1.0
             }
           },
           {
@@ -1383,12 +1383,12 @@
             "penalized_objective": 163.94765763119392,
             "violation_mass": 12.001383870967741,
             "penalties": {
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9137383422506472,
-              "dram_pressure": 2.79733096275418,
-              "bandwidth_imbalance": 1.50274119180497,
               "sram_capacity": 1.32172391362641,
-              "bandwidth_capacity": 3.4879196805125066
+              "bandwidth_imbalance": 1.50274119180497,
+              "bandwidth_capacity": 3.4879196805125066,
+              "dram_pressure": 2.79733096275418,
+              "memory_bank_conflict": 0.9137383422506472,
+              "dependency_conflict": 1.0
             }
           },
           {
@@ -1397,22 +1397,22 @@
             "penalized_objective": 167.80998432545135,
             "violation_mass": 13.001383870967741,
             "penalties": {
-              "dependency_conflict": 1.0,
-              "memory_bank_conflict": 0.9172132315385025,
-              "dram_pressure": 3.1803333391326447,
-              "bandwidth_imbalance": 1.6705606436170093,
               "sram_capacity": 1.3886791791326252,
-              "bandwidth_capacity": 4.133358965750154
+              "bandwidth_imbalance": 1.6705606436170093,
+              "bandwidth_capacity": 4.133358965750154,
+              "dram_pressure": 3.1803333391326447,
+              "memory_bank_conflict": 0.9172132315385025,
+              "dependency_conflict": 1.0
             }
           }
         ],
         "final_penalties": {
-          "dependency_conflict": 1.0,
-          "memory_bank_conflict": 0.9172132315385025,
-          "dram_pressure": 3.1803333391326447,
-          "bandwidth_imbalance": 1.6705606436170093,
           "sram_capacity": 1.3886791791326252,
-          "bandwidth_capacity": 4.133358965750154
+          "bandwidth_imbalance": 1.6705606436170093,
+          "bandwidth_capacity": 4.133358965750154,
+          "dram_pressure": 3.1803333391326447,
+          "memory_bank_conflict": 0.9172132315385025,
+          "dependency_conflict": 1.0
         },
         "polish": {
           "starts": 4,
@@ -4102,5 +4102,5 @@
     "cce_vs_baseline": -0.4925737188586482,
     "quantum_vs_baseline": -1.019704153882257
   },
-  "runtime_seconds": 140.28719070000807
+  "runtime_seconds": 140.8079806000169
 }
