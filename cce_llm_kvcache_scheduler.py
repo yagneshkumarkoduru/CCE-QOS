@@ -5,8 +5,8 @@ cce_llm_kvcache_scheduler.py
 Constraint-Coupled Energy (CCE) QUBO Formulation for LLM KV-Cache
 Paging, Continuous Batching, and On-Chip SRAM Residency Optimization.
 
-Author: Yagnesh Kumar Koduru
-Affiliation: Researcher | Esthien Labs
+Author: Koduru Yagnesh Kumar
+Affiliation: Independent Researcher
 """
 
 import os
@@ -29,7 +29,7 @@ class LLMKVCacheCCEScheduler:
     def run_scheduling_benchmark(self):
         print("====================================================================")
         print("  CCE-QOS: LLM KV-CACHE PAGING & CONTINUOUS BATCHING QUBO SOLVER    ")
-        print("  Author: Yagnesh Kumar Koduru | Esthien Labs                       ")
+        print("  Author: Koduru Yagnesh Kumar                                      ")
         print("====================================================================")
 
         # Generate realistic dynamic sequence lengths for 8 parallel request streams

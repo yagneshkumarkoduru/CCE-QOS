@@ -2,7 +2,7 @@
 cce_compiler_pipeline.py
 =============================================================================
 Constraint-Coupled Energy (CCE) Compiler & Optimization Pipeline for NPUs
-Author: Yagnesh Kumar Koduru, Esthien Labs
+Author: Koduru Yagnesh Kumar
 Replaces legacy Jupyter notebooks with a modular, production-grade CLI pipeline.
 =============================================================================
 """

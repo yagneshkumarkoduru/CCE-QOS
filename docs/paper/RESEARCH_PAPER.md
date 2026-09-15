@@ -1,8 +1,8 @@
 # CCE-QOS: Constraint-Coupled Energy Minimization and Adaptive Penalty Refinement for Combinatorial Operator Scheduling on Neural Processing Units
 
-**Author:** Yagnesh Kumar Koduru  
-**Affiliation:** Esthien Labs  
-**Contact:** `yagneshkumar@esthien.com`  
+**Author:** Koduru Yagnesh Kumar  
+**Affiliation:** Independent Researcher  
+**Contact:** `yagneshkumarkoduru@gmail.com`  
 **Target Publication Venue:** IEEE/ACM Transactions on Computer-Aided Design of Integrated Circuits and Systems (TCAD) / ACM/IEEE Design Automation Conference (DAC)  
 
 ---

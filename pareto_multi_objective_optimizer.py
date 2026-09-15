@@ -1,6 +1,6 @@
 """
 Pareto Multi-Objective Optimization & Frontier Exploration for NPU Scheduling
-Author: Yagnesh Kumar Koduru
+Author: Koduru Yagnesh Kumar
 Repository: CCE-QOS
 Domain: Computer Architecture, Discrete Optimization, NPU Accelerators
 
@@ -85,7 +85,7 @@ class ParetoNPUExplorer:
 def run_pareto_study():
     print("=" * 80)
     print("CCE-QOS PARETO MULTI-OBJECTIVE COMPILER FRONTIER EXPLORATION")
-    print("Author: Yagnesh Kumar Koduru")
+    print("Author: Koduru Yagnesh Kumar")
     print("=" * 80)
 
     explorer = ParetoNPUExplorer(num_operators=24, sram_limit_kb=512)

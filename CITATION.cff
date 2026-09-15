@@ -4,7 +4,7 @@ title: "CCE-QOS: Constraint-Coupled Energy QUBO Hamiltonian Compiler and LLM KV-
 authors:
   - family-names: "Koduru"
     given-names: "Yagnesh Kumar"
-    affiliation: "Esthien Labs"
+    affiliation: "Independent Researcher"
     orcid: "https://orcid.org/0009-0000-0000-0000"
 date-released: 2026-09-04
 repository-code: "https://github.com/yagneshkumarkoduru/CCE-QOS"

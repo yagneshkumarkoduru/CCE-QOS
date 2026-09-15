@@ -1,7 +1,7 @@
 # Constraint-Coupled Energy (CCE) QUBO Hamiltonian, APR & KV-Cache Paging
 
 **CCE-QOS: Compiler Optimization & Combinatorial NPU Scheduling Series**  
-*Esthien Labs Technical Report | Compiler Architecture & Quantum Optimization*
+*Independent Research Technical Report | Compiler Architecture & Quantum Optimization*
 
 ---
 
