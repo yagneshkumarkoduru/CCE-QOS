@@ -1,0 +1,342 @@
+{
+  "cloud_runs": [
+    {
+      "beta": [
+        1.2208829197958209
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.4931595860609122
+      ],
+      "instance": "chain3",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.6785517241379311,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.292,
+        "mean_energy": 1.1644,
+        "shots": 4000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-15T23:47:21.525806+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/4f7fb0c9-18a5-46bb-b8ea-25af42a06109"
+    },
+    {
+      "beta": [
+        1.158404120193019,
+        1.3996425721890569
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.30104262065289455,
+        0.5878611114900727
+      ],
+      "instance": "chain3",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.8026120689655173,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.36975,
+        "mean_energy": 0.44484999999999986,
+        "shots": 4000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-15T23:47:24.745832+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/f04b823d-d696-4cf3-820a-7e5363e964b5"
+    },
+    {
+      "beta": [
+        1.3351312446042787,
+        1.5125743708630306,
+        0.7290376184450887
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        1.130428066546762,
+        1.9941481577819833,
+        2.130637172864971
+      ],
+      "instance": "chain3",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.9379396551724137,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.8365,
+        "mean_energy": -0.3400500000000001,
+        "shots": 4000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-15T23:47:27.730981+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/c8139e03-4633-49c7-81ab-f23383f5da51"
+    },
+    {
+      "beta": [
+        0.6447325470374786
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        1.3876047077377436
+      ],
+      "instance": "random11",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 0.9887123849156849,
+        "approx_ratio_mean": 0.5379770578022913,
+        "best_energy": -10.641194227630738,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.10156018267352442,
+        "shots": 4000,
+        "unique_bitstrings": 1356
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-15T23:47:31.396285+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/2f8c380b-faf8-40f3-96d1-f1eb364f5010"
+    },
+    {
+      "beta": [
+        1.1752808421075391,
+        1.543471914350208
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.2939181451282001,
+        0.9495399935449274
+      ],
+      "instance": "random11",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7849301525469591,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.0075,
+        "mean_energy": -5.876113647446982,
+        "shots": 4000,
+        "unique_bitstrings": 884
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-15T23:47:35.420348+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/1c07c42d-e33a-4ecc-bf9f-b92626c8da5a"
+    },
+    {
+      "beta": [
+        1.7274512229776806,
+        0.7638174856700142,
+        0.48368540968800855
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        1.5228550938399028,
+        1.3656800816296917,
+        2.654497514378024
+      ],
+      "instance": "random11",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.5476956292918864,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.00025,
+        "mean_energy": -0.3288114780092435,
+        "shots": 4000,
+        "unique_bitstrings": 1355
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-15T23:47:40.036401+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/49c2e8ca-affe-4eca-8ac5-37f765996315"
+    }
+  ],
+  "costs_read_from_pricing_api_us_east_1": {
+    "ionq_forte_enterprise_1": {
+      "per_shot_usd": 0.08,
+      "per_task_usd": 0.3
+    },
+    "managed_simulators": "billed per minute of execution",
+    "quera_aquila": {
+      "per_shot_usd": 0.01,
+      "per_task_usd": 0.3
+    }
+  },
+  "devices": {
+    "aquila": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+    "dm1": "arn:aws:braket:::device/quantum-simulator/amazon/dm1",
+    "ionq": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+    "sv1": "arn:aws:braket:::device/quantum-simulator/amazon/sv1"
+  },
+  "local_runs": [
+    {
+      "beta": [
+        1.2208829197958209
+      ],
+      "depth": 1,
+      "e_max": 5.1000000000000005,
+      "e_min": -0.7000000000000001,
+      "gamma": [
+        0.4931595860609122
+      ],
+      "instance": "chain3",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.6792155172413794,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.288,
+        "mean_energy": 1.1605499999999997,
+        "shots": 4000,
+        "unique_bitstrings": 8
+      },
+      "num_qubits": 3,
+      "optimizer_approx_ratio": 0.6878393536921233,
+      "optimizer_energy": 1.1105317485856847
+    },
+    {
+      "beta": [
+        1.158404120193019,
+        1.3996425721890569
+      ],
+      "depth": 2,
+      "e_max": 5.1000000000000005,
+      "e_min": -0.7000000000000001,
+      "gamma": [
+        0.30104262065289455,
+        0.5878611114900727
+      ],
+      "instance": "chain3",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.8047241379310345,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.38025,
+        "mean_energy": 0.4325999999999999,
+        "shots": 4000,
+        "unique_bitstrings": 8
+      },
+      "num_qubits": 3,
+      "optimizer_approx_ratio": 0.8020670319386198,
+      "optimizer_energy": 0.44801121475600514
+    },
+    {
+      "beta": [
+        1.3351312446042787,
+        1.5125743708630306,
+        0.7290376184450887
+      ],
+      "depth": 3,
+      "e_max": 5.1000000000000005,
+      "e_min": -0.7000000000000001,
+      "gamma": [
+        1.130428066546762,
+        1.9941481577819833,
+        2.130637172864971
+      ],
+      "instance": "chain3",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.9389310344827585,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.83675,
+        "mean_energy": -0.34580000000000005,
+        "shots": 4000,
+        "unique_bitstrings": 8
+      },
+      "num_qubits": 3,
+      "optimizer_approx_ratio": 0.9384748896888666,
+      "optimizer_energy": -0.3431543601954264
+    },
+    {
+      "beta": [
+        0.6447325470374786
+      ],
+      "depth": 1,
+      "e_max": 12.4780646497783,
+      "e_min": -10.905134782259353,
+      "gamma": [
+        1.3876047077377436
+      ],
+      "instance": "random11",
+      "local_simulator": {
+        "approx_ratio_best": 0.9887123849156849,
+        "approx_ratio_mean": 0.5365321328640091,
+        "best_energy": -10.641194227630738,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.06777321467734895,
+        "shots": 4000,
+        "unique_bitstrings": 1328
+      },
+      "num_qubits": 11,
+      "optimizer_approx_ratio": 0.5372088802291635,
+      "optimizer_energy": -0.08359773328185885
+    },
+    {
+      "beta": [
+        1.1752808421075391,
+        1.543471914350208
+      ],
+      "depth": 2,
+      "e_max": 12.4780646497783,
+      "e_min": -10.905134782259353,
+      "gamma": [
+        0.2939181451282001,
+        0.9495399935449274
+      ],
+      "instance": "random11",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7862302251466828,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.008,
+        "mean_energy": -5.906513504322452,
+        "shots": 4000,
+        "unique_bitstrings": 880
+      },
+      "num_qubits": 11,
+      "optimizer_approx_ratio": 0.7869969690895234,
+      "optimizer_energy": -5.924442430851199
+    },
+    {
+      "beta": [
+        1.7274512229776806,
+        0.7638174856700142,
+        0.48368540968800855
+      ],
+      "depth": 3,
+      "e_max": 12.4780646497783,
+      "e_min": -10.905134782259353,
+      "gamma": [
+        1.5228550938399028,
+        1.3656800816296917,
+        2.654497514378024
+      ],
+      "instance": "random11",
+      "local_simulator": {
+        "approx_ratio_best": 0.99168973296243,
+        "approx_ratio_mean": 0.5481094032660047,
+        "best_energy": -10.710814150786366,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.3384868373658369,
+        "shots": 4000,
+        "unique_bitstrings": 1319
+      },
+      "num_qubits": 11,
+      "optimizer_approx_ratio": 0.5503778874779596,
+      "optimizer_energy": -0.39153125610240674
+    }
+  ],
+  "schema": "cce-qos-braket-results-v1"
+}

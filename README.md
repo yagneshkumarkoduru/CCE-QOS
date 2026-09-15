@@ -170,6 +170,26 @@ python -m pytest -q tests
 
 ---
 
+## 4.1 Amazon Braket experiments (NEW 2026-09-15)
+
+The QAOA pipeline now executes on Amazon Braket managed simulators, with
+physical-device submissions prepared for IonQ Forte Enterprise 1 and the
+QuEra Aquila analog Rydberg device:
+
+```bash
+python -m braket_experiments.run_experiments local              # exact local baselines
+python -m braket_experiments.run_experiments submit --device sv1 --shots 4000
+python -m braket_experiments.run_experiments collect --max-wait 600
+python -m braket_experiments.run_experiments report             # results/quantum_braket/
+```
+
+Every submission is ledgered with its task ARN before polling, managed
+SV1 reproduces the local statevector energies to shot noise, and the
+previously missing linear h terms in the OpenQASM export are fixed. Full
+method, device ARNs, costs, and boundaries: `docs/BRAKET_EXPERIMENTS.md`.
+
+---
+
 ## 5. Citation
 
 ```bibtex

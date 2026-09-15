@@ -211,7 +211,9 @@ class QAOASolver:
 
     def to_openqasm(self, gamma: np.ndarray, beta: np.ndarray) -> str:
         """
-        Exports the optimized QAOA circuit to OpenQASM 2.0.
+        Exports the optimized QAOA circuit to OpenQASM 2.0, including the
+        linear cost terms (single-qubit Z rotations) and the quadratic cost
+        terms (CX-RZ-CX blocks), followed by the mixer rotations.
         """
         qasm = ["OPENQASM 2.0;", "include \"qelib1.inc\";", f"qreg q[{self.num_qubits}];", f"creg c[{self.num_qubits}];"]
         # Initial Hadamard
@@ -219,7 +221,12 @@ class QAOASolver:
             qasm.append(f"h q[{q}];")
 
         for l in range(self.p):
-            # Cost Hamiltonian terms
+            # Linear cost terms: e^{-i gamma h_i Z_i} = rz(2 gamma h_i)
+            for var_id, q_idx in self.var_map.items():
+                h_val = float(self.h.get(var_id, 0.0))
+                if abs(h_val) > 0.0:
+                    qasm.append(f"rz({2.0 * h_val * gamma[l]:.4f}) q[{q_idx}];")
+            # Quadratic cost terms
             for (u, v), coeff in self.J.items():
                 if u in self.var_map and v in self.var_map:
                     q_u = self.var_map[u]

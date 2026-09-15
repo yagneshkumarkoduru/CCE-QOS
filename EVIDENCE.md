@@ -183,3 +183,26 @@ Results in: `outputs_48/metrics.txt`, `outputs_48/schedules.json`
 - [ ] Run PrefixLocality dispatcher against real vLLM on interleaved-prefix workload
 - [ ] Generate synthetic DAGs with realistic heterogeneous patterns (mix of conv/attn/norm, non-uniform dependencies) for meaningful solver comparison
 - [ ] Run on larger workloads (64-128 nodes) to assess scalability of classical + quantum pipelines
+
+## Amazon Braket experiments (2026-09-15)
+
+Class: EXTERNAL SERVICE EXECUTION (managed simulator) + SOFTWARE MEASURED (local)
+
+- New module `braket_experiments/` executes the repository QAOA pipeline on
+  Amazon Braket: exact local statevector parity tests, managed SV1 runs
+  (6 tasks, 4000 shots each), ledgered submissions, and prepared
+  IonQ/Aquila submissions.
+- Managed SV1 reproduces local statevector energies to shot-noise level on
+  every instance/depth (chain3 p=3 mean -0.3401 on sv1 vs -0.3458 local).
+- SV1 task ARNs (suffixes): 25af42a06109, 7e5363e964b5, f23383f5da51,
+  f1eb364f5010, b92626c8da5a, 37f765996315.
+- Fixed `QAOA_solver.to_openqasm` to include the linear cost terms, which
+  the previous export omitted (would have corrupted physical executions).
+- QPU runs (IonQ Forte Enterprise 1, QuEra Aquila) are blocked pending the
+  one-time Braket user agreement acceptance; commands and device ARNs are
+  in `docs/BRAKET_EXPERIMENTS.md`.
+- Artifacts: `results/quantum_braket/qaoa_local_simulator.json`,
+  `qaoa_braket_results.json`, `REPORT.md`, `task_ledger.json`.
+- Tests: `tests/test_braket_qaoa.py` (circuit parity, bit-order convention
+  lock, OpenQASM 3 export); CI installs amazon-braket-sdk and runs them on
+  the local simulator with no AWS calls.
