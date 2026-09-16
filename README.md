@@ -10,7 +10,7 @@
 [![Memory](https://img.shields.io/badge/memory-LLM%20KV--Cache%20Block%20Paging%20(simulated)-red.svg)](docs/IMPLEMENTATION_VERSIONS.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> 📄 **Research Paper Manuscript:** Read the full IEEE/ACM Transactions on Computer-Aided Design of Integrated Circuits and Systems manuscript: [**`docs/paper/RESEARCH_PAPER.md`**](docs/paper/RESEARCH_PAPER.md) with the APR convergence discussion and exact CCE Hamiltonian formulations.  
+> 📄 **Research Paper Manuscript:** Read the full research manuscript draft (target venue: IEEE/ACM Transactions on Computer-Aided Design of Integrated Circuits and Systems): [**`docs/paper/RESEARCH_PAPER.md`**](docs/paper/RESEARCH_PAPER.md) with the APR convergence discussion and exact CCE Hamiltonian formulations.  
 > 📐 **Mathematical Derivations & Proofs:** Complete Ising transformations, augmented Lagrangian dual updates, and paged KV-cache formulations: [**`docs/HAMILTONIAN_AND_KV_CACHE_FORMULATION.md`**](docs/HAMILTONIAN_AND_KV_CACHE_FORMULATION.md).  
 > 🔍 **Evidence ledger:** Every headline number below maps to an exact source file in [**`EVIDENCE.md`**](EVIDENCE.md). Root `metrics.txt` / `results_table.txt` and `outputs/*` are all current-pipeline outputs (regenerated 2026-09-10 by `run_experiment.py`, which writes both locations); the measured maximum feasibility is 67.74%, not 100%.
 
@@ -196,13 +196,11 @@ full cost analysis live in `docs/BRAKET_EXPERIMENTS.md`.
 ## 5. Citation
 
 ```bibtex
-@article{koduru2026cceqos,
-  author    = {Koduru, Yagnesh Kumar},
-  title     = {CCE-QOS: Constraint-Coupled Energy Minimization and Adaptive Penalty Refinement for Combinatorial Operator Scheduling on Neural Processing Units},
-  journal   = {IEEE/ACM Transactions on Computer-Aided Design of Integrated Circuits and Systems},
-  year      = {2026},
-  volume    = {45},
-  number    = {11},
-  pages     = {3820--3835}
+@misc{koduru2026cceqos,
+  author = {Koduru, Yagnesh Kumar},
+  title  = {CCE-QOS: Constraint-Coupled Energy Minimization and Adaptive Penalty Refinement for Combinatorial Operator Scheduling on Neural Processing Units},
+  year   = {2026},
+  note   = {Research manuscript draft; not peer reviewed},
+  url    = {https://github.com/yagneshkumarkoduru/CCE-QOS}
 }
 ```
