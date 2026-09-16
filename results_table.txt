@@ -3,15 +3,15 @@
 # Full tables: metrics.txt and outputs/metrics.txt (identical content).
 
 [Baseline Cost Objective]
-- Greedy baseline: Greedy: cost 5669.65, energy 5669.65, latency 3456.25 cycles, feasibility 51.61%
-- Best classical search: Lookahead: cost 4168.69, energy 4168.69, latency 3390.81 cycles, feasibility 54.83%
+- Greedy baseline: Greedy: cost 43038.19, energy 43038.19, latency 8986.46 cycles, feasibility 56.24%
+- Best classical search: Beam Search: cost 37569.50, energy 37569.50, latency 8640.01 cycles, feasibility 70.82%
 
 [CCE-QUBO Objective (energy formulation)]
-- Best classical search on the CCE-QUBO energy: Lookahead: cost 6794.39, energy 154.40, latency 3603.50 cycles, feasibility 51.61%
-- CCE + APR: CCE + APR: cost 6287.24, energy 160.43, latency 3479.19 cycles, feasibility 67.74%
-- Quantum (local-search fallback): Quantum (local-search fallback): cost 9756.86, energy 164.94, latency 3834.24 cycles, feasibility 45.16%
+- Best classical search on the CCE-QUBO energy: Lookahead: cost 44698.58, energy 424.27, latency 9087.94 cycles, feasibility 58.32%
+- CCE + APR: CCE + APR: cost 46142.14, energy 434.78, latency 8754.20 cycles, feasibility 70.82%
+- Quantum (local-search fallback): Quantum (local-search fallback): cost 46368.59, energy 432.59, latency 8811.93 cycles, feasibility 60.41%
 
 [X Metric]
-- CCE vs baseline: -0.4926
-- Quantum (local-search fallback) vs baseline: -1.0197
+- CCE vs baseline: -0.2211
+- Quantum (local-search fallback) vs baseline: -0.1705
 - Quantum backend used: local_search_fallback
