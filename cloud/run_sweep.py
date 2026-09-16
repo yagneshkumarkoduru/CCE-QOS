@@ -35,7 +35,13 @@ BUNDLE_PATH = BUNDLE_DIR / "sweep_bundle.tgz"
 REGION = "us-east-1"
 BUCKET = "cce-qos-sweeps-969739653654"
 AMI = "ami-025d99823a4caad37"  # Ubuntu Server 24.04 LTS amd64 (us-east-1)
-SUBNET = "subnet-0de53e7b6d7caa40b"  # default subnet, us-east-1f
+SUBNETS = [
+    "subnet-0879a02cc37518afb",  # default subnet, us-east-1a
+    "subnet-0de1d5998132ef926",  # default subnet, us-east-1b
+    "subnet-0eac15028cb6a014c",  # default subnet, us-east-1d
+    "subnet-0b0043a151a024c6b",  # default subnet, us-east-1c
+    "subnet-0de53e7b6d7caa40b",  # default subnet, us-east-1f
+]
 INSTANCE_TYPE = "c6i.xlarge"
 PRESIGN_EXPIRY = 604800  # 7 days (max for SigV4)
 
@@ -82,7 +88,7 @@ apt-get install -y python3-pip zip
 mkdir -p /opt/sweep
 cd /opt/sweep
 curl -fsSL -o bundle.tgz "__GET_URL__" && tar xzf bundle.tgz || echo "bundle download/extract failed"
-pip3 install --break-system-packages --quiet numpy ortools || echo "pip install failed"
+pip3 install --break-system-packages --quiet --ignore-installed typing_extensions numpy ortools || echo "pip install failed"
 bash run_sweep.sh || echo "sweep driver exited nonzero"
 mkdir -p /opt/out
 cp -r results /opt/out/ 2>/dev/null || echo "no results dir produced"
@@ -188,36 +194,54 @@ def cmd_launch(_args) -> None:
         .replace("__PUT_LOG__", put_log)
     )
 
-    resp = ec2.run_instances(
-        ImageId=AMI,
-        InstanceType=INSTANCE_TYPE,
-        MinCount=1,
-        MaxCount=1,
-        SubnetId=SUBNET,
-        InstanceInitiatedShutdownBehavior="terminate",
-        InstanceMarketOptions={
-            "MarketType": "spot",
-            "SpotOptions": {
-                "SpotInstanceType": "one-time",
-                "InstanceInterruptionBehavior": "terminate",
-            },
-        },
-        UserData=base64.b64encode(user_data.encode("utf-8")).decode("ascii"),
-        TagSpecifications=[
-            {
-                "ResourceType": "instance",
-                "Tags": [
-                    {"Key": "Name", "Value": f"cce-qos-dag-sweep-{run_id}"},
-                    {"Key": "Project", "Value": "CCE-QOS"},
-                    {"Key": "Purpose", "Value": "dag-scaling-sweep"},
+    resp = None
+    chosen_subnet = None
+    last_error = None
+    for subnet in SUBNETS:
+        try:
+            resp = ec2.run_instances(
+                ImageId=AMI,
+                InstanceType=INSTANCE_TYPE,
+                MinCount=1,
+                MaxCount=1,
+                SubnetId=subnet,
+                InstanceInitiatedShutdownBehavior="terminate",
+                InstanceMarketOptions={
+                    "MarketType": "spot",
+                    "SpotOptions": {
+                        "SpotInstanceType": "one-time",
+                        "InstanceInterruptionBehavior": "terminate",
+                    },
+                },
+                UserData=base64.b64encode(user_data.encode("utf-8")).decode("ascii"),
+                TagSpecifications=[
+                    {
+                        "ResourceType": "instance",
+                        "Tags": [
+                            {"Key": "Name", "Value": f"cce-qos-dag-sweep-{run_id}"},
+                            {"Key": "Project", "Value": "CCE-QOS"},
+                            {"Key": "Purpose", "Value": "dag-scaling-sweep"},
+                        ],
+                    }
                 ],
-            }
-        ],
-    )
+            )
+            chosen_subnet = subnet
+            break
+        except ClientError as exc:
+            code = exc.response.get("Error", {}).get("Code", "")
+            if code == "InsufficientInstanceCapacity":
+                print(f"No spot capacity in {subnet}, trying next default subnet")
+                last_error = exc
+                continue
+            raise
+    if resp is None:
+        raise SystemExit(f"No spot capacity in any default subnet: {last_error}")
+
     instance_id = resp["Instances"][0]["InstanceId"]
     state = {
         "run_id": run_id,
         "instance_id": instance_id,
+        "subnet": chosen_subnet,
         "bucket": BUCKET,
         **keys,
         "launched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -225,7 +249,7 @@ def cmd_launch(_args) -> None:
     STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     print(f"Launched spot instance: {instance_id}")
-    print(f"  type    : {INSTANCE_TYPE} (spot), subnet {SUBNET}")
+    print(f"  type    : {INSTANCE_TYPE} (spot), subnet {chosen_subnet}")
     print(f"  run id  : {run_id}")
     print(f"  bundle  : s3://{BUCKET}/{keys['bundle_key']}")
     print("Estimated cost: ~1h at ~$0.08/h spot = under $0.10 (rates: us-east-1 spot history, i/nl/d ~ $0.071-0.082/h)")
