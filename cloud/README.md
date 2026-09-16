@@ -28,7 +28,8 @@ run even if something hangs.
 
 ```powershell
 # from the repo root, with the project venv (needs boto3 + AWS credentials)
-.\.venv\Scripts\python.exe cloud\run_sweep.py package
+.\.venv\Scripts\python.exe cloud\run_sweep.py package            # both benchmarks
+.\.venv\Scripts\python.exe cloud\run_sweep.py package --mode synthetic   # CP-SAT sweep only
 .\.venv\Scripts\python.exe cloud\run_sweep.py launch
 .\.venv\Scripts\python.exe cloud\run_sweep.py status
 .\.venv\Scripts\python.exe cloud\run_sweep.py collect
@@ -36,6 +37,18 @@ run even if something hangs.
 ```
 
 Collected results land in `results/dag_scaling/cloud_<run_id>/`.
+
+## Spot eviction experience (2026-09-16)
+
+Two of three spot launches were reclaimed by AWS ("Service initiated"
+terminations at 15.5 and 20 minutes) before the results upload, in the
+default subnets that had repeatedly reported no `c6i.xlarge` capacity. The
+first run completed end-to-end and its real-scheduler scaling results were
+collected; the CP-SAT timeout study was then finished locally as a fallback.
+Mitigations now in the tool: instance-type fallback list
+(`c6i.xlarge`, `c6a.xlarge`, `m6i.xlarge`, `c7i.xlarge`), a `synthetic`
+mode that shortens the run, and a 100-minute watchdog. For deadline work,
+prefer on-demand (about $0.17/hour) or run locally.
 
 ## Fixed parameters
 

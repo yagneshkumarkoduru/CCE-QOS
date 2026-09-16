@@ -42,10 +42,12 @@ SUBNETS = [
     "subnet-0b0043a151a024c6b",  # default subnet, us-east-1c
     "subnet-0de53e7b6d7caa40b",  # default subnet, us-east-1f
 ]
-INSTANCE_TYPE = "c6i.xlarge"
+INSTANCE_TYPES = ["c6i.xlarge", "c6a.xlarge", "m6i.xlarge", "c7i.xlarge"]
 PRESIGN_EXPIRY = 604800  # 7 days (max for SigV4)
 
 SWEEP_ARGS = "--sizes 64,96,128 --seeds 42,43,44"
+CPSAT_TIMEOUT_FULL = "300"
+CPSAT_TIMEOUT_SYNTHETIC = "180"
 
 BUNDLE_FILES = [
     "benchmarks/__init__.py",
@@ -72,8 +74,8 @@ run() {
   echo "[exit $?] $*"
 }
 
-run python3 benchmarks/dag_scaling_benchmark.py __SWEEP_ARGS__ --cpsat-timeout 300 --tag cloud
-run python3 benchmarks/dag_scaling_real_scheduler.py __SWEEP_ARGS__ --sa-iterations 320 --lookahead-depth 2 --tag cloud
+run python3 benchmarks/dag_scaling_benchmark.py __SWEEP_ARGS__ --cpsat-timeout __CPSAT_TIMEOUT__ --tag cloud
+__REAL_LINE__
 echo "=== driver finished: $(date -u +%FT%TZ) ==="
 """
 
@@ -115,7 +117,8 @@ def ec2_client():
     return boto3.client("ec2", region_name=REGION)
 
 
-def cmd_package(_args) -> None:
+def cmd_package(args) -> None:
+    mode = getattr(args, "mode", "full")
     stage = BUNDLE_DIR / "stage"
     if stage.exists():
         shutil.rmtree(stage)
@@ -127,9 +130,21 @@ def cmd_package(_args) -> None:
         dst = stage / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
-    (stage / "run_sweep.sh").write_text(
-        DRIVER_SH.replace("__SWEEP_ARGS__", SWEEP_ARGS), encoding="utf-8", newline="\n"
+    cpsat_timeout = (
+        CPSAT_TIMEOUT_SYNTHETIC if mode == "synthetic" else CPSAT_TIMEOUT_FULL
     )
+    real_line = (
+        ""
+        if mode == "synthetic"
+        else "run python3 benchmarks/dag_scaling_real_scheduler.py __SWEEP_ARGS__ "
+        "--sa-iterations 320 --lookahead-depth 2 --tag cloud"
+    )
+    driver = (
+        DRIVER_SH.replace("__SWEEP_ARGS__", SWEEP_ARGS)
+        .replace("__CPSAT_TIMEOUT__", cpsat_timeout)
+        .replace("__REAL_LINE__", real_line)
+    )
+    (stage / "run_sweep.sh").write_text(driver, encoding="utf-8", newline="\n")
     if BUNDLE_PATH.exists():
         BUNDLE_PATH.unlink()
     with tarfile.open(BUNDLE_PATH, "w:gz") as tar:
@@ -137,7 +152,7 @@ def cmd_package(_args) -> None:
             tar.add(item, arcname=str(item.relative_to(stage)))
     shutil.rmtree(stage)
     size_kb = BUNDLE_PATH.stat().st_size / 1024
-    print(f"Bundle: {BUNDLE_PATH} ({size_kb:.1f} KB)")
+    print(f"Bundle: {BUNDLE_PATH} ({size_kb:.1f} KB, mode={mode}, cpsat_timeout={cpsat_timeout}s)")
     for rel in BUNDLE_FILES + ["run_sweep.sh"]:
         print(f"  {rel}")
 
@@ -196,52 +211,58 @@ def cmd_launch(_args) -> None:
 
     resp = None
     chosen_subnet = None
+    chosen_type = None
     last_error = None
-    for subnet in SUBNETS:
-        try:
-            resp = ec2.run_instances(
-                ImageId=AMI,
-                InstanceType=INSTANCE_TYPE,
-                MinCount=1,
-                MaxCount=1,
-                SubnetId=subnet,
-                InstanceInitiatedShutdownBehavior="terminate",
-                InstanceMarketOptions={
-                    "MarketType": "spot",
-                    "SpotOptions": {
-                        "SpotInstanceType": "one-time",
-                        "InstanceInterruptionBehavior": "terminate",
+    for instance_type in INSTANCE_TYPES:
+        for subnet in SUBNETS:
+            try:
+                resp = ec2.run_instances(
+                    ImageId=AMI,
+                    InstanceType=instance_type,
+                    MinCount=1,
+                    MaxCount=1,
+                    SubnetId=subnet,
+                    InstanceInitiatedShutdownBehavior="terminate",
+                    InstanceMarketOptions={
+                        "MarketType": "spot",
+                        "SpotOptions": {
+                            "SpotInstanceType": "one-time",
+                            "InstanceInterruptionBehavior": "terminate",
+                        },
                     },
-                },
-                UserData=base64.b64encode(user_data.encode("utf-8")).decode("ascii"),
-                TagSpecifications=[
-                    {
-                        "ResourceType": "instance",
-                        "Tags": [
-                            {"Key": "Name", "Value": f"cce-qos-dag-sweep-{run_id}"},
-                            {"Key": "Project", "Value": "CCE-QOS"},
-                            {"Key": "Purpose", "Value": "dag-scaling-sweep"},
-                        ],
-                    }
-                ],
-            )
-            chosen_subnet = subnet
+                    UserData=base64.b64encode(user_data.encode("utf-8")).decode("ascii"),
+                    TagSpecifications=[
+                        {
+                            "ResourceType": "instance",
+                            "Tags": [
+                                {"Key": "Name", "Value": f"cce-qos-dag-sweep-{run_id}"},
+                                {"Key": "Project", "Value": "CCE-QOS"},
+                                {"Key": "Purpose", "Value": "dag-scaling-sweep"},
+                            ],
+                        }
+                    ],
+                )
+                chosen_subnet = subnet
+                chosen_type = instance_type
+                break
+            except ClientError as exc:
+                code = exc.response.get("Error", {}).get("Code", "")
+                if code in ("InsufficientInstanceCapacity", "Unsupported"):
+                    print(f"No spot capacity for {instance_type} in {subnet}, trying next")
+                    last_error = exc
+                    continue
+                raise
+        if resp is not None:
             break
-        except ClientError as exc:
-            code = exc.response.get("Error", {}).get("Code", "")
-            if code == "InsufficientInstanceCapacity":
-                print(f"No spot capacity in {subnet}, trying next default subnet")
-                last_error = exc
-                continue
-            raise
     if resp is None:
-        raise SystemExit(f"No spot capacity in any default subnet: {last_error}")
+        raise SystemExit(f"No spot capacity for any instance type: {last_error}")
 
     instance_id = resp["Instances"][0]["InstanceId"]
     state = {
         "run_id": run_id,
         "instance_id": instance_id,
         "subnet": chosen_subnet,
+        "instance_type": chosen_type,
         "bucket": BUCKET,
         **keys,
         "launched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -249,7 +270,7 @@ def cmd_launch(_args) -> None:
     STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     print(f"Launched spot instance: {instance_id}")
-    print(f"  type    : {INSTANCE_TYPE} (spot), subnet {chosen_subnet}")
+    print(f"  type    : {chosen_type} (spot), subnet {chosen_subnet}")
     print(f"  run id  : {run_id}")
     print(f"  bundle  : s3://{BUCKET}/{keys['bundle_key']}")
     print("Estimated cost: ~1h at ~$0.08/h spot = under $0.10 (rates: us-east-1 spot history, i/nl/d ~ $0.071-0.082/h)")
@@ -320,7 +341,13 @@ def cmd_terminate(_args) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="CCE-QOS cloud DAG sweep orchestrator")
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("package", help="build the code bundle")
+    pkg = sub.add_parser("package", help="build the code bundle")
+    pkg.add_argument(
+        "--mode",
+        choices=["full", "synthetic"],
+        default="full",
+        help="full runs both benchmarks; synthetic runs only the CP-SAT sweep",
+    )
     sub.add_parser("launch", help="upload bundle and launch the spot instance")
     sub.add_parser("status", help="instance state and S3 artifacts")
     sub.add_parser("collect", help="download and extract results")
