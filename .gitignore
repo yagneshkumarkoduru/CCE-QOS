@@ -11,3 +11,5 @@
 *.log
 benchmarks/vllm/results/
 benchmarks/vllm/traces/*.jsonl
+cloud/.state.json
+cloud/.bundle/
