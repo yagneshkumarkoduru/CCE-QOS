@@ -4,13 +4,13 @@
 
 [![CI](https://github.com/yagneshkumarkoduru/CCE-QOS/actions/workflows/ci.yml/badge.svg)](https://github.com/yagneshkumarkoduru/CCE-QOS/actions)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Compiler](https://img.shields.io/badge/compiler-CCE--QUBO%20%7C%20APR%20Convergence-brightgreen.svg)](docs/paper/RESEARCH_PAPER.md)
+[![Compiler](https://img.shields.io/badge/compiler-CCE--QUBO%20%7C%20APR%20Scope-brightgreen.svg)](docs/paper/RESEARCH_PAPER.md)
 [![Paper](https://img.shields.io/badge/paper-IEEE%2FACM%20TCAD%20Draft-purple.svg)](docs/paper/RESEARCH_PAPER.md)
 [![Solvers](https://img.shields.io/badge/solvers-OR--Tools%20CP--SAT%20%7C%20Variational%20QAOA-orange.svg)](docs/HAMILTONIAN_AND_KV_CACHE_FORMULATION.md)
 [![Memory](https://img.shields.io/badge/memory-LLM%20KV--Cache%20Block%20Paging%20(simulated)-red.svg)](docs/IMPLEMENTATION_VERSIONS.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> 📄 **Research Paper Manuscript:** Read the full research manuscript draft (target venue: IEEE/ACM Transactions on Computer-Aided Design of Integrated Circuits and Systems): [**`docs/paper/RESEARCH_PAPER.md`**](docs/paper/RESEARCH_PAPER.md) with the APR convergence discussion and exact CCE Hamiltonian formulations.  
+> 📄 **Research Paper Manuscript:** Read the full research manuscript draft (target venue: IEEE/ACM Transactions on Computer-Aided Design of Integrated Circuits and Systems): [**`docs/paper/RESEARCH_PAPER.md`**](docs/paper/RESEARCH_PAPER.md) with the APR feasibility-threshold proposition, scope notes, and exact CCE Hamiltonian formulations.  
 > 📐 **Mathematical Derivations & Proofs:** Complete Ising transformations, augmented Lagrangian dual updates, and paged KV-cache formulations: [**`docs/HAMILTONIAN_AND_KV_CACHE_FORMULATION.md`**](docs/HAMILTONIAN_AND_KV_CACHE_FORMULATION.md).  
 > 🔍 **Evidence ledger:** Every headline number below maps to an exact source file in [**`EVIDENCE.md`**](EVIDENCE.md). Root `metrics.txt` / `results_table.txt` and `outputs/*` are all current-pipeline outputs (regenerated 2026-09-10 by `run_experiment.py`, which writes both locations); the measured maximum feasibility is 67.74%, not 100%.
 
@@ -22,7 +22,7 @@ Energy efficiency in deep learning execution on Neural Processing Units (NPUs) i
 
 **CCE-QOS** introduces an integrated compiler framework:
 1. **Constraint-Coupled Energy (CCE) QUBO Formulation**: Formulates end-to-end DAG scheduling, memory allocation, and bank conflict minimization as a Quadratic Unconstrained Binary Optimization (QUBO) Hamiltonian $H(x) = x^T Q x$.
-2. **Adaptive Penalty Refinement (APR)**: Solves the fundamental penalty dilemma of constrained binary optimization. Dynamically tunes penalty multipliers $\lambda_k^{(t+1)} = \lambda_k^{(t)} + \mu \cdot \max(0, g_k(x))$, empirically eliminating constraint violations on the tested workloads (a general finite-iteration convergence proof is NOT established; see `EVIDENCE.md`).
+2. **Adaptive Penalty Refinement (APR)**: Solves the fundamental penalty dilemma of constrained binary optimization. Dynamically tunes penalty multipliers $\lambda_k^{(t+1)} = \lambda_k^{(t)} + \mu \cdot \max(0, g_k(x))$, empirically eliminating constraint violations on the tested workloads (a feasibility-threshold proposition for exact solvers replaces the withdrawn convergence claim; the deployed heuristic is evaluated empirically; see `EVIDENCE.md`).
 3. **Multi-Solver Backend**: Exact integer programming via **Google OR-Tools CP-SAT** alongside a real **Variational QAOA statevector engine** for small QUBOs, with seeded variational initialization (bit-identical reruns) and a depth sweep over p = 1..3 that keeps the best ground-state approximation ratio (a clearly-labeled classical local-search fallback covers large QUBOs).
 4. **LLM KV-Cache Block Paging & Continuous Batching**: Extends to dynamic transformer sequence generation with a block-level capacity simulation that compares static maximum-length reservation with exact-demand paged admission. It models safe queueing and completion freeing, not host paging or DRAM faults.
 

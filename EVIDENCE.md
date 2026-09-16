@@ -49,8 +49,8 @@ Quantified tradeoff: on the energy formulation the fixed APR does NOT match the 
 ## Known contradictions (FIXED 2026-09-10)
 
 1. `docs/paper/RESEARCH_PAPER.md` previously claimed 100.0% feasible schedules and mixed old/new formulation numbers in Table 4.1. Paper abstract and table now use the current pipeline's measured values (APR feasibility 67.74%; classical Lookahead 4168.69 at 54.83%). Do not restore the 100% claim without a new measured run.
-2. Theorem 1 (APR monotonic finite convergence) proof has a logical gap: bounded penalty-violation product does not imply monotonic decrease. Treat APR as an empirical heuristic pending a repaired proof or downgrade to Lemma/Observation.
-3. Theorem 2 (McCormick envelopes) is textbook background, not a novel contribution. Cite standard references.
+2. RESOLVED (2026-09-16): the withdrawn APR convergence theorem is replaced by Proposition 1 (feasibility threshold for exact minimizers) with a scope note; the implementation remains an empirical heuristic. See `docs/paper/RESEARCH_PAPER.md` section 2.2.
+3. RESOLVED (2026-09-16): reframed as Proposition 2 (classical per-term McCormick construction, cited as textbook background) with a scope note that multi-term relaxations are not exact.
 4. Baselines are greedy, simulated annealing, lookahead, and statevector QAOA on synthetic example workloads (`example_workload.json`, `outputs/schedules.json`). Do NOT claim comparison against TVM, XLA, or MLIR, and do NOT call workloads "production edge" workloads.
 5. README KV-cache claims were previously "verified" against the old hardcoded benchmark (`run_paging_benchmark` returned fixed constants 56.0% / 3.54x). The intermediate 79,032-to-0 DRAM-fault and 7.95x figures were also withdrawn on 2026-09-11 when the implementation was replaced with a safe capacity simulator. The current simulation reports queueing, capacity commitment, latency, and output-token rate only; it does not model active-KV host paging or DRAM page faults.
 
@@ -176,7 +176,7 @@ Results in: `outputs_48/metrics.txt`, `outputs_48/schedules.json`
 - [x] Build prefix-locality-aware dispatcher (done 2026-09-12)
 - [x] Test solver scaling on synthetic DAGs (done 2026-09-12: random DAGs converge, recommend realistic structure)
 - [x] **Full pipeline run on 48-node workload** (done 2026-09-12: **107s runtime, Beam Search 12.67% cost reduction**)
-- [ ] Repair Theorem 1 proof or reframe as empirical observation
+- [x] Repair Theorem 1 proof or reframe as empirical observation (2026-09-16: replaced by Proposition 1 and a scope note)
 - [x] Fix the Exact CP-SAT Scheduler runner imports (done 2026-09-10)
 - [x] Reconcile root benchmark files with current pipeline (done 2026-09-10)
 - [x] Diagnose and fix APR regression (done 2026-09-10: feasibility 51.61% -> 67.74%)

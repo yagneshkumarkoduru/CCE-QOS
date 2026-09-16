@@ -50,16 +50,12 @@ $$H_{\text{capacity}} = \sum_{t=1}^T \sum_{b=1}^B \max\left(0, \sum_{i \in \math
 
 Static penalty coefficients $\lambda_k$ fail across varying DAG topologies: under-penalization yields invalid schedules with dependency violations, while over-penalization distorts the energy landscape, trapping solvers in sub-optimal local minima.
 
-### Theorem 1 (APR Zero-Violation Convergence)
-> **Theorem 1.** Let the constraint violation metric at iteration $k$ be $g_j(x^{(k)}) = \max(0, c_j(x^{(k)}))$. If the penalty multipliers update according to:
+### APR Feasibility Threshold (Scope Proposition)
+> **Proposition.** Let the feasible set be nonempty, let violations be counted in whole units, and let $H_{\text{cost}}(x) \ge 0$ on the finite search space. If the inner solver returns an exact global minimizer of the penalized Hamiltonian and every multiplier exceeds the minimum cost of a feasible schedule, then the returned minimizer is feasible; the APR growth law therefore reaches a feasible solve in finitely many rounds under exact minimization.
 >
-> $$\lambda_j^{(k+1)} = \lambda_j^{(k)} + \mu \cdot g_j(x^{(k)}), \quad \mu > 0$$
+> **Proof sketch.** A feasible schedule pays zero penalty, while any infeasible schedule pays at least one whole violation unit at its violating multiplier; once every multiplier exceeds the feasible minimum cost, no infeasible schedule can minimize the penalized Hamiltonian.
 >
-> then the sequence of solutions $\{x^{(k)}\}$ converges asymptotically to the feasible zero-violation subspace:
->
-> $$\lim_{k \to \infty} \sum_{j} g_j(x^{(k)}) = 0$$
-
-**Proof.** The update rule acts as a dual ascent step on the augmented Lagrangian $\mathcal{L}_A(x, \lambda) = H_{\text{cost}}(x) + \sum_j \lambda_j g_j(x) + \frac{\mu}{2} \sum_j g_j(x)^2$. Since the binary configuration space is finite, the subgradient norm is strictly bounded. By the convexity of the penalty envelope on feasible points, dual step sizes $\mu \in (0, \frac{2}{\max \|\nabla g_j\|})$ guarantee monotonically decreasing violation residuals until $\sum_j g_j(x^*) = 0$. $\blacksquare$
+> **Scope.** The deployed pipeline uses approximate solvers (CP-SAT with time limits, simulated annealing, QAOA sampling), so the exact-minimizer assumption does not hold in general and APR is evaluated empirically (51.61% to 67.74% measured feasibility on the energy formulation). The earlier draft's "zero-violation convergence" theorem is withdrawn; the full statement and proof are in `docs/paper/RESEARCH_PAPER.md` section 2.2.
 
 ---
 

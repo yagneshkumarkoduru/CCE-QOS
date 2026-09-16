@@ -30,7 +30,7 @@ Existing compilation frameworks suffer from three systemic limitations:
 
 ---
 
-## 2. Mathematical Formulation & Theorems
+## 2. Mathematical Formulation & Propositions
 
 ### 2.1 The Constraint-Coupled Energy (CCE) Hamiltonian
 Let an NPU workload be modeled as a directed acyclic graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, where vertices $v_i \in \mathcal{V}$ represent tensor operators and directed edges $(v_i, v_j) \in \mathcal{E}$ represent tensor dependencies with volume $B(v_i, v_j)$ bytes. The execution timeline is discretized into $T$ sequential slots, and hardware execution modes are denoted by $r \in \mathcal{R}$ (encoding DVFS voltage/frequency pairs).
@@ -55,40 +55,23 @@ $$H_{\text{total}} = H_{\text{unary}} + H_{\text{reuse}} + H_{\text{contention}}
 
 ---
 
-### 2.2 Theorem 1: Monotonic Feasibility Convergence of APR
+### 2.2 Proposition 1: A Feasibility Threshold for Exact Minimizers (APR Scope)
 
-**Theorem 1.** *Let the combinatorial solution at iteration $k$ be $\mathbf{x}^{(k)} = \arg\min_{\mathbf{x}} H(\mathbf{x}; \boldsymbol{\lambda}^{(k)})$. Under the dynamic Lagrangian update law:*
+**Proposition 1 (penalty threshold).** *Let the feasible set $\mathcal{X}_{\text{feasible}} \subseteq \{0,1\}^N$ be nonempty, let each constraint violation be counted in whole units so that $\text{Violations}_m(\mathbf{x}) \ge 1$ whenever constraint $m$ is violated, and let $H_{\text{obj}}(\mathbf{x}) \ge 0$ on the finite search space. If $\hat{\mathbf{x}}(\boldsymbol{\lambda}) = \arg\min_{\mathbf{x}} H(\mathbf{x}; \boldsymbol{\lambda})$ is an exact global minimizer and $\lambda_m > H_{\text{obj}}(\mathbf{x}^*)$ for every $m$, where $\mathbf{x}^* \in \arg\min_{\mathbf{x} \in \mathcal{X}_{\text{feasible}}} H_{\text{obj}}(\mathbf{x})$, then $\hat{\mathbf{x}}(\boldsymbol{\lambda})$ is feasible.*
 
-$$\lambda_m^{(k+1)} = \lambda_m^{(k)} \cdot \left( 1 + \eta_m \cdot \frac{\text{Violations}_m(\mathbf{x}^{(k)})}{\text{Constraints}_m} \right)$$
+**Proof.** The feasible schedule $\mathbf{x}^*$ incurs zero penalty, so $H(\mathbf{x}^*; \boldsymbol{\lambda}) = H_{\text{obj}}(\mathbf{x}^*)$. Any infeasible $\mathbf{x}$ violates at least one constraint, so $\text{Violations}_m(\mathbf{x}) \ge 1$ for that $m$ and $H(\mathbf{x}; \boldsymbol{\lambda}) \ge H_{\text{obj}}(\mathbf{x}) + \lambda_m \ge \lambda_m > H_{\text{obj}}(\mathbf{x}^*) = H(\mathbf{x}^*; \boldsymbol{\lambda})$. No infeasible point can therefore be a global minimizer. $\blacksquare$
 
-*if the constraint set possesses at least one valid schedule $\mathbf{x}^* \in \mathcal{X}_{\text{feasible}}$, the sequence of constraint violations $V(\mathbf{x}^{(k)}) = \sum_m \text{Violations}_m(\mathbf{x}^{(k)})$ converges monotonically to zero in a finite number of iterations:*
+**Conditional termination of the growth law.** Under the same exact-minimizer assumption, whenever the returned schedule violates constraint $m$ the update law multiplies $\lambda_m$ by at least $(1 + \eta_m / \text{Constraints}_m)$ per round, so the multipliers eventually exceed the threshold $H_{\text{obj}}(\mathbf{x}^*)$ and the inner solve returns a feasible schedule: finitely many growth rounds suffice. The original draft bound on the number of iterations is withdrawn.
 
-$$k^* \le \left\lceil \frac{H_{\text{obj}}(\mathbf{x}^*) - H_{\text{obj}}(\mathbf{x}^{(0)})}{\min_m \eta_m} \right\rceil$$
-
-**Proof:**  
-Let $\mathbf{x}^*$ be an optimal feasible schedule ($V(\mathbf{x}^*) = 0$). By definition of optimality at step $k$:
-
-$$H(\mathbf{x}^{(k)}; \boldsymbol{\lambda}^{(k)}) \le H(\mathbf{x}^*; \boldsymbol{\lambda}^{(k)}) = H_{\text{obj}}(\mathbf{x}^*)$$
-
-Expanding the left-hand side:
-
-$$H_{\text{obj}}(\mathbf{x}^{(k)}) + \sum_m \lambda_m^{(k)} \text{Violations}_m(\mathbf{x}^{(k)}) \le H_{\text{obj}}(\mathbf{x}^*)$$
-
-Rearranging gives:
-
-$$\sum_m \lambda_m^{(k)} \text{Violations}_m(\mathbf{x}^{(k)}) \le H_{\text{obj}}(\mathbf{x}^*) - H_{\text{obj}}(\mathbf{x}^{(k)}) \le \Delta H_{\max} < \infty$$
-
-Under the update law, if $\text{Violations}_m(\mathbf{x}^{(k)}) > 0$, then $\lambda_m^{(k)}$ grows geometrically, which empirically pressures violations downward on the tested workloads (measured: 51.61% to 67.74% feasibility on the energy formulation). The implementation additionally anneals multipliers back toward their base values once zero violations hold for consecutive rounds, and polishes the selected schedule with a feasibility-preserving local descent on the true objective. A general proof of monotonic finite-iteration convergence to zero violations is NOT established here: the sketch above assumes the minimizer sequence cooperates with the penalty growth, which need not hold. Treat APR as an empirically motivated heuristic pending a repaired proof. $\blacksquare$ (proof status: incomplete, see `EVIDENCE.md`)
+**Scope (why APR is evaluated empirically).** The proposition requires an exact global minimizer of the penalized Hamiltonian at each inner solve. The deployed pipeline uses approximate solvers (CP-SAT with time limits, simulated annealing, QAOA sampling, local-search fallback), for which the assumption does not hold, so no convergence-rate claim is made for the implementation. APR is presented as an empirically motivated heuristic with a feasibility-threshold guarantee in the exact-solver limit; measured feasibility improves from 51.61% (greedy) to 67.74% on the energy formulation (see `EVIDENCE.md`). The earlier draft's "monotonic finite-iteration convergence" theorem is withdrawn.
 
 ---
 
-### 2.3 Theorem 2: Zero Integrality Gap of Binary McCormick Envelopes
+### 2.3 Proposition 2: Exact Single-Term McCormick Envelope
 
-**Theorem 2.** *For binary variables $x_i, x_j \in \{0, 1\}$, the continuous relaxation:*
+**Proposition 2.** *For one binary product term $y_{ij} = x_i x_j$ with $x_i, x_j \in \{0,1\}$, the polytope $y_{ij} \le x_i$, $y_{ij} \le x_j$, $y_{ij} \ge x_i + x_j - 1$, $y_{ij} \ge 0$ is the convex hull of the four binary points $(0,0,0)$, $(0,1,0)$, $(1,0,0)$, $(1,1,1)$; its vertices are exactly those four points.*
 
-$$y_{ij} \le x_i, \quad y_{ij} \le x_j, \quad y_{ij} \ge x_i + x_j - 1, \quad y_{ij} \ge 0$$
-
-*forms an integral polytope whose vertices coincide exactly with the truth table of Boolean conjunction $y_{ij} = x_i \wedge x_j$, guaranteeing zero relaxation gap in integer linear programming.*
+*Scope: this is the classical McCormick construction (McCormick, 1976), cited as textbook background rather than a novel contribution. Exactness holds per product term; for Hamiltonians with many coupled terms the per-term envelope does not describe the joint relaxation, and the resulting integrality gap is measured empirically rather than assumed zero.*
 
 ---
 
