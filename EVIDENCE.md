@@ -220,17 +220,61 @@ Class: EXTERNAL SERVICE EXECUTION (real QPU) + COST ANALYSIS
   vs 0.6956); degradation grows with depth and density (chain3 p=3:
   0.8677 vs 0.9342; random11 p=2: 0.6886 vs 0.7880). Repeat runs at 500
   shots agree with the 1000-shot runs to ~0.006 in ratio.
-- Spend: 12 x IonQ + 6 x Aquila tasks = .40 at published rates
+- Spend: 12 x IonQ + 6 x Aquila tasks = $905.40 at published rates
   (estimator in ledger.estimate_spend; pricing from the AWS Pricing API,
   us-east-1).
 - Cost efficiency finding (retained honestly): the same conclusions need
   only ~225 shots per configuration (SE ~ 0.10 vs effect sizes 0.1-1.0),
-  i.e. a 4-5x cheaper campaign (~-200). Tooling now enforces budget
+  i.e. a 4-5x cheaper campaign (~$160-200). Tooling now enforces budget
   discipline: estimate (cost/statistics planner), status
-  (non-blocking queue view), a  submit gate requiring --yes, a
+  (non-blocking queue view), a $100 submit gate requiring --yes, a
   default of 250 shots for QPU submissions, global-deadline collect,
   and local AHS pre-flight validation tests that prevent invalid paid
   submissions.
 - Artifacts: 
 esults/quantum_braket/ (ledger, results JSON, REPORT.md),
   docs/BRAKET_EXPERIMENTS.md.
+
+## DAG scaling sweep, 64-128 nodes (2026-09-16)
+
+Class: BENCHMARK (Python scheduler model, synthetic DAGs; one cloud run,
+one local run)
+
+Two artifacts:
+
+1. `results/dag_scaling/cloud_20260916-161633/real_scheduler_scaling_cloud.json`
+   (plus `sweep_console.log`): the real `SchedulingEngine` +
+   `ScheduleCostModel` (config.yaml hardware, fusion, and cost weights) at
+   sizes 64/96/128 and seeds 42/43/44 with SA 320 iterations and lookahead
+   depth 2, executed on a single AWS spot `c6i.xlarge` through the
+   presigned-URL pattern (`cloud/run_sweep.py`, no IAM instance profile).
+   - Lookahead improves the true schedule cost over greedy by 31.6/13.6/13.0
+     percent (seed 42), 6.9/25.5/12.2 percent (seed 43), and 11.9/14.5/15.0
+     percent (seed 44) at 64/96/128 nodes.
+   - Lookahead wall times: 9.4-9.5 s (64), 27.8-29.7 s (96), 66.4-69.6 s
+     (128) on the c6i.xlarge. SA improves the true cost by 4.5-38.1 percent
+     across the nine configurations (all above greedy).
+   - AWS spend for the whole exercise: about $0.06 of spot plus pennies of
+     S3 across three attempts; two attempts were reclaimed by AWS spot
+     ("Service initiated" at 15.5 and 20 minutes) before upload, documented
+     in `C:\Research\resources\AWS_APPLICABILITY_AND_SCALING.md`. The first
+     attempt's real-scheduler leg completed end-to-end and is the artifact
+     above; the CP-SAT leg of that attempt failed on a pip conflict and was
+     re-run locally (artifact 2).
+2. `results/dag_scaling/scaling_results_local.json`: the synthetic DAG
+   benchmark (CP-SAT objective) at sizes 64/96/128 and seeds 42/43/44 with a
+   180 s CP-SAT budget, run locally on the workstation.
+   - CP-SAT certifies OPTIMAL at 64 nodes for all three seeds (5.6 s, 97.6 s,
+     109.3 s), and returns FEAS at the 180 s budget for 96 and 128 nodes.
+     The previously committed 30 s-budget run recorded FEAS at 64; the
+     180 s budget upgrades 64 to a certified optimum.
+   - Under the reported metric (DRAM accesses + 0.1 x bank conflicts) the
+     greedy order is already cost-optimal on these instances: SA and CP-SAT
+     match greedy exactly on all nine configurations (0.0 percent
+     improvement), so the sweep's contribution is optimality certification
+     and runtime scaling, not cost improvement. This matches the earlier
+     committed 16-128 sweep, which showed the same equality pattern.
+   - Boundary: synthetic DAGs and a Python cost model; not hardware
+     measurements. The CP-SAT objective is the position-weighted proxy, while
+     the reported cost is the true metric, which is why certification is
+     reported separately from cost improvement.

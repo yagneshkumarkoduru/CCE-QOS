@@ -1,0 +1,127 @@
+{
+  "description": "CCE-QOS solver scaling on random NPU DAGs of 16-128 nodes",
+  "class": "BENCHMARK (Python scheduler model, synthetic workloads)",
+  "config": {
+    "sizes": [
+      64,
+      96,
+      128
+    ],
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "cpsat_timeout_s": 180.0
+  },
+  "results": [
+    {
+      "seed": 42,
+      "n_nodes": 64,
+      "greedy_cost": 36825.6,
+      "sa_cost": 36825.6,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 16.9,
+      "cpsat_cost": 36825.6,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 109292.3,
+      "cpsat_optimal": true
+    },
+    {
+      "seed": 42,
+      "n_nodes": 96,
+      "greedy_cost": 54871.8,
+      "sa_cost": 54871.8,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 39.0,
+      "cpsat_cost": 54871.8,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 180993.7,
+      "cpsat_optimal": false
+    },
+    {
+      "seed": 42,
+      "n_nodes": 128,
+      "greedy_cost": 73694.0,
+      "sa_cost": 73694.0,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 47.8,
+      "cpsat_cost": 73694.0,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 181453.6,
+      "cpsat_optimal": false
+    },
+    {
+      "seed": 43,
+      "n_nodes": 64,
+      "greedy_cost": 36450.6,
+      "sa_cost": 36450.6,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 22.9,
+      "cpsat_cost": 36450.6,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 97627.7,
+      "cpsat_optimal": true
+    },
+    {
+      "seed": 43,
+      "n_nodes": 96,
+      "greedy_cost": 55222.8,
+      "sa_cost": 55222.8,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 27.6,
+      "cpsat_cost": 55222.8,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 181092.2,
+      "cpsat_optimal": false
+    },
+    {
+      "seed": 43,
+      "n_nodes": 128,
+      "greedy_cost": 71745.0,
+      "sa_cost": 71745.0,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 45.9,
+      "cpsat_cost": 71745.0,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 181507.5,
+      "cpsat_optimal": false
+    },
+    {
+      "seed": 44,
+      "n_nodes": 64,
+      "greedy_cost": 31849.6,
+      "sa_cost": 31849.6,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 21.2,
+      "cpsat_cost": 31849.6,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 5587.0,
+      "cpsat_optimal": true
+    },
+    {
+      "seed": 44,
+      "n_nodes": 96,
+      "greedy_cost": 49320.8,
+      "sa_cost": 49320.8,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 37.9,
+      "cpsat_cost": 49320.8,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 180916.3,
+      "cpsat_optimal": false
+    },
+    {
+      "seed": 44,
+      "n_nodes": 128,
+      "greedy_cost": 68255.0,
+      "sa_cost": 68255.0,
+      "sa_improvement_pct": 0.0,
+      "sa_time_ms": 52.1,
+      "cpsat_cost": 68255.0,
+      "cpsat_improvement_pct": 0.0,
+      "cpsat_time_ms": 181513.4,
+      "cpsat_optimal": false
+    }
+  ]
+}
