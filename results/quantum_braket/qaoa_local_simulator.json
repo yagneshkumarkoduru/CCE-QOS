@@ -14,10 +14,10 @@
       "instance": "chain3",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.6792155172413794,
+        "approx_ratio_mean": 0.6955775862068966,
         "best_energy": -0.7000000000000001,
-        "ground_state_probability": 0.288,
-        "mean_energy": 1.1605499999999997,
+        "ground_state_probability": 0.308,
+        "mean_energy": 1.0656499999999998,
         "shots": 4000,
         "unique_bitstrings": 8
       },
@@ -40,10 +40,10 @@
       "instance": "chain3",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.8047241379310345,
+        "approx_ratio_mean": 0.8017586206896552,
         "best_energy": -0.7000000000000001,
-        "ground_state_probability": 0.38025,
-        "mean_energy": 0.4325999999999999,
+        "ground_state_probability": 0.3615,
+        "mean_energy": 0.44979999999999987,
         "shots": 4000,
         "unique_bitstrings": 8
       },
@@ -68,16 +68,94 @@
       "instance": "chain3",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.9389310344827585,
+        "approx_ratio_mean": 0.9342155172413793,
         "best_energy": -0.7000000000000001,
-        "ground_state_probability": 0.83675,
-        "mean_energy": -0.34580000000000005,
+        "ground_state_probability": 0.82575,
+        "mean_energy": -0.31845000000000007,
         "shots": 4000,
         "unique_bitstrings": 8
       },
       "num_qubits": 3,
       "optimizer_approx_ratio": 0.9384748896888666,
       "optimizer_energy": -0.3431543601954264
+    },
+    {
+      "beta": [
+        1.201683666548097
+      ],
+      "depth": 1,
+      "e_max": 6.700000000000001,
+      "e_min": -2.3000000000000003,
+      "gamma": [
+        0.4952347742328624
+      ],
+      "instance": "chain5",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7125222222222222,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.11725,
+        "mean_energy": 0.28729999999999983,
+        "shots": 4000,
+        "unique_bitstrings": 32
+      },
+      "num_qubits": 5,
+      "optimizer_approx_ratio": 0.7139849029144002,
+      "optimizer_energy": 0.27413587377039833
+    },
+    {
+      "beta": [
+        1.1631123490089244,
+        1.5853774640711318
+      ],
+      "depth": 2,
+      "e_max": 6.700000000000001,
+      "e_min": -2.3000000000000003,
+      "gamma": [
+        0.4065995086341569,
+        1.0565344637327863
+      ],
+      "instance": "chain5",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7950777777777778,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.169,
+        "mean_energy": -0.45570000000000016,
+        "shots": 4000,
+        "unique_bitstrings": 32
+      },
+      "num_qubits": 5,
+      "optimizer_approx_ratio": 0.799454727185816,
+      "optimizer_energy": -0.4950925446723439
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "e_max": 6.700000000000001,
+      "e_min": -2.3000000000000003,
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7935055555555556,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.3065,
+        "mean_energy": -0.44155000000000005,
+        "shots": 4000,
+        "unique_bitstrings": 29
+      },
+      "num_qubits": 5,
+      "optimizer_approx_ratio": 0.788284787616928,
+      "optimizer_energy": -0.39456308855235156
     },
     {
       "beta": [
@@ -91,13 +169,13 @@
       ],
       "instance": "random11",
       "local_simulator": {
-        "approx_ratio_best": 0.9887123849156849,
-        "approx_ratio_mean": 0.5365321328640091,
-        "best_energy": -10.641194227630738,
+        "approx_ratio_best": 0.99168973296243,
+        "approx_ratio_mean": 0.536842050814978,
+        "best_energy": -10.710814150786366,
         "ground_state_probability": 0.0,
-        "mean_energy": -0.06777321467734895,
+        "mean_energy": -0.07502008793242397,
         "shots": 4000,
-        "unique_bitstrings": 1328
+        "unique_bitstrings": 1338
       },
       "num_qubits": 11,
       "optimizer_approx_ratio": 0.5372088802291635,
@@ -118,12 +196,12 @@
       "instance": "random11",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.7862302251466828,
+        "approx_ratio_mean": 0.7879508156653379,
         "best_energy": -10.905134782259353,
-        "ground_state_probability": 0.008,
-        "mean_energy": -5.906513504322452,
+        "ground_state_probability": 0.007,
+        "mean_energy": -5.9467464155610354,
         "shots": 4000,
-        "unique_bitstrings": 880
+        "unique_bitstrings": 847
       },
       "num_qubits": 11,
       "optimizer_approx_ratio": 0.7869969690895234,
@@ -145,13 +223,13 @@
       ],
       "instance": "random11",
       "local_simulator": {
-        "approx_ratio_best": 0.99168973296243,
-        "approx_ratio_mean": 0.5481094032660047,
-        "best_energy": -10.710814150786366,
-        "ground_state_probability": 0.0,
-        "mean_energy": -0.3384868373658369,
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.5489320059811259,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.00075,
+        "mean_energy": -0.3577219207068528,
         "shots": 4000,
-        "unique_bitstrings": 1319
+        "unique_bitstrings": 1365
       },
       "num_qubits": 11,
       "optimizer_approx_ratio": 0.5503778874779596,

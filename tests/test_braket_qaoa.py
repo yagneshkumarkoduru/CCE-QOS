@@ -26,6 +26,7 @@ from braket_experiments.circuits import (  # noqa: E402
 )
 from braket_experiments.instances import (  # noqa: E402
     build_random_ising,
+    chain5_model,
     reference_chain_model,
 )
 
@@ -80,6 +81,17 @@ def test_circuit_statevector_matches_on_larger_instance():
     )
 
 
+def test_chain5_instance_matches_solver_expectation():
+    model = chain5_model()
+    solver, gamma, beta = _fitted_solver(model, p=2, max_iter=40)
+    assert solver.num_qubits == 5
+    probabilities = _braket_probabilities_in_solver_order(solver, gamma, beta)
+    expectation = float(np.sum(probabilities * solver.basis_energies))
+    assert expectation == pytest.approx(
+        solver.compute_expectation(gamma, beta), abs=1e-8
+    )
+
+
 def test_bitstring_energy_matches_basis_energies():
     solver = QAOASolver(reference_chain_model(), p=1)
     for state in range(solver.dim):
@@ -100,6 +112,34 @@ def test_measurement_counts_reconstruct_expectation():
         solver.compute_expectation(gamma, beta), abs=0.08
     )
     assert stats["best_energy"] >= solver.e_min - 1e-9
+
+
+def test_aquila_programs_validate_locally_for_every_schedule():
+    """Every Aquila schedule must serialize to valid AHS IR before any submission.
+
+    This is the pre-flight check for AHS programs: the Braket IR validator
+    rejects malformed time series locally at zero cost, so an invalid
+    schedule can never reach a paid device submission.
+    """
+
+    pytest.importorskip("braket.ahs")
+    from braket_experiments.aquila_experiment import SCHEDULES, build_chain_program
+
+    for schedule, params in SCHEDULES.items():
+        for num_atoms in (3, 5):
+            program = build_chain_program(num_atoms=num_atoms, **params)
+            assert program.to_ir() is not None
+
+
+def test_aquila_time_points_are_integer_nanoseconds():
+    from braket_experiments.aquila_experiment import SCHEDULES
+
+    for schedule, params in SCHEDULES.items():
+        duration = params["duration_s"]
+        quarter = 0.25 * duration
+        for point in (0.0, quarter, duration - quarter, duration):
+            nanoseconds = point / 1e-9
+            assert abs(nanoseconds - round(nanoseconds)) < 1e-9 * 0.5
 
 
 def test_openqasm3_export_is_braket_openqasm3():

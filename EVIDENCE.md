@@ -206,3 +206,31 @@ Class: EXTERNAL SERVICE EXECUTION (managed simulator) + SOFTWARE MEASURED (local
 - Tests: `tests/test_braket_qaoa.py` (circuit parity, bit-order convention
   lock, OpenQASM 3 export); CI installs amazon-braket-sdk and runs them on
   the local simulator with no AWS calls.
+
+
+## Amazon Braket hardware campaign (2026-09-16)
+
+Class: EXTERNAL SERVICE EXECUTION (real QPU) + COST ANALYSIS
+
+- 12 IonQ Forte Enterprise 1 tasks (9 x 1000 shots, 3 x 500 shots) and
+  6 QuEra Aquila tasks (1000 shots, three schedules, chain3/chain5,
+  queued at time of writing); all ledgered with task ARNs.
+- Hardware results (IonQ): sparse/low-depth circuits reproduce the ideal
+  distribution (random11 p=1: 0.5358 vs ideal 0.5368; chain3 p=1: 0.6954
+  vs 0.6956); degradation grows with depth and density (chain3 p=3:
+  0.8677 vs 0.9342; random11 p=2: 0.6886 vs 0.7880). Repeat runs at 500
+  shots agree with the 1000-shot runs to ~0.006 in ratio.
+- Spend: 12 x IonQ + 6 x Aquila tasks = .40 at published rates
+  (estimator in ledger.estimate_spend; pricing from the AWS Pricing API,
+  us-east-1).
+- Cost efficiency finding (retained honestly): the same conclusions need
+  only ~225 shots per configuration (SE ~ 0.10 vs effect sizes 0.1-1.0),
+  i.e. a 4-5x cheaper campaign (~-200). Tooling now enforces budget
+  discipline: estimate (cost/statistics planner), status
+  (non-blocking queue view), a  submit gate requiring --yes, a
+  default of 250 shots for QPU submissions, global-deadline collect,
+  and local AHS pre-flight validation tests that prevent invalid paid
+  submissions.
+- Artifacts: 
+esults/quantum_braket/ (ledger, results JSON, REPORT.md),
+  docs/BRAKET_EXPERIMENTS.md.

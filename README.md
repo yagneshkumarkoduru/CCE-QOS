@@ -177,16 +177,19 @@ physical-device submissions prepared for IonQ Forte Enterprise 1 and the
 QuEra Aquila analog Rydberg device:
 
 ```bash
+python -m braket_experiments.run_experiments estimate --device ionq --tasks 8   # cost + error planner
 python -m braket_experiments.run_experiments local              # exact local baselines
 python -m braket_experiments.run_experiments submit --device sv1 --shots 4000
-python -m braket_experiments.run_experiments collect --max-wait 600
+python -m braket_experiments.run_experiments submit --device ionq --shots 250 --yes
+python -m braket_experiments.run_experiments status             # non-blocking queue view
+python -m braket_experiments.run_experiments collect --max-wait 900
 python -m braket_experiments.run_experiments report             # results/quantum_braket/
 ```
 
-Every submission is ledgered with its task ARN before polling, managed
-SV1 reproduces the local statevector energies to shot noise, and the
-previously missing linear h terms in the OpenQASM export are fixed. Full
-method, device ARNs, costs, and boundaries: `docs/BRAKET_EXPERIMENTS.md`.
+Batch submissions estimated above the $100 gate require `--yes`, QPU
+defaults are 250 shots, and Aquila programs are validated locally before
+any paid submission. Real QPU results (IonQ Forte Enterprise 1) and the
+full cost analysis live in `docs/BRAKET_EXPERIMENTS.md`.
 
 ---
 

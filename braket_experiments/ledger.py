@@ -66,3 +66,53 @@ def pending_tasks() -> list[dict]:
         for entry in load_ledger()["tasks"]
         if entry.get("status") == "SUBMITTED"
     ]
+
+
+def has_submission(device_key: str, instance: str, depth: int, shots: int) -> bool:
+    """True when this exact configuration was already submitted."""
+
+    for entry in load_ledger()["tasks"]:
+        if (
+            entry.get("device_key") == device_key
+            and entry.get("instance") == instance
+            and entry.get("depth") == depth
+            and entry.get("shots") == shots
+        ):
+            return True
+    return False
+
+
+def has_ahs_submission(instance: str, schedule: str, shots: int) -> bool:
+    """True when this exact Aquila program configuration was submitted."""
+
+    for entry in ledger_tasks():
+        if (
+            entry.get("device_key") == "aquila"
+            and entry.get("instance") == instance
+            and entry.get("schedule") == schedule
+            and entry.get("shots") == shots
+        ):
+            return True
+    return False
+
+
+def ledger_tasks() -> list[dict]:
+    return load_ledger()["tasks"]
+
+
+def estimate_spend(entries: list[dict]) -> float:
+    """Estimated QPU spend in USD from the published per-task/per-shot rates.
+
+    IonQ Forte Enterprise 1: $0.30/task + $0.08/shot.
+    QuEra Aquila: $0.30/task + $0.01/shot.
+    Managed simulators bill per minute and are not estimated here.
+    """
+
+    total = 0.0
+    for entry in entries:
+        shots = int(entry.get("shots", 0))
+        if entry.get("device_key") == "ionq":
+            total += 0.30 + 0.08 * shots
+        elif entry.get("device_key") == "aquila":
+            total += 0.30 + 0.01 * shots
+    return total

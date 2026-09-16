@@ -161,6 +161,417 @@
       "status": "COLLECTED",
       "submitted_at": "2026-09-15T23:47:40.036401+00:00",
       "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/49c2e8ca-affe-4eca-8ac5-37f765996315"
+    },
+    {
+      "beta": [
+        1.2208829197958209
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.4931595860609122
+      ],
+      "instance": "chain3",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.6954137931034482,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.303,
+        "mean_energy": 1.0666,
+        "shots": 1000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:37.221014+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/725a1a56-4c44-4949-bf24-db94e02d79bb"
+    },
+    {
+      "beta": [
+        1.158404120193019,
+        1.3996425721890569
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.30104262065289455,
+        0.5878611114900727
+      ],
+      "instance": "chain3",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7748275862068966,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.343,
+        "mean_energy": 0.6059999999999999,
+        "shots": 1000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:40.732778+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/529436c0-7227-4a93-bcb4-20d50d41fa62"
+    },
+    {
+      "beta": [
+        1.3351312446042787,
+        1.5125743708630306,
+        0.7290376184450887
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.130428066546762,
+        1.9941481577819833,
+        2.130637172864971
+      ],
+      "instance": "chain3",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.8677241379310345,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.727,
+        "mean_energy": 0.06719999999999998,
+        "shots": 1000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:44.222473+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/b77d886f-30f3-49a7-a0a0-a4dc6eb53af7"
+    },
+    {
+      "beta": [
+        1.201683666548097
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.4952347742328624
+      ],
+      "instance": "chain5",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7002444444444444,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.114,
+        "mean_energy": 0.3977999999999999,
+        "shots": 1000,
+        "unique_bitstrings": 31
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:47.916767+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/c105b860-4e15-462c-90a6-4d92bbd48f29"
+    },
+    {
+      "beta": [
+        1.1631123490089244,
+        1.5853774640711318
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.4065995086341569,
+        1.0565344637327863
+      ],
+      "instance": "chain5",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7712,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.149,
+        "mean_energy": -0.24080000000000024,
+        "shots": 1000,
+        "unique_bitstrings": 31
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:51.284832+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/dca18a57-9198-4301-a6a9-0fae628f7252"
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7271777777777777,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.229,
+        "mean_energy": 0.15539999999999993,
+        "shots": 1000,
+        "unique_bitstrings": 32
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:54.823638+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/381667eb-b614-481e-9274-b527d0eb80a6"
+    },
+    {
+      "beta": [
+        0.6447325470374786
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.3876047077377436
+      ],
+      "instance": "random11",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 0.99168973296243,
+        "approx_ratio_mean": 0.5358311052569041,
+        "best_energy": -10.710814150786366,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.05138094633305009,
+        "shots": 1000,
+        "unique_bitstrings": 672
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:58.875499+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/565fbb9d-ea5a-4a5b-9cae-5c73cf0e6bb9"
+    },
+    {
+      "beta": [
+        1.1752808421075391,
+        1.543471914350208
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.2939181451282001,
+        0.9495399935449274
+      ],
+      "instance": "random11",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.6885584101419643,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.006,
+        "mean_energy": -3.6226339751780308,
+        "shots": 1000,
+        "unique_bitstrings": 650
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:05:03.688676+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/b0ff7ae6-7759-4323-9aa6-d76b2ca37f09"
+    },
+    {
+      "beta": [
+        1.7274512229776806,
+        0.7638174856700142,
+        0.48368540968800855
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.5228550938399028,
+        1.3656800816296917,
+        2.654497514378024
+      ],
+      "instance": "random11",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 0.9879665704412917,
+        "approx_ratio_mean": 0.5374326131340048,
+        "best_energy": -10.623754699036699,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.08882932441527301,
+        "shots": 1000,
+        "unique_bitstrings": 784
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:05:08.896888+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/52fe9873-065c-4164-b850-66beffedd5bd"
+    },
+    {
+      "beta": [
+        1.3351312446042787,
+        1.5125743708630306,
+        0.7290376184450887
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.130428066546762,
+        1.9941481577819833,
+        2.130637172864971
+      ],
+      "instance": "chain3",
+      "shots": 500,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.8731034482758622,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.748,
+        "mean_energy": 0.035999999999999956,
+        "shots": 500,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:08.734698+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/8e009cf1-eafe-4b86-9066-9678f29a56f7"
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "shots": 500,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7476444444444444,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.246,
+        "mean_energy": -0.028800000000000155,
+        "shots": 500,
+        "unique_bitstrings": 26
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:12.756638+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/202f987d-1617-4e4c-8b90-1bacace6a738"
+    },
+    {
+      "beta": [
+        1.7274512229776806,
+        0.7638174856700142,
+        0.48368540968800855
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.5228550938399028,
+        1.3656800816296917,
+        2.654497514378024
+      ],
+      "instance": "random11",
+      "shots": 500,
+      "stats": {
+        "approx_ratio_best": 0.9859179121809123,
+        "approx_ratio_mean": 0.5488443541487056,
+        "best_energy": -10.575850514366156,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.3556723404287851,
+        "shots": 500,
+        "unique_bitstrings": 442
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:17.990075+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/901dbe40-d671-4692-8fd5-11bb0392d74b"
+    },
+    {
+      "beta": [
+        1.201683666548097
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.4952347742328624
+      ],
+      "instance": "chain5",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7190111111111112,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.12775,
+        "mean_energy": 0.22889999999999988,
+        "shots": 4000,
+        "unique_bitstrings": 31
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:25.059061+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/34487dd5-4f79-4b79-b556-d83dc99825e5"
+    },
+    {
+      "beta": [
+        1.1631123490089244,
+        1.5853774640711318
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.4065995086341569,
+        1.0565344637327863
+      ],
+      "instance": "chain5",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7971222222222222,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.17975,
+        "mean_energy": -0.4741000000000003,
+        "shots": 4000,
+        "unique_bitstrings": 32
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:28.497004+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/ffd88658-7c5c-4053-8923-40e9b23d5899"
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7910166666666666,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.309,
+        "mean_energy": -0.4191500000000002,
+        "shots": 4000,
+        "unique_bitstrings": 29
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:31.747412+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/ef5aa364-2d3e-45a2-a442-6e4467d8727e"
     }
   ],
   "costs_read_from_pricing_api_us_east_1": {
@@ -180,6 +591,7 @@
     "ionq": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
     "sv1": "arn:aws:braket:::device/quantum-simulator/amazon/sv1"
   },
+  "estimated_qpu_spend_usd": 905.4,
   "local_runs": [
     {
       "beta": [
@@ -194,10 +606,10 @@
       "instance": "chain3",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.6792155172413794,
+        "approx_ratio_mean": 0.6955775862068966,
         "best_energy": -0.7000000000000001,
-        "ground_state_probability": 0.288,
-        "mean_energy": 1.1605499999999997,
+        "ground_state_probability": 0.308,
+        "mean_energy": 1.0656499999999998,
         "shots": 4000,
         "unique_bitstrings": 8
       },
@@ -220,10 +632,10 @@
       "instance": "chain3",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.8047241379310345,
+        "approx_ratio_mean": 0.8017586206896552,
         "best_energy": -0.7000000000000001,
-        "ground_state_probability": 0.38025,
-        "mean_energy": 0.4325999999999999,
+        "ground_state_probability": 0.3615,
+        "mean_energy": 0.44979999999999987,
         "shots": 4000,
         "unique_bitstrings": 8
       },
@@ -248,16 +660,94 @@
       "instance": "chain3",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.9389310344827585,
+        "approx_ratio_mean": 0.9342155172413793,
         "best_energy": -0.7000000000000001,
-        "ground_state_probability": 0.83675,
-        "mean_energy": -0.34580000000000005,
+        "ground_state_probability": 0.82575,
+        "mean_energy": -0.31845000000000007,
         "shots": 4000,
         "unique_bitstrings": 8
       },
       "num_qubits": 3,
       "optimizer_approx_ratio": 0.9384748896888666,
       "optimizer_energy": -0.3431543601954264
+    },
+    {
+      "beta": [
+        1.201683666548097
+      ],
+      "depth": 1,
+      "e_max": 6.700000000000001,
+      "e_min": -2.3000000000000003,
+      "gamma": [
+        0.4952347742328624
+      ],
+      "instance": "chain5",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7125222222222222,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.11725,
+        "mean_energy": 0.28729999999999983,
+        "shots": 4000,
+        "unique_bitstrings": 32
+      },
+      "num_qubits": 5,
+      "optimizer_approx_ratio": 0.7139849029144002,
+      "optimizer_energy": 0.27413587377039833
+    },
+    {
+      "beta": [
+        1.1631123490089244,
+        1.5853774640711318
+      ],
+      "depth": 2,
+      "e_max": 6.700000000000001,
+      "e_min": -2.3000000000000003,
+      "gamma": [
+        0.4065995086341569,
+        1.0565344637327863
+      ],
+      "instance": "chain5",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7950777777777778,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.169,
+        "mean_energy": -0.45570000000000016,
+        "shots": 4000,
+        "unique_bitstrings": 32
+      },
+      "num_qubits": 5,
+      "optimizer_approx_ratio": 0.799454727185816,
+      "optimizer_energy": -0.4950925446723439
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "e_max": 6.700000000000001,
+      "e_min": -2.3000000000000003,
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "local_simulator": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7935055555555556,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.3065,
+        "mean_energy": -0.44155000000000005,
+        "shots": 4000,
+        "unique_bitstrings": 29
+      },
+      "num_qubits": 5,
+      "optimizer_approx_ratio": 0.788284787616928,
+      "optimizer_energy": -0.39456308855235156
     },
     {
       "beta": [
@@ -271,13 +761,13 @@
       ],
       "instance": "random11",
       "local_simulator": {
-        "approx_ratio_best": 0.9887123849156849,
-        "approx_ratio_mean": 0.5365321328640091,
-        "best_energy": -10.641194227630738,
+        "approx_ratio_best": 0.99168973296243,
+        "approx_ratio_mean": 0.536842050814978,
+        "best_energy": -10.710814150786366,
         "ground_state_probability": 0.0,
-        "mean_energy": -0.06777321467734895,
+        "mean_energy": -0.07502008793242397,
         "shots": 4000,
-        "unique_bitstrings": 1328
+        "unique_bitstrings": 1338
       },
       "num_qubits": 11,
       "optimizer_approx_ratio": 0.5372088802291635,
@@ -298,12 +788,12 @@
       "instance": "random11",
       "local_simulator": {
         "approx_ratio_best": 1.0,
-        "approx_ratio_mean": 0.7862302251466828,
+        "approx_ratio_mean": 0.7879508156653379,
         "best_energy": -10.905134782259353,
-        "ground_state_probability": 0.008,
-        "mean_energy": -5.906513504322452,
+        "ground_state_probability": 0.007,
+        "mean_energy": -5.9467464155610354,
         "shots": 4000,
-        "unique_bitstrings": 880
+        "unique_bitstrings": 847
       },
       "num_qubits": 11,
       "optimizer_approx_ratio": 0.7869969690895234,
@@ -325,18 +815,19 @@
       ],
       "instance": "random11",
       "local_simulator": {
-        "approx_ratio_best": 0.99168973296243,
-        "approx_ratio_mean": 0.5481094032660047,
-        "best_energy": -10.710814150786366,
-        "ground_state_probability": 0.0,
-        "mean_energy": -0.3384868373658369,
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.5489320059811259,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.00075,
+        "mean_energy": -0.3577219207068528,
         "shots": 4000,
-        "unique_bitstrings": 1319
+        "unique_bitstrings": 1365
       },
       "num_qubits": 11,
       "optimizer_approx_ratio": 0.5503778874779596,
       "optimizer_energy": -0.39153125610240674
     }
   ],
+  "pending_tasks": 6,
   "schema": "cce-qos-braket-results-v1"
 }

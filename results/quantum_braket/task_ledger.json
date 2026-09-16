@@ -161,6 +161,537 @@
       "status": "COLLECTED",
       "submitted_at": "2026-09-15T23:47:40.036401+00:00",
       "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/49c2e8ca-affe-4eca-8ac5-37f765996315"
+    },
+    {
+      "beta": [
+        1.2208829197958209
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.4931595860609122
+      ],
+      "instance": "chain3",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.6954137931034482,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.303,
+        "mean_energy": 1.0666,
+        "shots": 1000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:37.221014+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/725a1a56-4c44-4949-bf24-db94e02d79bb"
+    },
+    {
+      "beta": [
+        1.158404120193019,
+        1.3996425721890569
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.30104262065289455,
+        0.5878611114900727
+      ],
+      "instance": "chain3",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7748275862068966,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.343,
+        "mean_energy": 0.6059999999999999,
+        "shots": 1000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:40.732778+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/529436c0-7227-4a93-bcb4-20d50d41fa62"
+    },
+    {
+      "beta": [
+        1.3351312446042787,
+        1.5125743708630306,
+        0.7290376184450887
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.130428066546762,
+        1.9941481577819833,
+        2.130637172864971
+      ],
+      "instance": "chain3",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.8677241379310345,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.727,
+        "mean_energy": 0.06719999999999998,
+        "shots": 1000,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:44.222473+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/b77d886f-30f3-49a7-a0a0-a4dc6eb53af7"
+    },
+    {
+      "beta": [
+        1.201683666548097
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.4952347742328624
+      ],
+      "instance": "chain5",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7002444444444444,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.114,
+        "mean_energy": 0.3977999999999999,
+        "shots": 1000,
+        "unique_bitstrings": 31
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:47.916767+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/c105b860-4e15-462c-90a6-4d92bbd48f29"
+    },
+    {
+      "beta": [
+        1.1631123490089244,
+        1.5853774640711318
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.4065995086341569,
+        1.0565344637327863
+      ],
+      "instance": "chain5",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7712,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.149,
+        "mean_energy": -0.24080000000000024,
+        "shots": 1000,
+        "unique_bitstrings": 31
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:51.284832+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/dca18a57-9198-4301-a6a9-0fae628f7252"
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7271777777777777,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.229,
+        "mean_energy": 0.15539999999999993,
+        "shots": 1000,
+        "unique_bitstrings": 32
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:54.823638+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/381667eb-b614-481e-9274-b527d0eb80a6"
+    },
+    {
+      "beta": [
+        0.6447325470374786
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.3876047077377436
+      ],
+      "instance": "random11",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 0.99168973296243,
+        "approx_ratio_mean": 0.5358311052569041,
+        "best_energy": -10.710814150786366,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.05138094633305009,
+        "shots": 1000,
+        "unique_bitstrings": 672
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:04:58.875499+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/565fbb9d-ea5a-4a5b-9cae-5c73cf0e6bb9"
+    },
+    {
+      "beta": [
+        1.1752808421075391,
+        1.543471914350208
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.2939181451282001,
+        0.9495399935449274
+      ],
+      "instance": "random11",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.6885584101419643,
+        "best_energy": -10.905134782259353,
+        "ground_state_probability": 0.006,
+        "mean_energy": -3.6226339751780308,
+        "shots": 1000,
+        "unique_bitstrings": 650
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:05:03.688676+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/b0ff7ae6-7759-4323-9aa6-d76b2ca37f09"
+    },
+    {
+      "beta": [
+        1.7274512229776806,
+        0.7638174856700142,
+        0.48368540968800855
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.5228550938399028,
+        1.3656800816296917,
+        2.654497514378024
+      ],
+      "instance": "random11",
+      "shots": 1000,
+      "stats": {
+        "approx_ratio_best": 0.9879665704412917,
+        "approx_ratio_mean": 0.5374326131340048,
+        "best_energy": -10.623754699036699,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.08882932441527301,
+        "shots": 1000,
+        "unique_bitstrings": 784
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:05:08.896888+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/52fe9873-065c-4164-b850-66beffedd5bd"
+    },
+    {
+      "depth": 0,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+      "device_key": "aquila",
+      "instance": "chain3",
+      "kind": "ahs",
+      "program": {
+        "detuning_max_rad_s": 14000000.0,
+        "detuning_min_rad_s": -12000000.0,
+        "duration_s": 2e-06,
+        "num_atoms": 3,
+        "rabi_max_rad_s": 5000000.0,
+        "spacing_m": 6e-06
+      },
+      "schedule": "slow_sweep",
+      "shots": 1000,
+      "status": "SUBMITTED",
+      "submitted_at": "2026-09-16T00:05:21.952940+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/d2f4f327-609f-47ab-9dec-c31d2509616d"
+    },
+    {
+      "depth": 0,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+      "device_key": "aquila",
+      "instance": "chain5",
+      "kind": "ahs",
+      "program": {
+        "detuning_max_rad_s": 14000000.0,
+        "detuning_min_rad_s": -12000000.0,
+        "duration_s": 2e-06,
+        "num_atoms": 5,
+        "rabi_max_rad_s": 5000000.0,
+        "spacing_m": 6e-06
+      },
+      "schedule": "slow_sweep",
+      "shots": 1000,
+      "status": "SUBMITTED",
+      "submitted_at": "2026-09-16T00:05:25.276376+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/2a0304bc-8d68-4606-94e5-1c3414657da1"
+    },
+    {
+      "depth": 0,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+      "device_key": "aquila",
+      "instance": "chain3",
+      "kind": "ahs",
+      "program": {
+        "detuning_max_rad_s": 16000000.0,
+        "detuning_min_rad_s": -16000000.0,
+        "duration_s": 1.5e-06,
+        "num_atoms": 3,
+        "rabi_max_rad_s": 8000000.0,
+        "spacing_m": 6e-06
+      },
+      "schedule": "fast_sweep",
+      "shots": 1000,
+      "status": "SUBMITTED",
+      "submitted_at": "2026-09-16T00:05:50.611847+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/c84dea77-3542-4074-935b-bc6d63b47b07"
+    },
+    {
+      "depth": 0,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+      "device_key": "aquila",
+      "instance": "chain5",
+      "kind": "ahs",
+      "program": {
+        "detuning_max_rad_s": 16000000.0,
+        "detuning_min_rad_s": -16000000.0,
+        "duration_s": 1.5e-06,
+        "num_atoms": 5,
+        "rabi_max_rad_s": 8000000.0,
+        "spacing_m": 6e-06
+      },
+      "schedule": "fast_sweep",
+      "shots": 1000,
+      "status": "SUBMITTED",
+      "submitted_at": "2026-09-16T00:05:56.992289+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/0e141a22-56d9-48fa-9f27-654f1f3d65b7"
+    },
+    {
+      "beta": [
+        1.3351312446042787,
+        1.5125743708630306,
+        0.7290376184450887
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.130428066546762,
+        1.9941481577819833,
+        2.130637172864971
+      ],
+      "instance": "chain3",
+      "shots": 500,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.8731034482758622,
+        "best_energy": -0.7000000000000001,
+        "ground_state_probability": 0.748,
+        "mean_energy": 0.035999999999999956,
+        "shots": 500,
+        "unique_bitstrings": 8
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:08.734698+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/8e009cf1-eafe-4b86-9066-9678f29a56f7"
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "shots": 500,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7476444444444444,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.246,
+        "mean_energy": -0.028800000000000155,
+        "shots": 500,
+        "unique_bitstrings": 26
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:12.756638+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/202f987d-1617-4e4c-8b90-1bacace6a738"
+    },
+    {
+      "beta": [
+        1.7274512229776806,
+        0.7638174856700142,
+        0.48368540968800855
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/ionq/Forte-Enterprise-1",
+      "device_key": "ionq",
+      "gamma": [
+        1.5228550938399028,
+        1.3656800816296917,
+        2.654497514378024
+      ],
+      "instance": "random11",
+      "shots": 500,
+      "stats": {
+        "approx_ratio_best": 0.9859179121809123,
+        "approx_ratio_mean": 0.5488443541487056,
+        "best_energy": -10.575850514366156,
+        "ground_state_probability": 0.0,
+        "mean_energy": -0.3556723404287851,
+        "shots": 500,
+        "unique_bitstrings": 442
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:17.990075+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/901dbe40-d671-4692-8fd5-11bb0392d74b"
+    },
+    {
+      "beta": [
+        1.201683666548097
+      ],
+      "depth": 1,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.4952347742328624
+      ],
+      "instance": "chain5",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7190111111111112,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.12775,
+        "mean_energy": 0.22889999999999988,
+        "shots": 4000,
+        "unique_bitstrings": 31
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:25.059061+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/34487dd5-4f79-4b79-b556-d83dc99825e5"
+    },
+    {
+      "beta": [
+        1.1631123490089244,
+        1.5853774640711318
+      ],
+      "depth": 2,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.4065995086341569,
+        1.0565344637327863
+      ],
+      "instance": "chain5",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7971222222222222,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.17975,
+        "mean_energy": -0.4741000000000003,
+        "shots": 4000,
+        "unique_bitstrings": 32
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:28.497004+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/ffd88658-7c5c-4053-8923-40e9b23d5899"
+    },
+    {
+      "beta": [
+        1.4679597414712529,
+        1.3226491629253265,
+        0.9527451024350292
+      ],
+      "depth": 3,
+      "device_arn": "arn:aws:braket:::device/quantum-simulator/amazon/sv1",
+      "device_key": "sv1",
+      "gamma": [
+        0.8052964697367833,
+        1.2068766094165775,
+        2.194983668846826
+      ],
+      "instance": "chain5",
+      "shots": 4000,
+      "stats": {
+        "approx_ratio_best": 1.0,
+        "approx_ratio_mean": 0.7910166666666666,
+        "best_energy": -2.3000000000000003,
+        "ground_state_probability": 0.309,
+        "mean_energy": -0.4191500000000002,
+        "shots": 4000,
+        "unique_bitstrings": 29
+      },
+      "status": "COLLECTED",
+      "submitted_at": "2026-09-16T00:06:31.747412+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/ef5aa364-2d3e-45a2-a442-6e4467d8727e"
+    },
+    {
+      "depth": 0,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+      "device_key": "aquila",
+      "instance": "chain3",
+      "kind": "ahs",
+      "program": {
+        "detuning_max_rad_s": 10000000.0,
+        "detuning_min_rad_s": -10000000.0,
+        "duration_s": 2.5e-06,
+        "num_atoms": 3,
+        "rabi_max_rad_s": 3000000.0,
+        "spacing_m": 6e-06
+      },
+      "schedule": "soft_drive",
+      "shots": 1000,
+      "status": "SUBMITTED",
+      "submitted_at": "2026-09-16T00:06:51.311092+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/60fd2a94-0d64-4942-9a14-b97b738d627f"
+    },
+    {
+      "depth": 0,
+      "device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+      "device_key": "aquila",
+      "instance": "chain5",
+      "kind": "ahs",
+      "program": {
+        "detuning_max_rad_s": 10000000.0,
+        "detuning_min_rad_s": -10000000.0,
+        "duration_s": 2.5e-06,
+        "num_atoms": 5,
+        "rabi_max_rad_s": 3000000.0,
+        "spacing_m": 6e-06
+      },
+      "schedule": "soft_drive",
+      "shots": 1000,
+      "status": "SUBMITTED",
+      "submitted_at": "2026-09-16T00:06:54.622178+00:00",
+      "task_arn": "arn:aws:braket:us-east-1:969739653654:quantum-task/b622c189-1322-4872-a662-bf0b2c521e0a"
     }
   ]
 }

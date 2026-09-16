@@ -101,6 +101,49 @@ def collect_all(max_wait_seconds: float = 600.0, poll_seconds: float = 10.0) -> 
     ]
 
 
+def task_states() -> list[dict]:
+    """Non-blocking state check for every ledger entry."""
+
+    rows = []
+    for entry in ledger.ledger_tasks():
+        state = "UNKNOWN"
+        try:
+            state = AwsQuantumTask(entry["task_arn"]).state()
+        except Exception as exc:  # noqa: BLE001 - report, keep going
+            state = f"ERROR: {exc}"
+        rows.append({**entry, "aws_state": state})
+    return rows
+
+
+def sweep_collect(max_wait_seconds: float = 900.0, poll_seconds: float = 20.0) -> list[dict]:
+    """Collect with one global deadline across all pending tasks.
+
+    Every sweep checks task states with cheap API calls; terminal tasks are
+    collected, and the loop exits when nothing is pending or the deadline
+    is reached. No per-task blocking waits, so a large batch cannot stretch
+    into hours of serial polling.
+    """
+
+    deadline = time.time() + max_wait_seconds
+    summaries: list[dict] = []
+    while True:
+        pending = ledger.pending_tasks()
+        if not pending:
+            break
+        collected_now = []
+        for entry in pending:
+            task = AwsQuantumTask(entry["task_arn"])
+            state = task.state()
+            if state in TERMINAL_STATES:
+                collected_now.append(entry["task_arn"])
+        for task_arn in collected_now:
+            summaries.append(collect(task_arn, max_wait_seconds=5.0, poll_seconds=1.0))
+        if time.time() >= deadline:
+            break
+        time.sleep(poll_seconds)
+    return summaries
+
+
 def _rebuild_solver(entry: dict):
     from QAOA_solver import QAOASolver
 

@@ -33,6 +33,16 @@ def reference_chain_model() -> IsingHamiltonian:
     )
 
 
+def chain5_model() -> IsingHamiltonian:
+    """Five-variable nearest-neighbor chain (analog-device friendly)."""
+
+    return IsingHamiltonian(
+        h={0: 0.5, 1: -0.8, 2: 0.3, 3: -0.6, 4: 0.4},
+        J={(0, 1): -1.2, (1, 2): 0.9, (2, 3): -0.7, (3, 4): 1.1},
+        offset=2.0,
+    )
+
+
 def build_random_ising(
     num_variables: int = RANDOM_ISING_VARIABLES,
     seed: int = RANDOM_ISING_SEED,
@@ -52,6 +62,7 @@ def build_random_ising(
 
 INSTANCES = {
     "chain3": reference_chain_model,
+    "chain5": chain5_model,
     "random11": build_random_ising,
 }
 
