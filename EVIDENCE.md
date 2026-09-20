@@ -213,8 +213,8 @@ Class: EXTERNAL SERVICE EXECUTION (managed simulator) + SOFTWARE MEASURED (local
 Class: EXTERNAL SERVICE EXECUTION (real QPU) + COST ANALYSIS
 
 - 12 IonQ Forte Enterprise 1 tasks (9 x 1000 shots, 3 x 500 shots) and
-  6 QuEra Aquila tasks (1000 shots, three schedules, chain3/chain5,
-  queued at time of writing); all ledgered with task ARNs.
+  6 QuEra Aquila tasks (1000 shots requested, three schedules, chain3/chain5;
+  results collected 2026-09-19, see below); all ledgered with task ARNs.
 - Hardware results (IonQ): sparse/low-depth circuits reproduce the ideal
   distribution (random11 p=1: 0.5358 vs ideal 0.5368; chain3 p=1: 0.6954
   vs 0.6956); degradation grows with depth and density (chain3 p=3:
@@ -234,6 +234,31 @@ Class: EXTERNAL SERVICE EXECUTION (real QPU) + COST ANALYSIS
 - Artifacts: 
 esults/quantum_braket/ (ledger, results JSON, REPORT.md),
   docs/BRAKET_EXPERIMENTS.md.
+
+## Aquila analog results collected (2026-09-19)
+
+Class: EXTERNAL SERVICE EXECUTION (real QPU) + SOFTWARE MEASURED
+
+- All 6 QuEra Aquila tasks completed on the device and were collected into
+  the ledger; raw r/g atom-state counts are stored per task for audit.
+  Delivered shot counts (successful atom readouts) were 21-163 per task.
+- Mean approximation ratios on the chain models: chain3 slow_sweep 0.5724
+  (35 shots), fast_sweep 0.4943 (33), soft_drive 0.5172 (21); chain5
+  slow_sweep 0.5939 (163), fast_sweep 0.7411 (106), soft_drive 0.8003 (80).
+  Best-energy samples reached the exact ground state in all six tasks;
+  ground-state probability stayed low (0.9-6.1 percent).
+- Interpretation: the analog sweeps sample the chain energy landscapes
+  above chance but below the gate-model results at comparable depth
+  (chain3 p=3: 0.87-0.94 on IonQ/SV1); the chain graph is not an exact
+  Rydberg embedding, as stated in the module docstring. Exploratory only.
+- Collector repair: runner.collect rebuilt a QAOA solver with p=depth for
+  AHS entries (depth 0) and could not parse r/g keys. AHS entries now
+  delegate to aquila_experiment.collect_aquila, which applies the
+  documented site-to-bit mapping (r = 1, g = 0) and stores raw counts.
+- Test added: tests/test_braket_qaoa.py locks the r/g-to-binary mapping
+  against the solver's bit-order convention (12 tests pass locally).
+- Artifacts: results/quantum_braket/task_ledger.json,
+  qaoa_braket_results.json, REPORT.md (regenerated 2026-09-19).
 
 ## DAG scaling sweep, 64-128 nodes (2026-09-16)
 

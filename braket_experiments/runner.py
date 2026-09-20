@@ -83,11 +83,13 @@ def collect(task_arn: str, max_wait_seconds: float = 600.0, poll_seconds: float 
         )
         return {"task_arn": task_arn, "status": state}
 
-    result = task.result()
     if entry.get("kind") == "ahs":
-        counts = result.get_counts()
-    else:
-        counts = result.measurement_counts
+        from .aquila_experiment import collect_aquila
+
+        return collect_aquila(task_arn, max_wait_seconds=5.0, poll_seconds=1.0)
+
+    result = task.result()
+    counts = result.measurement_counts
     solver = _rebuild_solver(entry)
     stats = energy_stats(solver, counts)
     ledger.update_task(task_arn, {"status": "COLLECTED", "stats": stats})

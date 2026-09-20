@@ -125,6 +125,15 @@ def submit_aquila(
     return task.id
 
 
+def _rg_to_binary_counts(counts: dict) -> dict:
+    """Convert Aquila r/g atom-state keys to binary bitstrings (r -> 1)."""
+
+    return {
+        "".join("1" if character == "r" else "0" for character in key): value
+        for key, value in counts.items()
+    }
+
+
 def collect_aquila(task_arn: str, max_wait_seconds: float = 600.0, poll_seconds: float = 10.0) -> dict:
     """Poll and evaluate one AHS task (runner.collect also handles these)."""
 
@@ -142,7 +151,7 @@ def collect_aquila(task_arn: str, max_wait_seconds: float = 600.0, poll_seconds:
     entry = ledger.find_task(task_arn) or {}
     counts = task.result().get_counts()
     solver = _energy_solver(entry.get("instance", "chain3"))
-    stats = energy_stats(solver, counts)
+    stats = energy_stats(solver, _rg_to_binary_counts(counts))
     ledger.update_task(task_arn, {"status": "COLLECTED", "stats": stats, "counts": dict(counts)})
     return {"task_arn": task_arn, "status": "COLLECTED", "stats": stats}
 

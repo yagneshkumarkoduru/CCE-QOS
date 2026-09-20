@@ -2,7 +2,7 @@
 
 QAOA and analog Ising experiments executed on Amazon Braket devices.
 Estimated QPU spend from published rates: $905.40
-(pending tasks: 6).
+(pending tasks: 0).
 IonQ Forte Enterprise 1 $0.30/task + $0.08/shot; QuEra Aquila
 $0.30/task + $0.01/shot; managed simulators per minute (AWS Pricing API,
 us-east-1, read during the experiment session).
@@ -33,10 +33,16 @@ us-east-1, read during the experiment session).
 | random11 | 1 | ionq | 1000 | - | -0.0514 | -10.7108 | 0.5358 | 0.9917 | 0.0000 | ...5c73cf0e6bb9 |
 | random11 | 2 | ionq | 1000 | - | -3.6226 | -10.9051 | 0.6886 | 1.0000 | 0.0060 | ...d76b2ca37f09 |
 | random11 | 3 | ionq | 1000 | - | -0.0888 | -10.6238 | 0.5374 | 0.9880 | 0.0000 | ...66beffedd5bd |
+| chain3 | 0 | aquila | 35 | slow_sweep | 1.7800 | -0.7000 | 0.5724 | 1.0000 | 0.0571 | ...c31d2509616d |
+| chain5 | 0 | aquila | 163 | slow_sweep | 1.3552 | -2.3000 | 0.5939 | 1.0000 | 0.0123 | ...1c3414657da1 |
+| chain3 | 0 | aquila | 33 | fast_sweep | 2.2333 | -0.7000 | 0.4943 | 1.0000 | 0.0606 | ...bc6d63b47b07 |
+| chain5 | 0 | aquila | 106 | fast_sweep | 0.0302 | -2.3000 | 0.7411 | 1.0000 | 0.0094 | ...654f1f3d65b7 |
 | chain3 | 3 | ionq | 500 | - | 0.0360 | -0.7000 | 0.8731 | 1.0000 | 0.7480 | ...9678f29a56f7 |
 | chain5 | 3 | ionq | 500 | - | -0.0288 | -2.3000 | 0.7476 | 1.0000 | 0.2460 | ...1bacace6a738 |
 | random11 | 3 | ionq | 500 | - | -0.3557 | -10.5759 | 0.5488 | 0.9859 | 0.0000 | ...11bb0392d74b |
 | chain5 | 1 | sv1 | 4000 | - | 0.2289 | -2.3000 | 0.7190 | 1.0000 | 0.1278 | ...d83dc99825e5 |
 | chain5 | 2 | sv1 | 4000 | - | -0.4741 | -2.3000 | 0.7971 | 1.0000 | 0.1797 | ...40e9b23d5899 |
 | chain5 | 3 | sv1 | 4000 | - | -0.4192 | -2.3000 | 0.7910 | 1.0000 | 0.3090 | ...6e4467d8727e |
+| chain3 | 0 | aquila | 21 | soft_drive | 2.1000 | -0.7000 | 0.5172 | 1.0000 | 0.0476 | ...b97b738d627f |
+| chain5 | 0 | aquila | 80 | soft_drive | -0.5025 | -2.3000 | 0.8003 | 1.0000 | 0.0125 | ...bf0b2c521e0a |
 

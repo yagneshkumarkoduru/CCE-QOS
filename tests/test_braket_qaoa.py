@@ -142,6 +142,19 @@ def test_aquila_time_points_are_integer_nanoseconds():
             assert abs(nanoseconds - round(nanoseconds)) < 1e-9 * 0.5
 
 
+def test_aquila_counts_convert_to_binary_bitstrings():
+    """r/g atom-state keys map to 1/0, preserving site order for the solver."""
+
+    pytest.importorskip("braket.ahs")
+    from braket_experiments.aquila_experiment import _rg_to_binary_counts
+
+    converted = _rg_to_binary_counts({"rgr": 7, "ggg": 3})
+    assert converted == {"101": 7, "000": 3}
+    solver = QAOASolver(reference_chain_model(), p=1)
+    for key in converted:
+        assert 0 <= solver_index_from_bitstring(key) < solver.dim
+
+
 def test_openqasm3_export_is_braket_openqasm3():
     solver = QAOASolver(reference_chain_model(), p=1)
     source = openqasm3(solver, [0.3], [0.4])
