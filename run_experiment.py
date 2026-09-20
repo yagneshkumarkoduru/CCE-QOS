@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import argparse
 import json
 import time
 from pathlib import Path
-from typing import Any, Dict, Mapping, Sequence, Tuple
+from typing import Any, Dict, Mapping, Optional, Sequence, Tuple
 
 from bandwidth_estimator import BandwidthEstimator
 from core_types import HardwareConfig, OperatorGraph
@@ -512,10 +513,15 @@ def _format_results_table(
     return "\n".join(lines) + "\n"
 
 
-def main() -> None:
+def run_pipeline(config: Dict[str, Any], root: Path, write_root_copies: bool = True) -> Dict[str, Any]:
+    """Full CCE-QOS pipeline for one workload; returns the report dict.
+
+    ``write_root_copies`` controls whether the repository-root canonical
+    files (metrics.txt, results_table.txt, schedules.json, explanations.txt)
+    are regenerated; multi-workload sweeps disable this so a sweep cannot
+    clobber the single-workload artifacts.
+    """
     start = time.perf_counter()
-    root = Path(__file__).resolve().parent
-    config = load_config(root / "config.yaml")
     graph = load_operator_graph(root / str(config["input"]["workload"]))
     hardware = load_hardware_config(config.get("hardware", {}), num_nodes=len(graph.nodes))
     penalties = dict(config.get("apr", {}).get("initial_penalties", {}))
@@ -660,10 +666,11 @@ def main() -> None:
     (output_dir / "explanations.txt").write_text(explanations_text, encoding="utf-8")
     # Root-level benchmark files are regenerated from this same run so the
     # repository root and outputs/ always agree in format and numbers.
-    (root / "metrics.txt").write_text(metrics_text, encoding="utf-8")
-    (root / "results_table.txt").write_text(results_table_text, encoding="utf-8")
-    (root / "schedules.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
-    (root / "explanations.txt").write_text(explanations_text, encoding="utf-8")
+    if write_root_copies:
+        (root / "metrics.txt").write_text(metrics_text, encoding="utf-8")
+        (root / "results_table.txt").write_text(results_table_text, encoding="utf-8")
+        (root / "schedules.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        (root / "explanations.txt").write_text(explanations_text, encoding="utf-8")
 
     print("Experiment completed.")
     print(f"Best baseline: {best_base[0]}")
@@ -672,6 +679,31 @@ def main() -> None:
     print(f"X ({quantum_label} vs baseline): {x_quantum:.4f}")
     print(f"Quantum backend: {quantum_backend}")
     print(f"Saved outputs to: {output_dir}")
+    return report
+
+
+def _parse_cli() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="CCE-QOS end-to-end experiment driver")
+    parser.add_argument("--config", type=Path, default=None,
+                        help="configuration file (default: config.yaml at the repository root)")
+    parser.add_argument("--workload", type=str, default=None,
+                        help="override input.workload with this workload path relative to the repository root")
+    parser.add_argument("--output-dir", type=str, default=None,
+                        help="override output.directory")
+    parser.add_argument("--no-root-copies", action="store_true",
+                        help="do not overwrite the repository-root canonical outputs")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = _parse_cli()
+    root = Path(__file__).resolve().parent
+    config = load_config(args.config if args.config is not None else root / "config.yaml")
+    if args.workload is not None:
+        config.setdefault("input", {})["workload"] = args.workload
+    if args.output_dir is not None:
+        config.setdefault("output", {})["directory"] = args.output_dir
+    run_pipeline(config, root, write_root_copies=not args.no_root_copies)
 
 
 if __name__ == "__main__":
