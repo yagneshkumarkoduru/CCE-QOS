@@ -1,0 +1,26 @@
+[Baseline Cost Objective]
+Strategy                      Cost      Energy    Pairwise     Latency        DRAM       BW%        Idle   Feasible%    PeakSRAM    Spills
+------------------------------------------------------------------------------------------------------------------------------------------
+Simulated Annealing        8478.20     8478.20        0.00     2841.01     3595.76     86.69      438.81       58.33      704.20      0.00
+Beam Search                8510.49     8510.49        0.00     2863.20     3595.76     84.43      460.97       66.67      704.20      0.00
+Lookahead                  8600.38     8600.38        0.00     2873.45     3919.07     88.26      471.26       58.33      704.20      0.00
+Greedy                     9091.30     9091.30        0.00     3002.50     3585.08     85.12      600.18       62.50      704.20      0.00
+
+[CCE-QUBO Objective]
+Strategy                      Cost      Energy    Pairwise     Latency        DRAM       BW%        Idle   Feasible%    PeakSRAM    Spills
+------------------------------------------------------------------------------------------------------------------------------------------
+Lookahead                  8962.82       98.86       -8.84     2986.33     3595.76     84.41      584.04       62.50      704.20      0.00
+Beam Search                8962.82       98.86       -8.84     2986.33     3595.76     84.41      584.04       62.50      704.20      0.00
+Simulated Annealing        8971.15       99.49       -8.21     2991.20     3585.08     85.12      588.90       62.50      704.20      0.00
+Greedy                     9091.30       99.49       -8.21     3002.50     3585.08     85.12      600.18       62.50      704.20      0.00
+
+[APR / Quantum (local-search fallback)]
+Strategy                      Cost      Energy    Pairwise     Latency        DRAM       BW%        Idle   Feasible%    PeakSRAM    Spills
+------------------------------------------------------------------------------------------------------------------------------------------
+CCE + APR                  8918.84       99.13       -8.57     2986.33     3595.76     85.12      584.04       62.50      704.20      0.00
+Quantum (local-search fallback)    11925.38      106.76       -0.94     3121.49     5260.91     84.56      719.16       45.83      704.20      0.00
+
+[X Metric]
+CCE vs baseline: -0.0961
+Quantum (local-search fallback) vs baseline: -0.3902
+Quantum backend used: local_search_fallback

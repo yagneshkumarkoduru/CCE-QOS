@@ -1,0 +1,10 @@
+CCE-QOS multi-workload sweep (4 workloads, family layered)
+
+baseline::Greedy                 cost   21342.57 +/- 8272.88   feasible  19.66 +/- 29.08 %
+baseline::Lookahead              cost   15308.76 +/- 5229.59   feasible  21.84 +/- 26.12 %
+baseline::Beam Search            cost   13980.94 +/- 5022.47   feasible  34.07 +/- 24.18 %
+baseline::Simulated Annealing    cost   14939.14 +/- 5039.79   feasible  30.37 +/- 20.74 %
+cce::CCE + APR                   cost   17930.91 +/- 6186.74   feasible  38.10 +/- 21.09 %
+quantum::candidates              cost   24080.81 +/- 8394.53   feasible  21.60 +/- 18.35 %
+
+written: C:\Research\projects\CCE-QOS\results\sweeps\20260920-230026\sweep_summary.json

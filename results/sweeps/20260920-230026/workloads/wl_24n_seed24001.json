@@ -1,0 +1,368 @@
+{
+  "name": "synthetic_24n_seed24001",
+  "nodes": [
+    {
+      "id": "matmul_0_0",
+      "type": "matmul",
+      "compute_cycles": 104,
+      "input_size": 480.0,
+      "output_size": 465.0,
+      "dependencies": [],
+      "attrs": {
+        "criticality": 1.34,
+        "sram_hint": 316.8,
+        "volatility": 0.04
+      }
+    },
+    {
+      "id": "pool_1_0",
+      "type": "pool",
+      "compute_cycles": 74,
+      "input_size": 466.0,
+      "output_size": 443.0,
+      "dependencies": [
+        "matmul_0_0"
+      ],
+      "attrs": {
+        "criticality": 1.28,
+        "sram_hint": 307.6,
+        "volatility": 0.11
+      }
+    },
+    {
+      "id": "dense_1_1",
+      "type": "dense",
+      "compute_cycles": 187,
+      "input_size": 466.0,
+      "output_size": 443.3,
+      "dependencies": [
+        "matmul_0_0"
+      ],
+      "attrs": {
+        "criticality": 1.34,
+        "sram_hint": 307.6,
+        "volatility": 0.11
+      }
+    },
+    {
+      "id": "dense_2_0",
+      "type": "dense",
+      "compute_cycles": 110,
+      "input_size": 463.5,
+      "output_size": 435.4,
+      "dependencies": [
+        "dense_1_1"
+      ],
+      "attrs": {
+        "criticality": 1.25,
+        "sram_hint": 305.9,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "conv_2_1",
+      "type": "conv",
+      "compute_cycles": 184,
+      "input_size": 463.5,
+      "output_size": 442.0,
+      "dependencies": [
+        "dense_1_1",
+        "pool_1_0"
+      ],
+      "attrs": {
+        "criticality": 1.3,
+        "sram_hint": 305.9,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "matmul_2_2",
+      "type": "matmul",
+      "compute_cycles": 210,
+      "input_size": 463.5,
+      "output_size": 423.8,
+      "dependencies": [
+        "pool_1_0"
+      ],
+      "attrs": {
+        "criticality": 1.03,
+        "sram_hint": 305.9,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "matmul_3_0",
+      "type": "matmul",
+      "compute_cycles": 198,
+      "input_size": 440.4,
+      "output_size": 425.8,
+      "dependencies": [
+        "conv_2_1"
+      ],
+      "attrs": {
+        "criticality": 1.33,
+        "sram_hint": 290.7,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "softmax_3_1",
+      "type": "softmax",
+      "compute_cycles": 43,
+      "input_size": 440.4,
+      "output_size": 402.3,
+      "dependencies": [
+        "dense_2_0"
+      ],
+      "attrs": {
+        "criticality": 1.28,
+        "sram_hint": 290.7,
+        "volatility": 0.1
+      }
+    },
+    {
+      "id": "batchnorm_4_0",
+      "type": "batchnorm",
+      "compute_cycles": 52,
+      "input_size": 419.9,
+      "output_size": 390.7,
+      "dependencies": [
+        "softmax_3_1"
+      ],
+      "attrs": {
+        "criticality": 1.23,
+        "sram_hint": 277.1,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "relu_4_1",
+      "type": "relu",
+      "compute_cycles": 27,
+      "input_size": 419.9,
+      "output_size": 414.5,
+      "dependencies": [
+        "softmax_3_1",
+        "matmul_3_0"
+      ],
+      "attrs": {
+        "criticality": 1.17,
+        "sram_hint": 277.1,
+        "volatility": 0.1
+      }
+    },
+    {
+      "id": "norm_4_2",
+      "type": "norm",
+      "compute_cycles": 36,
+      "input_size": 419.9,
+      "output_size": 414.2,
+      "dependencies": [
+        "matmul_3_0"
+      ],
+      "attrs": {
+        "criticality": 1.04,
+        "sram_hint": 277.1,
+        "volatility": 0.11
+      }
+    },
+    {
+      "id": "conv_5_0",
+      "type": "conv",
+      "compute_cycles": 185,
+      "input_size": 406.4,
+      "output_size": 393.3,
+      "dependencies": [
+        "batchnorm_4_0"
+      ],
+      "attrs": {
+        "criticality": 1.17,
+        "sram_hint": 268.2,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "dense_5_1",
+      "type": "dense",
+      "compute_cycles": 99,
+      "input_size": 406.4,
+      "output_size": 386.0,
+      "dependencies": [
+        "batchnorm_4_0"
+      ],
+      "attrs": {
+        "criticality": 1.03,
+        "sram_hint": 268.2,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "conv_5_2",
+      "type": "conv",
+      "compute_cycles": 255,
+      "input_size": 406.4,
+      "output_size": 385.5,
+      "dependencies": [
+        "relu_4_1"
+      ],
+      "attrs": {
+        "criticality": 1.32,
+        "sram_hint": 268.2,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "dense_6_0",
+      "type": "dense",
+      "compute_cycles": 171,
+      "input_size": 387.3,
+      "output_size": 368.1,
+      "dependencies": [
+        "dense_5_1"
+      ],
+      "attrs": {
+        "criticality": 1.14,
+        "sram_hint": 255.6,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "norm_6_1",
+      "type": "norm",
+      "compute_cycles": 43,
+      "input_size": 387.3,
+      "output_size": 375.7,
+      "dependencies": [
+        "conv_5_2"
+      ],
+      "attrs": {
+        "criticality": 1.08,
+        "sram_hint": 255.6,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "add_7_0",
+      "type": "add",
+      "compute_cycles": 31,
+      "input_size": 385.8,
+      "output_size": 371.3,
+      "dependencies": [
+        "norm_6_1"
+      ],
+      "attrs": {
+        "criticality": 1.16,
+        "sram_hint": 254.6,
+        "volatility": 0.09
+      }
+    },
+    {
+      "id": "pool_7_1",
+      "type": "pool",
+      "compute_cycles": 86,
+      "input_size": 385.8,
+      "output_size": 367.6,
+      "dependencies": [
+        "dense_6_0"
+      ],
+      "attrs": {
+        "criticality": 1.31,
+        "sram_hint": 254.6,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "batchnorm_7_2",
+      "type": "batchnorm",
+      "compute_cycles": 51,
+      "input_size": 385.8,
+      "output_size": 385.0,
+      "dependencies": [
+        "norm_6_1",
+        "dense_6_0"
+      ],
+      "attrs": {
+        "criticality": 1.07,
+        "sram_hint": 254.6,
+        "volatility": 0.11
+      }
+    },
+    {
+      "id": "softmax_8_0",
+      "type": "softmax",
+      "compute_cycles": 44,
+      "input_size": 385.1,
+      "output_size": 358.0,
+      "dependencies": [
+        "pool_7_1"
+      ],
+      "attrs": {
+        "criticality": 1.15,
+        "sram_hint": 254.2,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "add_8_1",
+      "type": "add",
+      "compute_cycles": 33,
+      "input_size": 385.1,
+      "output_size": 376.9,
+      "dependencies": [
+        "add_7_0",
+        "batchnorm_7_2"
+      ],
+      "attrs": {
+        "criticality": 1.17,
+        "sram_hint": 254.2,
+        "volatility": 0.1
+      }
+    },
+    {
+      "id": "pool_9_0",
+      "type": "pool",
+      "compute_cycles": 54,
+      "input_size": 370.9,
+      "output_size": 353.5,
+      "dependencies": [
+        "add_8_1"
+      ],
+      "attrs": {
+        "criticality": 1.23,
+        "sram_hint": 244.8,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "batchnorm_9_1",
+      "type": "batchnorm",
+      "compute_cycles": 33,
+      "input_size": 370.9,
+      "output_size": 350.7,
+      "dependencies": [
+        "add_8_1"
+      ],
+      "attrs": {
+        "criticality": 1.04,
+        "sram_hint": 244.8,
+        "volatility": 0.11
+      }
+    },
+    {
+      "id": "dense_10_0",
+      "type": "dense",
+      "compute_cycles": 92,
+      "input_size": 347.3,
+      "output_size": 323.4,
+      "dependencies": [
+        "batchnorm_9_1",
+        "pool_9_0"
+      ],
+      "attrs": {
+        "criticality": 1.27,
+        "sram_hint": 229.2,
+        "volatility": 0.05
+      }
+    }
+  ]
+}

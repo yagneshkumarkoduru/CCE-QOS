@@ -164,6 +164,10 @@ python -m implementations.v3_llm_kvcache_continuous_batching.llm_kvcache_paging_
 # 4. Run the full compiler pipeline experiment (writes outputs/):
 python run_experiment.py
 
+# 4b. Multi-workload statistics (mean +/- std across seeded workload families):
+python benchmarks/sweep_workloads.py --family perturb --seeds 6
+python benchmarks/sweep_workloads.py --family layered --sizes 24,31,48 --seeds 2
+
 # 5. Run the test suite:
 python -m pytest -q tests
 ```

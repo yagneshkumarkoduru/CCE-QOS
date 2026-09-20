@@ -299,7 +299,46 @@ Two artifacts:
      improvement), so the sweep's contribution is optimality certification
      and runtime scaling, not cost improvement. This matches the earlier
      committed 16-128 sweep, which showed the same equality pattern.
-   - Boundary: synthetic DAGs and a Python cost model; not hardware
-     measurements. The CP-SAT objective is the position-weighted proxy, while
-     the reported cost is the true metric, which is why certification is
-     reported separately from cost improvement.
+    - Boundary: synthetic DAGs and a Python cost model; not hardware
+      measurements. The CP-SAT objective is the position-weighted proxy, while
+      the reported cost is the true metric, which is why certification is
+      reported separately from cost improvement.
+
+## Multi-workload pipeline sweep (2026-09-20)
+
+Class: BENCHMARK (Python pipeline, seeded synthetic workload families)
+
+Protocol strengthening for the single-instance limitation: the full pipeline
+(`run_experiment.run_pipeline`) now runs over workload families, with every
+headline strategy reported as mean +/- std across instances, and the
+repository-root canonical outputs left untouched
+(`benchmarks/sweep_workloads.py`, `benchmarks/workload_generator.py`).
+
+- Perturbation family (6 seeded parameter perturbations of the reference
+  DAG; topology fixed, sizes/compute +/-15-20 percent), artifact
+  `results/sweeps/20260920-223708/`:
+  - Baselines: Greedy 5470 +/- 1241 cost at 53.2 +/- 9.7 percent feasible;
+    Lookahead 4365 +/- 789 at 54.8 +/- 6.8; Beam 4491 +/- 1004 at
+    55.9 +/- 8.1; SA 4748 +/- 919 at 53.8 +/- 10.1.
+  - CCE + APR: 6269 +/- 461 at 70.96 +/- 9.79 percent feasible, the highest
+    feasibility in every instance; +16.1 pp over the best baseline mean,
+    reproducing the single-instance headline (+16.13 pp) with cross-instance
+    error bars. The cost premium versus Lookahead (-7.5 percent on the
+    reference instance) persists as an intentional objective trade-off.
+  - Quantum local-search fallback: 9575 +/- 615 at 47.3 +/- 6.3 percent.
+- Structural family (4 layered synthetic DAGs at 24/31 nodes; more parallel
+  topology than the reference), artifact `results/sweeps/20260920-230026/`:
+  costs 14.0-24.1k and feasibility 19.7-38.1 percent across strategies, with
+  large cross-instance spread (std up to 29 pp). CCE + APR again leads
+  feasibility (38.1 +/- 21.1) but the absolute level shows the pipeline
+  stresses harder on random topologies; this is the now-recorded boundary of
+  the reference-instance claims.
+- Harness repairs while building this: `run_experiment.py` gained
+  `run_pipeline(config, root, write_root_copies)` plus CLI overrides
+  (`--config/--workload/--output-dir/--no-root-copies`), and the canonical
+  root copies were regenerated: the committed root `metrics.txt` had gone
+  stale (its numbers disagreed with this ledger); a full run now reproduces
+  the documented numbers byte-for-byte (identical SHA256 across two
+  consecutive runs).
+- Tests: `tests/test_workload_generator.py` locks the generator contract
+  (determinism, schema, topology preservation under perturbation).

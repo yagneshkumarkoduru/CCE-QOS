@@ -1,0 +1,1025 @@
+{
+  "aggregate": {
+    "by_strategy": {
+      "baseline::Beam Search": {
+        "feasibility_percent": [
+          55.91,
+          8.0756
+        ],
+        "latency": [
+          3378.9833,
+          116.2458
+        ],
+        "total_cost": [
+          4490.5435,
+          1003.8543
+        ],
+        "total_energy": [
+          4490.5435,
+          1003.8543
+        ]
+      },
+      "baseline::Greedy": {
+        "feasibility_percent": [
+          53.22,
+          9.7301
+        ],
+        "latency": [
+          3450.431,
+          145.4465
+        ],
+        "total_cost": [
+          5470.3605,
+          1241.3958
+        ],
+        "total_energy": [
+          5470.3605,
+          1241.3958
+        ]
+      },
+      "baseline::Lookahead": {
+        "feasibility_percent": [
+          54.835,
+          6.7648
+        ],
+        "latency": [
+          3365.5707,
+          99.8654
+        ],
+        "total_cost": [
+          4364.939,
+          788.5721
+        ],
+        "total_energy": [
+          4364.939,
+          788.5721
+        ]
+      },
+      "baseline::Simulated Annealing": {
+        "feasibility_percent": [
+          53.76,
+          10.1339
+        ],
+        "latency": [
+          3419.0635,
+          108.08
+        ],
+        "total_cost": [
+          4747.6087,
+          919.3876
+        ],
+        "total_energy": [
+          4747.6087,
+          919.3876
+        ]
+      },
+      "cce::CCE + APR": {
+        "feasibility_percent": [
+          70.9617,
+          9.7859
+        ],
+        "latency": [
+          3460.834,
+          140.3685
+        ],
+        "total_cost": [
+          6268.9382,
+          461.4878
+        ],
+        "total_energy": [
+          161.6292,
+          3.2417
+        ]
+      },
+      "quantum::candidates": {
+        "feasibility_percent": [
+          47.3067,
+          6.344
+        ],
+        "latency": [
+          3811.3352,
+          90.4789
+        ],
+        "total_cost": [
+          9574.8263,
+          614.5674
+        ],
+        "total_energy": [
+          165.3642,
+          1.3874
+        ]
+      }
+    },
+    "family": "perturb",
+    "seeds": 6,
+    "workloads": 6
+  },
+  "rows": [
+    {
+      "family": "perturb",
+      "label": "reference",
+      "num_edges": 36,
+      "num_nodes": 31,
+      "runtime_seconds": 186.616,
+      "seed": 9000,
+      "summaries": {
+        "baseline::Beam Search": {
+          "DRAM_usage": 1974.152,
+          "bandwidth_utilization": 87.76,
+          "feasibility_percent": 41.93,
+          "frontier_mean": 1.935,
+          "idle_cycles": 475.38,
+          "latency": 3571.549,
+          "pairwise_energy": 0.0,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 6197.954,
+          "total_energy": 6197.954
+        },
+        "baseline::Greedy": {
+          "DRAM_usage": 2062.604,
+          "bandwidth_utilization": 86.28,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 1.903,
+          "idle_cycles": 594.652,
+          "latency": 3690.887,
+          "pairwise_energy": 0.0,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 7048.314,
+          "total_energy": 7048.314
+        },
+        "baseline::Lookahead": {
+          "DRAM_usage": 1798.73,
+          "bandwidth_utilization": 89.0,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 1.968,
+          "idle_cycles": 412.301,
+          "latency": 3508.454,
+          "pairwise_energy": 0.0,
+          "peak_sram": 714.3,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 5397.318,
+          "total_energy": 5397.318
+        },
+        "baseline::Simulated Annealing": {
+          "DRAM_usage": 1890.302,
+          "bandwidth_utilization": 89.3,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 2.226,
+          "idle_cycles": 468.033,
+          "latency": 3564.225,
+          "pairwise_energy": 0.0,
+          "peak_sram": 714.3,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 5963.754,
+          "total_energy": 5963.754
+        },
+        "cce::Beam Search": {
+          "DRAM_usage": 2155.502,
+          "bandwidth_utilization": 86.39,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 1.806,
+          "idle_cycles": 556.574,
+          "latency": 3652.743,
+          "pairwise_energy": -11.239,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 6577.103,
+          "total_energy": 154.987
+        },
+        "cce::CCE + APR": {
+          "DRAM_usage": 1815.734,
+          "bandwidth_utilization": 86.68,
+          "feasibility_percent": 54.83,
+          "frontier_mean": 1.742,
+          "idle_cycles": 544.84,
+          "latency": 3641.042,
+          "pairwise_energy": -9.993,
+          "peak_sram": 717.0,
+          "spill_count": 0.0,
+          "strategy": "CCE + APR",
+          "total_cost": 6168.206,
+          "total_energy": 156.233
+        },
+        "cce::Greedy": {
+          "DRAM_usage": 2062.604,
+          "bandwidth_utilization": 86.28,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 1.903,
+          "idle_cycles": 594.652,
+          "latency": 3690.887,
+          "pairwise_energy": -5.743,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 7048.314,
+          "total_energy": 160.484
+        },
+        "cce::Lookahead": {
+          "DRAM_usage": 2155.502,
+          "bandwidth_utilization": 85.41,
+          "feasibility_percent": 48.38,
+          "frontier_mean": 1.742,
+          "idle_cycles": 654.778,
+          "latency": 3750.968,
+          "pairwise_energy": -11.624,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 7210.25,
+          "total_energy": 154.602
+        },
+        "cce::Simulated Annealing": {
+          "DRAM_usage": 2321.642,
+          "bandwidth_utilization": 85.64,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 2.032,
+          "idle_cycles": 581.398,
+          "latency": 3677.612,
+          "pairwise_energy": -6.682,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 7387.19,
+          "total_energy": 159.544
+        },
+        "quantum::candidates": {
+          "DRAM_usage": 2759.378,
+          "bandwidth_utilization": 83.3,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 2.258,
+          "idle_cycles": 824.446,
+          "latency": 3920.713,
+          "pairwise_energy": -1.171,
+          "peak_sram": 716.7,
+          "spill_count": 0.0,
+          "strategy": "Quantum",
+          "total_cost": 9759.77,
+          "total_energy": 165.055
+        }
+      },
+      "workload": "results/sweeps/20260920-223708/workloads/wl_reference_seed9000.json"
+    },
+    {
+      "family": "perturb",
+      "label": "reference",
+      "num_edges": 36,
+      "num_nodes": 31,
+      "runtime_seconds": 210.796,
+      "seed": 9001,
+      "summaries": {
+        "baseline::Beam Search": {
+          "DRAM_usage": 1586.129,
+          "bandwidth_utilization": 87.49,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 1.871,
+          "idle_cycles": 340.73,
+          "latency": 3418.853,
+          "pairwise_energy": 0.0,
+          "peak_sram": 710.6,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 4538.476,
+          "total_energy": 4538.476
+        },
+        "baseline::Greedy": {
+          "DRAM_usage": 2183.999,
+          "bandwidth_utilization": 86.74,
+          "feasibility_percent": 48.38,
+          "frontier_mean": 1.903,
+          "idle_cycles": 340.017,
+          "latency": 3418.152,
+          "pairwise_energy": 0.0,
+          "peak_sram": 710.2,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 5574.006,
+          "total_energy": 5574.006
+        },
+        "baseline::Lookahead": {
+          "DRAM_usage": 1586.129,
+          "bandwidth_utilization": 87.49,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 1.871,
+          "idle_cycles": 340.73,
+          "latency": 3418.853,
+          "pairwise_energy": 0.0,
+          "peak_sram": 710.6,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 4538.476,
+          "total_energy": 4538.476
+        },
+        "baseline::Simulated Annealing": {
+          "DRAM_usage": 1709.057,
+          "bandwidth_utilization": 87.21,
+          "feasibility_percent": 48.38,
+          "frontier_mean": 1.806,
+          "idle_cycles": 361.214,
+          "latency": 3439.345,
+          "pairwise_energy": 0.0,
+          "peak_sram": 704.6,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 4774.721,
+          "total_energy": 4774.721
+        },
+        "cce::Beam Search": {
+          "DRAM_usage": 2613.623,
+          "bandwidth_utilization": 86.7,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 1.71,
+          "idle_cycles": 430.71,
+          "latency": 3508.836,
+          "pairwise_energy": -11.467,
+          "peak_sram": 710.2,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 6386.431,
+          "total_energy": 154.919
+        },
+        "cce::CCE + APR": {
+          "DRAM_usage": 2495.453,
+          "bandwidth_utilization": 85.48,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 2.419,
+          "idle_cycles": 478.106,
+          "latency": 3556.248,
+          "pairwise_energy": -5.793,
+          "peak_sram": 710.2,
+          "spill_count": 0.0,
+          "strategy": "CCE + APR",
+          "total_cost": 6829.75,
+          "total_energy": 160.594
+        },
+        "cce::Greedy": {
+          "DRAM_usage": 2183.999,
+          "bandwidth_utilization": 86.74,
+          "feasibility_percent": 48.38,
+          "frontier_mean": 1.903,
+          "idle_cycles": 340.017,
+          "latency": 3418.152,
+          "pairwise_energy": -5.826,
+          "peak_sram": 710.2,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 5574.006,
+          "total_energy": 160.561
+        },
+        "cce::Lookahead": {
+          "DRAM_usage": 2613.623,
+          "bandwidth_utilization": 86.7,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 1.71,
+          "idle_cycles": 430.71,
+          "latency": 3508.836,
+          "pairwise_energy": -11.467,
+          "peak_sram": 710.2,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 6386.431,
+          "total_energy": 154.919
+        },
+        "cce::Simulated Annealing": {
+          "DRAM_usage": 2483.753,
+          "bandwidth_utilization": 83.95,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 2.194,
+          "idle_cycles": 496.27,
+          "latency": 3574.426,
+          "pairwise_energy": -8.549,
+          "peak_sram": 704.1,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 7195.504,
+          "total_energy": 157.838
+        },
+        "quantum::candidates": {
+          "DRAM_usage": 4019.963,
+          "bandwidth_utilization": 83.05,
+          "feasibility_percent": 41.93,
+          "frontier_mean": 2.258,
+          "idle_cycles": 724.61,
+          "latency": 3802.801,
+          "pairwise_energy": -1.16,
+          "peak_sram": 701.5,
+          "spill_count": 0.0,
+          "strategy": "Quantum",
+          "total_cost": 10422.236,
+          "total_energy": 165.227
+        }
+      },
+      "workload": "results/sweeps/20260920-223708/workloads/wl_reference_seed9001.json"
+    },
+    {
+      "family": "perturb",
+      "label": "reference",
+      "num_edges": 36,
+      "num_nodes": 31,
+      "runtime_seconds": 267.811,
+      "seed": 9002,
+      "summaries": {
+        "baseline::Beam Search": {
+          "DRAM_usage": 1640.318,
+          "bandwidth_utilization": 84.2,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.806,
+          "idle_cycles": 217.989,
+          "latency": 3342.06,
+          "pairwise_energy": 0.0,
+          "peak_sram": 677.0,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 3900.869,
+          "total_energy": 3900.869
+        },
+        "baseline::Greedy": {
+          "DRAM_usage": 2120.33,
+          "bandwidth_utilization": 83.19,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.71,
+          "idle_cycles": 253.295,
+          "latency": 3377.381,
+          "pairwise_energy": 0.0,
+          "peak_sram": 701.2,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 4798.951,
+          "total_energy": 4798.951
+        },
+        "baseline::Lookahead": {
+          "DRAM_usage": 1640.318,
+          "bandwidth_utilization": 84.2,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.806,
+          "idle_cycles": 217.989,
+          "latency": 3342.06,
+          "pairwise_energy": 0.0,
+          "peak_sram": 677.0,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 3900.869,
+          "total_energy": 3900.869
+        },
+        "baseline::Simulated Annealing": {
+          "DRAM_usage": 1519.106,
+          "bandwidth_utilization": 84.09,
+          "feasibility_percent": 67.74,
+          "frontier_mean": 2.065,
+          "idle_cycles": 247.546,
+          "latency": 3371.626,
+          "pairwise_energy": 0.0,
+          "peak_sram": 658.4,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 4177.811,
+          "total_energy": 4177.811
+        },
+        "cce::Beam Search": {
+          "DRAM_usage": 2794.016,
+          "bandwidth_utilization": 81.39,
+          "feasibility_percent": 61.29,
+          "frontier_mean": 1.903,
+          "idle_cycles": 406.547,
+          "latency": 3530.644,
+          "pairwise_energy": -9.499,
+          "peak_sram": 701.2,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 6456.982,
+          "total_energy": 157.096
+        },
+        "cce::CCE + APR": {
+          "DRAM_usage": 2762.738,
+          "bandwidth_utilization": 82.45,
+          "feasibility_percent": 77.42,
+          "frontier_mean": 2.258,
+          "idle_cycles": 352.874,
+          "latency": 3476.947,
+          "pairwise_energy": -5.072,
+          "peak_sram": 701.2,
+          "spill_count": 0.0,
+          "strategy": "CCE + APR",
+          "total_cost": 6337.021,
+          "total_energy": 161.524
+        },
+        "cce::Greedy": {
+          "DRAM_usage": 2120.33,
+          "bandwidth_utilization": 83.19,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.71,
+          "idle_cycles": 253.295,
+          "latency": 3377.381,
+          "pairwise_energy": -6.208,
+          "peak_sram": 701.2,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 4798.951,
+          "total_energy": 160.388
+        },
+        "cce::Lookahead": {
+          "DRAM_usage": 2330.306,
+          "bandwidth_utilization": 81.54,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 1.903,
+          "idle_cycles": 429.535,
+          "latency": 3553.649,
+          "pairwise_energy": -10.655,
+          "peak_sram": 701.2,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 6261.06,
+          "total_energy": 155.941
+        },
+        "cce::Simulated Annealing": {
+          "DRAM_usage": 2120.33,
+          "bandwidth_utilization": 83.19,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.71,
+          "idle_cycles": 253.295,
+          "latency": 3377.381,
+          "pairwise_energy": -6.208,
+          "peak_sram": 701.2,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 4798.951,
+          "total_energy": 160.388
+        },
+        "quantum::candidates": {
+          "DRAM_usage": 3768.704,
+          "bandwidth_utilization": 79.93,
+          "feasibility_percent": 54.83,
+          "frontier_mean": 2.258,
+          "idle_cycles": 596.491,
+          "latency": 3720.652,
+          "pairwise_energy": -1.154,
+          "peak_sram": 708.8,
+          "spill_count": 0.0,
+          "strategy": "Quantum",
+          "total_cost": 9330.449,
+          "total_energy": 165.442
+        }
+      },
+      "workload": "results/sweeps/20260920-223708/workloads/wl_reference_seed9002.json"
+    },
+    {
+      "family": "perturb",
+      "label": "reference",
+      "num_edges": 36,
+      "num_nodes": 31,
+      "runtime_seconds": 271.826,
+      "seed": 9003,
+      "summaries": {
+        "baseline::Beam Search": {
+          "DRAM_usage": 1875.801,
+          "bandwidth_utilization": 85.8,
+          "feasibility_percent": 61.29,
+          "frontier_mean": 1.871,
+          "idle_cycles": 242.226,
+          "latency": 3359.313,
+          "pairwise_energy": 0.0,
+          "peak_sram": 719.0,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 4293.589,
+          "total_energy": 4293.589
+        },
+        "baseline::Greedy": {
+          "DRAM_usage": 2805.873,
+          "bandwidth_utilization": 84.99,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.71,
+          "idle_cycles": 295.997,
+          "latency": 3413.102,
+          "pairwise_energy": 0.0,
+          "peak_sram": 713.5,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 5866.587,
+          "total_energy": 5866.587
+        },
+        "baseline::Lookahead": {
+          "DRAM_usage": 1636.653,
+          "bandwidth_utilization": 85.77,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 2.032,
+          "idle_cycles": 232.652,
+          "latency": 3349.74,
+          "pairwise_energy": 0.0,
+          "peak_sram": 686.9,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 4161.866,
+          "total_energy": 4161.866
+        },
+        "baseline::Simulated Annealing": {
+          "DRAM_usage": 1941.477,
+          "bandwidth_utilization": 85.39,
+          "feasibility_percent": 61.29,
+          "frontier_mean": 1.968,
+          "idle_cycles": 270.526,
+          "latency": 3387.625,
+          "pairwise_energy": 0.0,
+          "peak_sram": 713.5,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 4660.746,
+          "total_energy": 4660.746
+        },
+        "cce::Beam Search": {
+          "DRAM_usage": 2859.615,
+          "bandwidth_utilization": 83.82,
+          "feasibility_percent": 61.29,
+          "frontier_mean": 2.226,
+          "idle_cycles": 365.213,
+          "latency": 3482.297,
+          "pairwise_energy": -8.251,
+          "peak_sram": 714.3,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 6285.867,
+          "total_energy": 158.816
+        },
+        "cce::CCE + APR": {
+          "DRAM_usage": 2862.267,
+          "bandwidth_utilization": 85.77,
+          "feasibility_percent": 80.64,
+          "frontier_mean": 2.258,
+          "idle_cycles": 244.821,
+          "latency": 3361.906,
+          "pairwise_energy": -1.01,
+          "peak_sram": 713.5,
+          "spill_count": 0.0,
+          "strategy": "CCE + APR",
+          "total_cost": 5911.238,
+          "total_energy": 166.057
+        },
+        "cce::Greedy": {
+          "DRAM_usage": 2805.873,
+          "bandwidth_utilization": 84.99,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 1.71,
+          "idle_cycles": 295.997,
+          "latency": 3413.102,
+          "pairwise_energy": -3.25,
+          "peak_sram": 713.5,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 5866.587,
+          "total_energy": 163.817
+        },
+        "cce::Lookahead": {
+          "DRAM_usage": 2404.953,
+          "bandwidth_utilization": 83.51,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 1.839,
+          "idle_cycles": 387.93,
+          "latency": 3505.05,
+          "pairwise_energy": -9.635,
+          "peak_sram": 694.0,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 6032.526,
+          "total_energy": 157.433
+        },
+        "cce::Simulated Annealing": {
+          "DRAM_usage": 2296.065,
+          "bandwidth_utilization": 85.24,
+          "feasibility_percent": 64.51,
+          "frontier_mean": 2.387,
+          "idle_cycles": 277.045,
+          "latency": 3394.145,
+          "pairwise_energy": -7.183,
+          "peak_sram": 717.1,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 5474.092,
+          "total_energy": 159.884
+        },
+        "quantum::candidates": {
+          "DRAM_usage": 3161.865,
+          "bandwidth_utilization": 80.86,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 2.258,
+          "idle_cycles": 605.452,
+          "latency": 3722.63,
+          "pairwise_energy": 0.816,
+          "peak_sram": 717.1,
+          "spill_count": 0.0,
+          "strategy": "Quantum",
+          "total_cost": 8704.159,
+          "total_energy": 167.883
+        }
+      },
+      "workload": "results/sweeps/20260920-223708/workloads/wl_reference_seed9003.json"
+    },
+    {
+      "family": "perturb",
+      "label": "reference",
+      "num_edges": 36,
+      "num_nodes": 31,
+      "runtime_seconds": 252.697,
+      "seed": 9004,
+      "summaries": {
+        "baseline::Beam Search": {
+          "DRAM_usage": 1262.13,
+          "bandwidth_utilization": 87.99,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 1.774,
+          "idle_cycles": 190.563,
+          "latency": 3214.63,
+          "pairwise_energy": 0.0,
+          "peak_sram": 679.7,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 3210.775,
+          "total_energy": 3210.775
+        },
+        "baseline::Greedy": {
+          "DRAM_usage": 1262.13,
+          "bandwidth_utilization": 87.29,
+          "feasibility_percent": 54.83,
+          "frontier_mean": 1.677,
+          "idle_cycles": 244.408,
+          "latency": 3268.49,
+          "pairwise_energy": 0.0,
+          "peak_sram": 679.7,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 3424.05,
+          "total_energy": 3424.05
+        },
+        "baseline::Lookahead": {
+          "DRAM_usage": 1262.13,
+          "bandwidth_utilization": 88.03,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 1.839,
+          "idle_cycles": 180.903,
+          "latency": 3204.968,
+          "pairwise_energy": 0.0,
+          "peak_sram": 679.7,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 3197.897,
+          "total_energy": 3197.897
+        },
+        "baseline::Simulated Annealing": {
+          "DRAM_usage": 1262.13,
+          "bandwidth_utilization": 87.37,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 1.774,
+          "idle_cycles": 229.356,
+          "latency": 3253.433,
+          "pairwise_energy": 0.0,
+          "peak_sram": 679.7,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 3395.452,
+          "total_energy": 3395.452
+        },
+        "cce::Beam Search": {
+          "DRAM_usage": 1947.126,
+          "bandwidth_utilization": 86.05,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 2.194,
+          "idle_cycles": 364.492,
+          "latency": 3388.605,
+          "pairwise_energy": -11.787,
+          "peak_sram": 679.7,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 5318.376,
+          "total_energy": 154.054
+        },
+        "cce::CCE + APR": {
+          "DRAM_usage": 2691.012,
+          "bandwidth_utilization": 88.26,
+          "feasibility_percent": 77.41,
+          "frontier_mean": 2.774,
+          "idle_cycles": 221.41,
+          "latency": 3245.468,
+          "pairwise_energy": -3.664,
+          "peak_sram": 699.9,
+          "spill_count": 0.0,
+          "strategy": "CCE + APR",
+          "total_cost": 5639.15,
+          "total_energy": 162.177
+        },
+        "cce::Greedy": {
+          "DRAM_usage": 1262.13,
+          "bandwidth_utilization": 87.29,
+          "feasibility_percent": 54.83,
+          "frontier_mean": 1.677,
+          "idle_cycles": 244.408,
+          "latency": 3268.49,
+          "pairwise_energy": -8.983,
+          "peak_sram": 679.7,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 3424.05,
+          "total_energy": 156.857
+        },
+        "cce::Lookahead": {
+          "DRAM_usage": 2260.218,
+          "bandwidth_utilization": 85.73,
+          "feasibility_percent": 54.83,
+          "frontier_mean": 1.839,
+          "idle_cycles": 400.087,
+          "latency": 3424.195,
+          "pairwise_energy": -12.595,
+          "peak_sram": 681.9,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 5838.619,
+          "total_energy": 153.246
+        },
+        "cce::Simulated Annealing": {
+          "DRAM_usage": 2096.574,
+          "bandwidth_utilization": 82.83,
+          "feasibility_percent": 54.83,
+          "frontier_mean": 2.71,
+          "idle_cycles": 490.479,
+          "latency": 3514.628,
+          "pairwise_energy": -10.5,
+          "peak_sram": 699.9,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 6900.509,
+          "total_energy": 155.341
+        },
+        "quantum::candidates": {
+          "DRAM_usage": 2881.644,
+          "bandwidth_utilization": 81.36,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 2.258,
+          "idle_cycles": 756.698,
+          "latency": 3780.897,
+          "pairwise_energy": -2.203,
+          "peak_sram": 714.9,
+          "spill_count": 0.0,
+          "strategy": "Quantum",
+          "total_cost": 9219.336,
+          "total_energy": 163.638
+        }
+      },
+      "workload": "results/sweeps/20260920-223708/workloads/wl_reference_seed9004.json"
+    },
+    {
+      "family": "perturb",
+      "label": "reference",
+      "num_edges": 36,
+      "num_nodes": 31,
+      "runtime_seconds": 204.707,
+      "seed": 9005,
+      "summaries": {
+        "baseline::Beam Search": {
+          "DRAM_usage": 2061.868,
+          "bandwidth_utilization": 91.6,
+          "feasibility_percent": 58.06,
+          "frontier_mean": 1.871,
+          "idle_cycles": 300.356,
+          "latency": 3367.495,
+          "pairwise_energy": 0.0,
+          "peak_sram": 681.6,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 4801.598,
+          "total_energy": 4801.598
+        },
+        "baseline::Greedy": {
+          "DRAM_usage": 2060.698,
+          "bandwidth_utilization": 89.66,
+          "feasibility_percent": 41.93,
+          "frontier_mean": 2.097,
+          "idle_cycles": 467.371,
+          "latency": 3534.574,
+          "pairwise_energy": 0.0,
+          "peak_sram": 711.3,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 6110.255,
+          "total_energy": 6110.255
+        },
+        "baseline::Lookahead": {
+          "DRAM_usage": 2061.868,
+          "bandwidth_utilization": 91.13,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 1.871,
+          "idle_cycles": 302.21,
+          "latency": 3369.349,
+          "pairwise_energy": 0.0,
+          "peak_sram": 707.8,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 4993.208,
+          "total_energy": 4993.208
+        },
+        "baseline::Simulated Annealing": {
+          "DRAM_usage": 1875.448,
+          "bandwidth_utilization": 90.38,
+          "feasibility_percent": 41.93,
+          "frontier_mean": 2.161,
+          "idle_cycles": 430.943,
+          "latency": 3498.127,
+          "pairwise_energy": 0.0,
+          "peak_sram": 711.3,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 5513.168,
+          "total_energy": 5513.168
+        },
+        "cce::Beam Search": {
+          "DRAM_usage": 2061.868,
+          "bandwidth_utilization": 88.2,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 1.742,
+          "idle_cycles": 518.77,
+          "latency": 3585.981,
+          "pairwise_energy": -11.636,
+          "peak_sram": 707.8,
+          "spill_count": 0.0,
+          "strategy": "Beam Search",
+          "total_cost": 6412.895,
+          "total_energy": 154.442
+        },
+        "cce::CCE + APR": {
+          "DRAM_usage": 2914.33,
+          "bandwidth_utilization": 90.32,
+          "feasibility_percent": 70.96,
+          "frontier_mean": 2.581,
+          "idle_cycles": 416.241,
+          "latency": 3483.393,
+          "pairwise_energy": -2.887,
+          "peak_sram": 711.3,
+          "spill_count": 0.0,
+          "strategy": "CCE + APR",
+          "total_cost": 6728.264,
+          "total_energy": 163.19
+        },
+        "cce::Greedy": {
+          "DRAM_usage": 2060.698,
+          "bandwidth_utilization": 89.66,
+          "feasibility_percent": 41.93,
+          "frontier_mean": 2.097,
+          "idle_cycles": 467.371,
+          "latency": 3534.574,
+          "pairwise_energy": -5.709,
+          "peak_sram": 711.3,
+          "spill_count": 0.0,
+          "strategy": "Greedy",
+          "total_cost": 6110.255,
+          "total_energy": 160.369
+        },
+        "cce::Lookahead": {
+          "DRAM_usage": 2061.868,
+          "bandwidth_utilization": 88.2,
+          "feasibility_percent": 45.16,
+          "frontier_mean": 1.742,
+          "idle_cycles": 518.77,
+          "latency": 3585.981,
+          "pairwise_energy": -11.636,
+          "peak_sram": 707.8,
+          "spill_count": 0.0,
+          "strategy": "Lookahead",
+          "total_cost": 6412.895,
+          "total_energy": 154.442
+        },
+        "cce::Simulated Annealing": {
+          "DRAM_usage": 2437.672,
+          "bandwidth_utilization": 87.56,
+          "feasibility_percent": 51.61,
+          "frontier_mean": 2.613,
+          "idle_cycles": 662.822,
+          "latency": 3730.077,
+          "pairwise_energy": -12.179,
+          "peak_sram": 707.8,
+          "spill_count": 0.0,
+          "strategy": "Simulated Annealing",
+          "total_cost": 7905.062,
+          "total_energy": 153.899
+        },
+        "quantum::candidates": {
+          "DRAM_usage": 3195.91,
+          "bandwidth_utilization": 85.73,
+          "feasibility_percent": 38.7,
+          "frontier_mean": 2.258,
+          "idle_cycles": 853.032,
+          "latency": 3920.318,
+          "pairwise_energy": -1.137,
+          "peak_sram": 707.8,
+          "spill_count": 0.0,
+          "strategy": "Quantum",
+          "total_cost": 10013.008,
+          "total_energy": 164.94
+        }
+      },
+      "workload": "results/sweeps/20260920-223708/workloads/wl_reference_seed9005.json"
+    }
+  ]
+}

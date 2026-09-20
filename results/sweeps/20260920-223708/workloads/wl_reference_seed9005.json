@@ -1,0 +1,474 @@
+{
+  "name": "perturbed_hierarchical_multibranch_transformer_cnn_seed9005",
+  "nodes": [
+    {
+      "id": "input_norm",
+      "type": "norm",
+      "compute_cycles": 38,
+      "input_size": 506.3,
+      "output_size": 531.6,
+      "dependencies": [],
+      "attrs": {
+        "criticality": 1.06,
+        "sram_hint": 320.0,
+        "volatility": 0.04
+      }
+    },
+    {
+      "id": "conv_stem",
+      "type": "conv",
+      "compute_cycles": 188,
+      "input_size": 473.9,
+      "output_size": 411.4,
+      "dependencies": [
+        "input_norm"
+      ],
+      "attrs": {
+        "criticality": 1.19,
+        "sram_hint": 359.9,
+        "volatility": 0.1
+      }
+    },
+    {
+      "id": "patch_embed",
+      "type": "conv",
+      "compute_cycles": 144,
+      "input_size": 421.6,
+      "output_size": 339.7,
+      "dependencies": [
+        "input_norm"
+      ],
+      "attrs": {
+        "criticality": 1.15,
+        "sram_hint": 316.2,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "bn_stem",
+      "type": "batchnorm",
+      "compute_cycles": 73,
+      "input_size": 350.5,
+      "output_size": 335.0,
+      "dependencies": [
+        "conv_stem"
+      ],
+      "attrs": {
+        "criticality": 1.05,
+        "sram_hint": 304.8,
+        "volatility": 0.04
+      }
+    },
+    {
+      "id": "relu_stem",
+      "type": "relu",
+      "compute_cycles": 26,
+      "input_size": 414.1,
+      "output_size": 359.6,
+      "dependencies": [
+        "bn_stem"
+      ],
+      "attrs": {
+        "criticality": 1.07,
+        "sram_hint": 279.0,
+        "volatility": 0.02
+      }
+    },
+    {
+      "id": "depthwise_conv",
+      "type": "conv",
+      "compute_cycles": 131,
+      "input_size": 412.5,
+      "output_size": 248.9,
+      "dependencies": [
+        "relu_stem"
+      ],
+      "attrs": {
+        "criticality": 1.15,
+        "sram_hint": 245.7,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "pointwise_conv",
+      "type": "conv",
+      "compute_cycles": 137,
+      "input_size": 311.6,
+      "output_size": 268.7,
+      "dependencies": [
+        "depthwise_conv"
+      ],
+      "attrs": {
+        "criticality": 1.11,
+        "sram_hint": 222.3,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "cnn_pool",
+      "type": "pool",
+      "compute_cycles": 45,
+      "input_size": 278.6,
+      "output_size": 228.2,
+      "dependencies": [
+        "pointwise_conv"
+      ],
+      "attrs": {
+        "criticality": 1.02,
+        "sram_hint": 180.7,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "cnn_dense",
+      "type": "dense",
+      "compute_cycles": 86,
+      "input_size": 213.6,
+      "output_size": 186.1,
+      "dependencies": [
+        "cnn_pool"
+      ],
+      "attrs": {
+        "criticality": 1.06,
+        "sram_hint": 157.9,
+        "volatility": 0.03
+      }
+    },
+    {
+      "id": "token_mix",
+      "type": "matmul",
+      "compute_cycles": 120,
+      "input_size": 322.5,
+      "output_size": 299.9,
+      "dependencies": [
+        "patch_embed"
+      ],
+      "attrs": {
+        "criticality": 1.06,
+        "sram_hint": 249.2,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "attn_qkv",
+      "type": "matmul",
+      "compute_cycles": 235,
+      "input_size": 321.2,
+      "output_size": 296.0,
+      "dependencies": [
+        "token_mix"
+      ],
+      "attrs": {
+        "criticality": 1.22,
+        "sram_hint": 265.4,
+        "volatility": 0.08
+      }
+    },
+    {
+      "id": "attn_softmax",
+      "type": "softmax",
+      "compute_cycles": 144,
+      "input_size": 315.8,
+      "output_size": 324.9,
+      "dependencies": [
+        "attn_qkv"
+      ],
+      "attrs": {
+        "criticality": 1.16,
+        "sram_hint": 201.6,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "attn_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 298.8,
+      "output_size": 317.6,
+      "dependencies": [
+        "attn_softmax"
+      ],
+      "attrs": {
+        "criticality": 1.12,
+        "sram_hint": 214.7,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "skip_proj",
+      "type": "dense",
+      "compute_cycles": 97,
+      "input_size": 446.9,
+      "output_size": 256.4,
+      "dependencies": [
+        "relu_stem"
+      ],
+      "attrs": {
+        "criticality": 1.14,
+        "sram_hint": 217.2,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "residual_add",
+      "type": "add",
+      "compute_cycles": 40,
+      "input_size": 490.8,
+      "output_size": 348.3,
+      "dependencies": [
+        "attn_proj",
+        "skip_proj"
+      ],
+      "attrs": {
+        "criticality": 1.17,
+        "sram_hint": 257.0,
+        "volatility": 0.03
+      }
+    },
+    {
+      "id": "mlp_dense1",
+      "type": "dense",
+      "compute_cycles": 201,
+      "input_size": 318.1,
+      "output_size": 333.4,
+      "dependencies": [
+        "residual_add"
+      ],
+      "attrs": {
+        "criticality": 1.25,
+        "sram_hint": 311.0,
+        "volatility": 0.09
+      }
+    },
+    {
+      "id": "mlp_gelu",
+      "type": "gelu",
+      "compute_cycles": 65,
+      "input_size": 379.5,
+      "output_size": 374.4,
+      "dependencies": [
+        "mlp_dense1"
+      ],
+      "attrs": {
+        "criticality": 1.02,
+        "sram_hint": 259.6,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "mlp_dense2",
+      "type": "dense",
+      "compute_cycles": 160,
+      "input_size": 378.1,
+      "output_size": 346.3,
+      "dependencies": [
+        "mlp_gelu"
+      ],
+      "attrs": {
+        "criticality": 1.16,
+        "sram_hint": 223.2,
+        "volatility": 0.1
+      }
+    },
+    {
+      "id": "aux_pool",
+      "type": "pool",
+      "compute_cycles": 63,
+      "input_size": 293.6,
+      "output_size": 232.6,
+      "dependencies": [
+        "depthwise_conv"
+      ],
+      "attrs": {
+        "criticality": 1.02,
+        "sram_hint": 177.0,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "aux_dense",
+      "type": "dense",
+      "compute_cycles": 90,
+      "input_size": 206.3,
+      "output_size": 197.5,
+      "dependencies": [
+        "aux_pool"
+      ],
+      "attrs": {
+        "criticality": 1.06,
+        "sram_hint": 132.8,
+        "volatility": 0.04
+      }
+    },
+    {
+      "id": "aux_relu",
+      "type": "relu",
+      "compute_cycles": 28,
+      "input_size": 171.7,
+      "output_size": 164.2,
+      "dependencies": [
+        "aux_dense"
+      ],
+      "attrs": {
+        "criticality": 1.04,
+        "sram_hint": 138.7,
+        "volatility": 0.04
+      }
+    },
+    {
+      "id": "context_add",
+      "type": "add",
+      "compute_cycles": 43,
+      "input_size": 562.9,
+      "output_size": 322.0,
+      "dependencies": [
+        "aux_relu",
+        "token_mix"
+      ],
+      "attrs": {
+        "criticality": 1.12,
+        "sram_hint": 250.0,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "context_norm",
+      "type": "norm",
+      "compute_cycles": 59,
+      "input_size": 331.3,
+      "output_size": 258.4,
+      "dependencies": [
+        "context_add"
+      ],
+      "attrs": {
+        "criticality": 1.11,
+        "sram_hint": 221.4,
+        "volatility": 0.03
+      }
+    },
+    {
+      "id": "merge_head",
+      "type": "add",
+      "compute_cycles": 48,
+      "input_size": 561.7,
+      "output_size": 361.4,
+      "dependencies": [
+        "mlp_dense2",
+        "cnn_dense"
+      ],
+      "attrs": {
+        "criticality": 1.12,
+        "sram_hint": 252.2,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "distill_proj",
+      "type": "dense",
+      "compute_cycles": 128,
+      "input_size": 349.0,
+      "output_size": 264.0,
+      "dependencies": [
+        "attn_softmax"
+      ],
+      "attrs": {
+        "criticality": 1.1,
+        "sram_hint": 225.0,
+        "volatility": 0.06
+      }
+    },
+    {
+      "id": "distill_relu",
+      "type": "relu",
+      "compute_cycles": 24,
+      "input_size": 279.1,
+      "output_size": 237.5,
+      "dependencies": [
+        "distill_proj"
+      ],
+      "attrs": {
+        "criticality": 1.05,
+        "sram_hint": 178.7,
+        "volatility": 0.03
+      }
+    },
+    {
+      "id": "distill_add",
+      "type": "add",
+      "compute_cycles": 46,
+      "input_size": 653.3,
+      "output_size": 317.3,
+      "dependencies": [
+        "distill_relu",
+        "mlp_dense1"
+      ],
+      "attrs": {
+        "criticality": 1.1,
+        "sram_hint": 236.5,
+        "volatility": 0.04
+      }
+    },
+    {
+      "id": "distill_head",
+      "type": "dense",
+      "compute_cycles": 103,
+      "input_size": 278.3,
+      "output_size": 197.7,
+      "dependencies": [
+        "distill_add"
+      ],
+      "attrs": {
+        "criticality": 1.08,
+        "sram_hint": 180.5,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "classifier_pre",
+      "type": "dense",
+      "compute_cycles": 157,
+      "input_size": 784.0,
+      "output_size": 242.1,
+      "dependencies": [
+        "merge_head",
+        "context_norm",
+        "distill_head"
+      ],
+      "attrs": {
+        "criticality": 1.17,
+        "sram_hint": 217.3,
+        "volatility": 0.07
+      }
+    },
+    {
+      "id": "classifier",
+      "type": "dense",
+      "compute_cycles": 115,
+      "input_size": 257.1,
+      "output_size": 126.8,
+      "dependencies": [
+        "classifier_pre"
+      ],
+      "attrs": {
+        "criticality": 1.17,
+        "sram_hint": 144.0,
+        "volatility": 0.05
+      }
+    },
+    {
+      "id": "output_norm",
+      "type": "norm",
+      "compute_cycles": 33,
+      "input_size": 132.1,
+      "output_size": 139.2,
+      "dependencies": [
+        "classifier"
+      ],
+      "attrs": {
+        "criticality": 1.0,
+        "sram_hint": 123.0,
+        "volatility": 0.02
+      }
+    }
+  ]
+}
