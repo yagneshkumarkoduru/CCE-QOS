@@ -1,0 +1,72 @@
+{
+  "class": "SIMULATION - calibrated discrete-time engine model, not a GPU measurement",
+  "calibrated_cold_prefill_ms_per_token": 0.018,
+  "fixed_parameters": {
+    "wave_service_warm_ms": 317.376,
+    "cold_wave_service_extra_ms": 100.0,
+    "dispatch_overhead_ms": 0.505,
+    "max_inflight": 16,
+    "chars_per_token": 3.8
+  },
+  "fifo_prefix_cache": {
+    "sim_duration_ms": 1204.115,
+    "sim_mean_end_to_end_ms": 651.739,
+    "sim_output_tokens_per_second": 1913.438,
+    "sim_cache_hits": 44,
+    "measured": {
+      "duration_ms": 1204.116,
+      "mean_end_to_end_latency_ms": 612.204,
+      "output_tokens_per_second": 1913.436
+    },
+    "duration_pct_error": -0.0
+  },
+  "cce_prefix_bounded": {
+    "sim_duration_ms": 1228.355,
+    "sim_mean_end_to_end_ms": 667.899,
+    "sim_output_tokens_per_second": 1875.679,
+    "sim_cache_hits": 44,
+    "measured": {
+      "duration_ms": 1219.03,
+      "mean_end_to_end_latency_ms": 628.828,
+      "output_tokens_per_second": 1890.027
+    },
+    "duration_pct_error": 0.765
+  },
+  "sim_cce_over_fifo_duration_pct": 2.013,
+  "measured_cce_over_fifo_duration_pct": 2.062,
+  "cache_pressure_sweep": [
+    {
+      "cache_capacity_groups": "unlimited",
+      "fifo_duration_ms": 1204.115,
+      "cce_duration_ms": 1228.355,
+      "cce_over_fifo_pct": 2.013,
+      "fifo_cache_hits": 44,
+      "cce_cache_hits": 44
+    },
+    {
+      "cache_capacity_groups": 3,
+      "fifo_duration_ms": 1408.587,
+      "cce_duration_ms": 1433.327,
+      "cce_over_fifo_pct": 1.756,
+      "fifo_cache_hits": 35,
+      "cce_cache_hits": 34
+    },
+    {
+      "cache_capacity_groups": 2,
+      "fifo_duration_ms": 1415.538,
+      "cce_duration_ms": 1439.778,
+      "cce_over_fifo_pct": 1.712,
+      "fifo_cache_hits": 21,
+      "cce_cache_hits": 21
+    },
+    {
+      "cache_capacity_groups": 1,
+      "fifo_duration_ms": 1421.013,
+      "cce_duration_ms": 1443.768,
+      "cce_over_fifo_pct": 1.601,
+      "fifo_cache_hits": 10,
+      "cce_cache_hits": 13
+    }
+  ],
+  "positive_result_condition": "Requests must arrive interleaved with waves (later arrivals join a queue while earlier waves run) AND the KV prefix cache must be smaller than the working set. The 48-request trace fails the first condition: all requests buffer before wave 0 ends, so dispatch order cannot change wave composition. The prefix_locality_dispatcher.py simulation (300 requests, Poisson arrivals, capacity 3 of 8 groups) satisfies both and shows +10.3pp hit rate and 9.5% TTFT reduction."
+}

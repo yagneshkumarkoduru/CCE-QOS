@@ -1,0 +1,128 @@
+{
+  "nodes": [
+    {
+      "id": "mb_b0_exp_conv",
+      "type": "conv",
+      "compute_cycles": 60,
+      "input_size": 196.0,
+      "output_size": 1176.0,
+      "dependencies": [],
+      "attrs": {
+        "memory_kb": 19.6,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "mb_b0_exp_bn",
+      "type": "norm",
+      "compute_cycles": 20,
+      "input_size": 1176.0,
+      "output_size": 1176.0,
+      "dependencies": [
+        "mb_b0_exp_conv"
+      ],
+      "attrs": {
+        "memory_kb": 117.6,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "mb_b0_exp_relu",
+      "type": "relu",
+      "compute_cycles": 10,
+      "input_size": 1176.0,
+      "output_size": 1176.0,
+      "dependencies": [
+        "mb_b0_exp_bn"
+      ],
+      "attrs": {
+        "memory_kb": 117.6,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "mb_b0_dw_conv",
+      "type": "conv",
+      "compute_cycles": 30,
+      "input_size": 1176.0,
+      "output_size": 1176.0,
+      "dependencies": [
+        "mb_b0_exp_relu"
+      ],
+      "attrs": {
+        "memory_kb": 117.6,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "mb_b0_dw_bn",
+      "type": "norm",
+      "compute_cycles": 20,
+      "input_size": 1176.0,
+      "output_size": 1176.0,
+      "dependencies": [
+        "mb_b0_dw_conv"
+      ],
+      "attrs": {
+        "memory_kb": 117.6,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "mb_b0_dw_relu",
+      "type": "relu",
+      "compute_cycles": 10,
+      "input_size": 1176.0,
+      "output_size": 1176.0,
+      "dependencies": [
+        "mb_b0_dw_bn"
+      ],
+      "attrs": {
+        "memory_kb": 117.6,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "mb_b0_proj_conv",
+      "type": "conv",
+      "compute_cycles": 60,
+      "input_size": 1176.0,
+      "output_size": 196.0,
+      "dependencies": [
+        "mb_b0_dw_relu"
+      ],
+      "attrs": {
+        "memory_kb": 117.6,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "mb_b0_proj_bn",
+      "type": "norm",
+      "compute_cycles": 20,
+      "input_size": 196.0,
+      "output_size": 196.0,
+      "dependencies": [
+        "mb_b0_proj_conv"
+      ],
+      "attrs": {
+        "memory_kb": 19.6,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "mb_b0_add",
+      "type": "add",
+      "compute_cycles": 10,
+      "input_size": 196.0,
+      "output_size": 196.0,
+      "dependencies": [
+        "mb_b0_proj_bn"
+      ],
+      "attrs": {
+        "memory_kb": 19.6,
+        "bank_preference": 0
+      }
+    }
+  ]
+}

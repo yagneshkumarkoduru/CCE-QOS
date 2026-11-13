@@ -365,7 +365,7 @@ def main() -> None:
     print("Class: SIMULATION (discrete-event model, not real vLLM/GPU measurement)")
 
     # Save
-    out = Path(r"C:\Research\CCE-QOS\results\prefix_locality")
+    out = Path(__file__).resolve().parents[2] / "results" / "prefix_locality"
     out.mkdir(parents=True, exist_ok=True)
     output = {
         "description": "Prefix-locality-aware dispatcher simulation, 5 trials, 300 requests, 4 prefix groups",

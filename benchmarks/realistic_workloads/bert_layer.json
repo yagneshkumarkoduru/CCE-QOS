@@ -1,0 +1,197 @@
+{
+  "nodes": [
+    {
+      "id": "bert_L0_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L0_q_proj",
+        "bert_L0_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L0_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L0_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L0_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_softmax",
+        "bert_L0_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L0_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_out_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L0_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L0_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_ffn2",
+        "bert_L0_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+[Greedy]
+Total cost 999682.17, latency 27510.83 cycles, feasibility 0.00%.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.34.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 200.92.
+Frontier mean during execution was 1.26.
+
+[Lookahead]
+Total cost 975160.51, latency 27799.75 cycles, feasibility 0.00%.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.36.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 202.37.
+Frontier mean during execution was 1.06.
+
+[Beam Search]
+Total cost 975160.51, latency 27799.75 cycles, feasibility 0.00%.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.36.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 202.37.
+Frontier mean during execution was 1.06.
+
+[Simulated Annealing]
+Total cost 980066.76, latency 27547.53 cycles, feasibility 0.00%.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.36.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 201.28.
+Frontier mean during execution was 1.20.
+
+[Greedy]
+Total cost 999682.17, latency 27510.83 cycles, feasibility 0.00%.
+Energy objective: total 174.59 = unary 119.67 + pairwise -22.08.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.34.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 200.92.
+Frontier mean during execution was 1.26.
+
+[Lookahead]
+Total cost 975160.51, latency 27799.75 cycles, feasibility 0.00%.
+Energy objective: total 169.19 = unary 119.67 + pairwise -27.47.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.36.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 202.37.
+Frontier mean during execution was 1.06.
+
+[Beam Search]
+Total cost 975160.51, latency 27799.75 cycles, feasibility 0.00%.
+Energy objective: total 169.19 = unary 119.67 + pairwise -27.47.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.36.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 202.37.
+Frontier mean during execution was 1.06.
+
+[Simulated Annealing]
+Total cost 1003624.09, latency 27648.27 cycles, feasibility 0.00%.
+Energy objective: total 170.79 = unary 119.67 + pairwise -25.88.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.34.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 200.80.
+Frontier mean during execution was 1.26.
+
+[CCE + APR]
+Total cost 984797.96, latency 27548.07 cycles, feasibility 0.00%.
+Energy objective: total 169.18 = unary 119.67 + pairwise -27.49.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.33.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 201.20.
+Frontier mean during execution was 1.23.
+APR trajectory: sram_capacity 1.36->2.81, bandwidth_capacity 2.42->8.12, bank_conflict 0.90->0.90.
+
+[Quantum (local-search fallback)]
+Total cost 975160.51, latency 27799.75 cycles, feasibility 0.00%.
+Energy objective: total 169.19 = unary 119.67 + pairwise -27.47.
+Main contributors were Bandwidth congestion and DRAM pressure. Fusion captured 0 pair merges and 0 triplet merges.
+Memory profile: peak SRAM 392.00, spills 14.00, average utilization 0.36.
+Bandwidth profile: read util 97.05%, write util 97.01%, backlog pressure 202.37.
+Frontier mean during execution was 1.06.
+Quantum refinement used backend 'local_search_fallback' with 0 walkers.

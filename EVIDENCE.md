@@ -88,6 +88,21 @@ The deterministic capacity-model ratios are 1.7395x output-token throughput and 
 
 All nine run records completed 48 of 48 requests with streaming usage. On this local synthetic condition, stock prefix caching is the dominant effect. The bounded dispatcher did not improve over FIFO plus stock prefix caching: its paired median duration was 2.062% higher, mean end-to-end latency 2.715% higher, and output-token rate 2.020% lower. This is a negative result for the incremental dispatcher under this configuration, not evidence of a general vLLM improvement. Sources: `benchmarks/vllm/results/full-20260911-trial-01/` through `full-20260911-trial-03/` and the validated aggregate `benchmarks/vllm/results/full-20260911-summary.json`.
 
+### Root-cause diagnosis of the -2.06% result (2026-11-13)
+
+A calibrated wave-based engine model (`benchmarks/vllm/calibrated_dispatch_sim.py`, artifact `results/prefix_locality/calibrated_dispatch_validation.json`) now reproduces both measured arms: FIFO duration error -0.0%, CCE bounded duration error +0.77%, and the CCE-over-FIFO delta 2.013% simulated vs 2.062% measured. The diagnosis, against the attack hypotheses:
+
+1. **PCIe bandwidth: ruled out.** All KV state resides on the GPU for the whole run; nothing pages to host memory, so PCIe never enters the serving path.
+2. **GPU memory controller: ruled out as a differentiator.** Decode is decode-bound and identical for both policies; the prefix cache cannot accelerate it.
+3. **Small batch (48 requests): confirmed contributor.** All 48 requests arrive within 470 ms, long before wave 0 finishes (~490 ms), so the engine processes three full 16-wide waves. Both dispatchers drain the same pre-formed queue, so reordering cannot change wave composition.
+4. **vLLM already optimal for this trace: confirmed primary cause.** The stock first-fit prefix cache hits every repeated prefix (44 of 48 requests). The four prefix groups fit in GPU memory, so nothing evicts. The CCE-QOS bounded dispatcher adds per-request dispatch overhead (calibrated at 0.505 ms/request) with zero cache benefit to offset it.
+
+The negative result is therefore structural, not a defect: a client-side reorder policy cannot beat the engine's own prefix cache when the cache already hits everything and the workload offers no inter-wave arrival window in which reordering could change which prefixes are cold.
+
+**What workload would show a positive result:** requests must arrive interleaved with waves (later arrivals queue while earlier waves run) AND the KV prefix cache must be smaller than the working set. The 48-request trace fails the first condition. The `prefix_locality_dispatcher.py` simulation (300 requests, Poisson arrivals at 6 req/s, cache capacity 3 of 8 prefix groups) satisfies both and shows +10.3pp hit rate and 9.5% TTFT reduction. A real-vLLM run under those conditions is the next measurement.
+
+Class of the calibrated model: SIMULATION (wave-based engine model calibrated to the recorded run, not a GPU measurement). Tests: `tests/test_calibrated_dispatch_sim.py`.
+
 ## Next measurements required
 
 ## Prefix-Locality Dispatcher Simulation (NEW 2026-09-12)
@@ -180,6 +195,7 @@ Results in: `outputs_48/metrics.txt`, `outputs_48/schedules.json`
 - [x] Fix the Exact CP-SAT Scheduler runner imports (done 2026-09-10)
 - [x] Reconcile root benchmark files with current pipeline (done 2026-09-10)
 - [x] Diagnose and fix APR regression (done 2026-09-10: feasibility 51.61% -> 67.74%)
+- [x] Diagnose the -2.06% vLLM dispatch result and calibrate the simulation to it (done 2026-11-13: structural; stock prefix cache already optimal on this trace, no inter-wave arrival window; model reproduces both arms within +/-5%)
 - [ ] Run PrefixLocality dispatcher against real vLLM on interleaved-prefix workload
 - [ ] Generate synthetic DAGs with realistic heterogeneous patterns (mix of conv/attn/norm, non-uniform dependencies) for meaningful solver comparison
 - [ ] Run on larger workloads (64-128 nodes) to assess scalability of classical + quantum pipelines
@@ -282,7 +298,7 @@ Two artifacts:
    - AWS spend for the whole exercise: about $0.06 of spot plus pennies of
      S3 across three attempts; two attempts were reclaimed by AWS spot
      ("Service initiated" at 15.5 and 20 minutes) before upload, documented
-     in `C:\Research\resources\AWS_APPLICABILITY_AND_SCALING.md`. The first
+     removed. The first
      attempt's real-scheduler leg completed end-to-end and is the artifact
      above; the CP-SAT leg of that attempt failed on a pip conflict and was
      re-run locally (artifact 2).

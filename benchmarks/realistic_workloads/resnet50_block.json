@@ -1,0 +1,142 @@
+{
+  "nodes": [
+    {
+      "id": "res_b0_conv1",
+      "type": "conv",
+      "compute_cycles": 60,
+      "input_size": 1568.0,
+      "output_size": 392.0,
+      "dependencies": [],
+      "attrs": {
+        "memory_kb": 156.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "res_b0_bn1",
+      "type": "norm",
+      "compute_cycles": 20,
+      "input_size": 392.0,
+      "output_size": 392.0,
+      "dependencies": [
+        "res_b0_conv1"
+      ],
+      "attrs": {
+        "memory_kb": 39.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "res_b0_relu1",
+      "type": "relu",
+      "compute_cycles": 10,
+      "input_size": 392.0,
+      "output_size": 392.0,
+      "dependencies": [
+        "res_b0_bn1"
+      ],
+      "attrs": {
+        "memory_kb": 39.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "res_b0_conv2",
+      "type": "conv",
+      "compute_cycles": 150,
+      "input_size": 392.0,
+      "output_size": 392.0,
+      "dependencies": [
+        "res_b0_relu1"
+      ],
+      "attrs": {
+        "memory_kb": 39.2,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "res_b0_bn2",
+      "type": "norm",
+      "compute_cycles": 20,
+      "input_size": 392.0,
+      "output_size": 392.0,
+      "dependencies": [
+        "res_b0_conv2"
+      ],
+      "attrs": {
+        "memory_kb": 39.2,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "res_b0_relu2",
+      "type": "relu",
+      "compute_cycles": 10,
+      "input_size": 392.0,
+      "output_size": 392.0,
+      "dependencies": [
+        "res_b0_bn2"
+      ],
+      "attrs": {
+        "memory_kb": 39.2,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "res_b0_conv3",
+      "type": "conv",
+      "compute_cycles": 60,
+      "input_size": 392.0,
+      "output_size": 1568.0,
+      "dependencies": [
+        "res_b0_relu2"
+      ],
+      "attrs": {
+        "memory_kb": 39.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "res_b0_bn3",
+      "type": "norm",
+      "compute_cycles": 20,
+      "input_size": 1568.0,
+      "output_size": 1568.0,
+      "dependencies": [
+        "res_b0_conv3"
+      ],
+      "attrs": {
+        "memory_kb": 156.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "res_b0_add",
+      "type": "add",
+      "compute_cycles": 10,
+      "input_size": 1568.0,
+      "output_size": 1568.0,
+      "dependencies": [
+        "res_b0_bn3"
+      ],
+      "attrs": {
+        "memory_kb": 156.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "res_b0_relu3",
+      "type": "relu",
+      "compute_cycles": 10,
+      "input_size": 1568.0,
+      "output_size": 1568.0,
+      "dependencies": [
+        "res_b0_add"
+      ],
+      "attrs": {
+        "memory_kb": 156.8,
+        "bank_preference": 0
+      }
+    }
+  ]
+}

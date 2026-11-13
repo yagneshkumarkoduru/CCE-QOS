@@ -1,0 +1,1868 @@
+{
+  "workload": {
+    "num_nodes": 14,
+    "num_edges": 14
+  },
+  "results": {
+    "baseline_cost": {
+      "Greedy": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          }
+        }
+      },
+      "Lookahead": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "depth": 3,
+          "rollout_trials": 4,
+          "branch_factor": 3,
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          }
+        }
+      },
+      "Beam Search": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "beam_width": 5,
+          "expansion_topk": 4,
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          }
+        }
+      },
+      "Simulated Annealing": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "iterations": 320,
+          "start_temp": 3.8,
+          "end_temp": 0.04,
+          "acceptance_ratio": 0.0125,
+          "tabu_size": 80,
+          "warm_started": false,
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          }
+        }
+      }
+    },
+    "cce_qubo": {
+      "Greedy": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          },
+          "energy_breakdown": {
+            "unary_cost": 26.189081664000014,
+            "pairwise_total": -0.7450293040293055,
+            "constant": 30.800000000000022,
+            "total_energy": 56.24405235997074
+          },
+          "qubo_snapshot": {
+            "num_variables": 966,
+            "linear_terms": 966,
+            "quadratic_terms": 8968,
+            "active_bits": 42,
+            "ablation": "none"
+          }
+        }
+      },
+      "Lookahead": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "depth": 3,
+          "rollout_trials": 4,
+          "branch_factor": 3,
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          },
+          "energy_breakdown": {
+            "unary_cost": 26.189081664000014,
+            "pairwise_total": -0.7450293040293055,
+            "constant": 30.800000000000022,
+            "total_energy": 56.24405235997074
+          },
+          "qubo_snapshot": {
+            "num_variables": 966,
+            "linear_terms": 966,
+            "quadratic_terms": 8968,
+            "active_bits": 42,
+            "ablation": "none"
+          }
+        }
+      },
+      "Beam Search": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "beam_width": 5,
+          "expansion_topk": 4,
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          },
+          "energy_breakdown": {
+            "unary_cost": 26.189081664000014,
+            "pairwise_total": -0.7450293040293055,
+            "constant": 30.800000000000022,
+            "total_energy": 56.24405235997074
+          },
+          "qubo_snapshot": {
+            "num_variables": 966,
+            "linear_terms": 966,
+            "quadratic_terms": 8968,
+            "active_bits": 42,
+            "ablation": "none"
+          }
+        }
+      },
+      "Simulated Annealing": {
+        "order": [
+          2,
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "metadata": {
+          "iterations": 320,
+          "start_temp": 3.8,
+          "end_temp": 0.04,
+          "acceptance_ratio": 0.03125,
+          "tabu_size": 80,
+          "warm_started": false,
+          "penalties": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 1.0,
+            "dependency_conflict": 1.0,
+            "dram_pressure": 1.0,
+            "memory_bank_conflict": 0.9,
+            "bandwidth_imbalance": 0.8
+          }
+        },
+        "evaluation": {
+          "breakdown": {
+            "dram_access": 48649.31200000001,
+            "sram_reuse_loss": 3470.5440000000003,
+            "bandwidth_congestion": 221669.68159497742,
+            "pipeline_stalls": 8932.421234953968,
+            "fusion_gain": 0.0,
+            "parallelism_loss": 182.9628400796284,
+            "penalty_cost": 282.5325027402265,
+            "total_cost": 283187.4541727512
+          },
+          "memory": {
+            "dram_access": 48648.19200000001,
+            "sram_reuse_loss": 2872.32,
+            "peak_sram_usage": 0.0,
+            "idle_cycles": 11.0,
+            "bank_conflict_cycles": 44.0,
+            "spill_count": 14.0,
+            "avg_sram_utilization": 0.0,
+            "prefetch_bytes_saved": 5879.808000000001,
+            "violations": {
+              "sram_capacity": 14.0,
+              "memory_bank_conflict": 0.03142857142857143
+            }
+          },
+          "bandwidth": {
+            "bandwidth_congestion": 201498.68205601777,
+            "pipeline_stalls": 8922.741234953968,
+            "avg_utilization": 0.9142857142857144,
+            "read_utilization": 0.8857142857142858,
+            "write_utilization": 0.9049689440993788,
+            "backlog_pressure": 54.886580150274895,
+            "violations": {
+              "bandwidth_capacity": 11.0,
+              "bandwidth_imbalance": 0.019254658385092993
+            }
+          },
+          "fusion": {
+            "fused_edges": [],
+            "fusion_gain": 0.0,
+            "fused_triplets": []
+          },
+          "violation_rate": {
+            "sram_capacity": 1.0,
+            "bandwidth_capacity": 0.7857142857142857,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 1.863058823529412,
+            "memory_bank_conflict": 0.03142857142857143,
+            "bandwidth_imbalance": 0.019254658385092993
+          },
+          "cost_impact": {
+            "sram_capacity": 0.012287322466785083,
+            "bandwidth_capacity": 0.8151222731250776,
+            "dependency_conflict": 0.0,
+            "dram_pressure": 0.1719634699630502,
+            "memory_bank_conflict": 0.00015906404078925632,
+            "bandwidth_imbalance": 0.00019754545032434154
+          },
+          "feasibility": 0.0,
+          "latency_cycles": 10848.974221976508,
+          "derived": {
+            "critical_path_cycles": 1507.0,
+            "frontier_mean": 1.2142857142857142
+          },
+          "energy_breakdown": {
+            "unary_cost": 26.189081664000014,
+            "pairwise_total": -0.7450293040293055,
+            "constant": 30.800000000000022,
+            "total_energy": 56.24405235997074
+          },
+          "qubo_snapshot": {
+            "num_variables": 966,
+            "linear_terms": 966,
+            "quadratic_terms": 8968,
+            "active_bits": 42,
+            "ablation": "none"
+          }
+        }
+      }
+    },
+    "cce_qubo_apr": {
+      "order": [
+        2,
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "evaluation": {
+        "breakdown": {
+          "dram_access": 48649.31200000001,
+          "sram_reuse_loss": 3470.5440000000003,
+          "bandwidth_congestion": 221669.68159497742,
+          "pipeline_stalls": 8932.421234953968,
+          "fusion_gain": 0.0,
+          "parallelism_loss": 182.9628400796284,
+          "penalty_cost": 282.5325027402265,
+          "total_cost": 283187.4541727512
+        },
+        "memory": {
+          "dram_access": 48648.19200000001,
+          "sram_reuse_loss": 2872.32,
+          "peak_sram_usage": 0.0,
+          "idle_cycles": 11.0,
+          "bank_conflict_cycles": 44.0,
+          "spill_count": 14.0,
+          "avg_sram_utilization": 0.0,
+          "prefetch_bytes_saved": 5879.808000000001,
+          "violations": {
+            "sram_capacity": 14.0,
+            "memory_bank_conflict": 0.03142857142857143
+          }
+        },
+        "bandwidth": {
+          "bandwidth_congestion": 201498.68205601777,
+          "pipeline_stalls": 8922.741234953968,
+          "avg_utilization": 0.9142857142857144,
+          "read_utilization": 0.8857142857142858,
+          "write_utilization": 0.9049689440993788,
+          "backlog_pressure": 54.886580150274895,
+          "violations": {
+            "bandwidth_capacity": 11.0,
+            "bandwidth_imbalance": 0.019254658385092993
+          }
+        },
+        "fusion": {
+          "fused_edges": [],
+          "fusion_gain": 0.0,
+          "fused_triplets": []
+        },
+        "violation_rate": {
+          "sram_capacity": 1.0,
+          "bandwidth_capacity": 0.7857142857142857,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 1.863058823529412,
+          "memory_bank_conflict": 0.03142857142857143,
+          "bandwidth_imbalance": 0.019254658385092993
+        },
+        "cost_impact": {
+          "sram_capacity": 0.012287322466785083,
+          "bandwidth_capacity": 0.8151222731250776,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 0.1719634699630502,
+          "memory_bank_conflict": 0.00015906404078925632,
+          "bandwidth_imbalance": 0.00019754545032434154
+        },
+        "feasibility": 0.0,
+        "latency_cycles": 10848.974221976508,
+        "derived": {
+          "critical_path_cycles": 1507.0,
+          "frontier_mean": 1.2142857142857142
+        },
+        "energy_breakdown": {
+          "unary_cost": 26.189081664000014,
+          "pairwise_total": -0.7450293040293055,
+          "constant": 30.800000000000022,
+          "total_energy": 56.24405235997074
+        },
+        "qubo_snapshot": {
+          "num_variables": 966,
+          "linear_terms": 966,
+          "quadratic_terms": 8968,
+          "active_bits": 42,
+          "ablation": "none"
+        }
+      },
+      "metadata": {
+        "round_trace": [
+          {
+            "round": 1,
+            "objective": 56.24405235997074,
+            "penalized_objective": 56.24405235997074,
+            "violation_mass": 25.015714285714285,
+            "penalties": {
+              "dependency_conflict": 1.0,
+              "bandwidth_capacity": 2.1962162210179037,
+              "bandwidth_imbalance": 0.8174477198167783,
+              "memory_bank_conflict": 0.9283811527101878,
+              "dram_pressure": 2.779931023154301,
+              "sram_capacity": 1.907372393480071
+            }
+          },
+          {
+            "round": 2,
+            "objective": 56.24405235997074,
+            "penalized_objective": 68.94726586869172,
+            "violation_mass": 25.015714285714285,
+            "penalties": {
+              "dependency_conflict": 1.0,
+              "bandwidth_capacity": 3.3924324420358074,
+              "bandwidth_imbalance": 0.8348954396335566,
+              "memory_bank_conflict": 0.9567623054203757,
+              "dram_pressure": 4.559862046308602,
+              "sram_capacity": 2.814744786960142
+            }
+          },
+          {
+            "round": 3,
+            "objective": 56.24405235997074,
+            "penalized_objective": 81.65047937741271,
+            "violation_mass": 25.015714285714285,
+            "penalties": {
+              "dependency_conflict": 1.0,
+              "bandwidth_capacity": 4.5886486630537116,
+              "bandwidth_imbalance": 0.8523431594503349,
+              "memory_bank_conflict": 0.9851434581305635,
+              "dram_pressure": 6.339793069462903,
+              "sram_capacity": 3.722117180440213
+            }
+          },
+          {
+            "round": 4,
+            "objective": 56.24405235997074,
+            "penalized_objective": 94.35369288613367,
+            "violation_mass": 25.015714285714285,
+            "penalties": {
+              "dependency_conflict": 1.0,
+              "bandwidth_capacity": 5.784864884071616,
+              "bandwidth_imbalance": 0.8697908792671132,
+              "memory_bank_conflict": 1.0135246108407514,
+              "dram_pressure": 8.119724092617204,
+              "sram_capacity": 4.629489573920284
+            }
+          },
+          {
+            "round": 5,
+            "objective": 56.24405235997074,
+            "penalized_objective": 107.05690639485465,
+            "violation_mass": 25.015714285714285,
+            "penalties": {
+              "dependency_conflict": 1.0,
+              "bandwidth_capacity": 6.98108110508952,
+              "bandwidth_imbalance": 0.8872385990838915,
+              "memory_bank_conflict": 1.0419057635509392,
+              "dram_pressure": 9.899655115771505,
+              "sram_capacity": 5.536861967400355
+            }
+          }
+        ],
+        "final_penalties": {
+          "dependency_conflict": 1.0,
+          "bandwidth_capacity": 6.98108110508952,
+          "bandwidth_imbalance": 0.8872385990838915,
+          "memory_bank_conflict": 1.0419057635509392,
+          "dram_pressure": 9.899655115771505,
+          "sram_capacity": 5.536861967400355
+        },
+        "polish": {
+          "starts": 1,
+          "iterations": 300,
+          "objective": 56.24405235997074,
+          "violation_mass": 25.015714,
+          "selected": false
+        }
+      }
+    },
+    "quantum_candidates": {
+      "order": [
+        2,
+        1,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "evaluation": {
+        "breakdown": {
+          "dram_access": 48649.31200000001,
+          "sram_reuse_loss": 3470.5440000000003,
+          "bandwidth_congestion": 221669.68159497742,
+          "pipeline_stalls": 8932.421234953968,
+          "fusion_gain": 0.0,
+          "parallelism_loss": 182.9628400796284,
+          "penalty_cost": 282.5325027402265,
+          "total_cost": 283187.4541727512
+        },
+        "memory": {
+          "dram_access": 48648.19200000001,
+          "sram_reuse_loss": 2872.32,
+          "peak_sram_usage": 0.0,
+          "idle_cycles": 11.0,
+          "bank_conflict_cycles": 44.0,
+          "spill_count": 14.0,
+          "avg_sram_utilization": 0.0,
+          "prefetch_bytes_saved": 5879.808000000001,
+          "violations": {
+            "sram_capacity": 14.0,
+            "memory_bank_conflict": 0.03142857142857143
+          }
+        },
+        "bandwidth": {
+          "bandwidth_congestion": 201498.68205601777,
+          "pipeline_stalls": 8922.741234953968,
+          "avg_utilization": 0.9142857142857144,
+          "read_utilization": 0.8857142857142858,
+          "write_utilization": 0.9049689440993788,
+          "backlog_pressure": 54.886580150274895,
+          "violations": {
+            "bandwidth_capacity": 11.0,
+            "bandwidth_imbalance": 0.019254658385092993
+          }
+        },
+        "fusion": {
+          "fused_edges": [],
+          "fusion_gain": 0.0,
+          "fused_triplets": []
+        },
+        "violation_rate": {
+          "sram_capacity": 1.0,
+          "bandwidth_capacity": 0.7857142857142857,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 1.863058823529412,
+          "memory_bank_conflict": 0.03142857142857143,
+          "bandwidth_imbalance": 0.019254658385092993
+        },
+        "cost_impact": {
+          "sram_capacity": 0.012287322466785083,
+          "bandwidth_capacity": 0.8151222731250776,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 0.1719634699630502,
+          "memory_bank_conflict": 0.00015906404078925632,
+          "bandwidth_imbalance": 0.00019754545032434154
+        },
+        "feasibility": 0.0,
+        "latency_cycles": 10848.974221976508,
+        "derived": {
+          "critical_path_cycles": 1507.0,
+          "frontier_mean": 1.2142857142857142
+        },
+        "energy_breakdown": {
+          "unary_cost": 26.189081664000014,
+          "pairwise_total": -0.7450293040293055,
+          "constant": 30.800000000000022,
+          "total_energy": 56.24405235997074
+        },
+        "qubo_snapshot": {
+          "num_variables": 966,
+          "linear_terms": 966,
+          "quadratic_terms": 8968,
+          "active_bits": 42,
+          "ablation": "none"
+        }
+      },
+      "metadata": {
+        "candidate": {
+          "rank": 2,
+          "energy": 4222.457134247163,
+          "bitstring": "001111100011010110110111110000011010000010111001010001010100000001000101010001001001001001101000001110001100011000000111000000101001001111000101101100011110001001100101011000000101000110100010010000000011000111001001000101101110100000011001000000011000101110001100010010110111100111111100011001110110110110110000110000010110000011000011001011100011001101111100001001100111111111011101100000001000011110101110001101010010010100001010100101000110011000000001110101100100000010100001010000010110010111100111001001010011000000011110001110001010000001011000010000011100101111001001010111001001001000011100000001111010001100010000110001000000001000110111110010110101000001001101010100110010101110011010100110101101100100110010010001000010010000000011010101011100110100100100001100111000001101000001010110000000111110010111000000100000010111000110101101101010010110101100110101110001000111001110101000001100000100001000000100111000110100001010101100110000011110101110001110",
+          "active_variables": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            10,
+            11,
+            13,
+            15,
+            16,
+            18,
+            19,
+            21,
+            22,
+            23,
+            24,
+            25,
+            31,
+            32,
+            34,
+            40,
+            42,
+            43,
+            44,
+            47,
+            49,
+            53,
+            55,
+            57,
+            65,
+            69,
+            71,
+            73,
+            77,
+            80,
+            83,
+            86,
+            89,
+            90,
+            92,
+            98,
+            99,
+            100,
+            104,
+            105,
+            109,
+            110,
+            117,
+            118,
+            119,
+            126,
+            128,
+            131,
+            134,
+            135,
+            136,
+            137,
+            141,
+            143,
+            144,
+            146,
+            147,
+            151,
+            152,
+            153,
+            154,
+            158,
+            161,
+            162,
+            165,
+            167,
+            169,
+            170,
+            177,
+            179,
+            183,
+            184,
+            186,
+            190,
+            193,
+            202,
+            203,
+            207,
+            208,
+            209,
+            212,
+            215,
+            219,
+            221,
+            222,
+            224,
+            225,
+            226,
+            228,
+            235,
+            236,
+            239,
+            247,
+            248,
+            252,
+            254,
+            255,
+            256,
+            260,
+            261,
+            265,
+            268,
+            270,
+            271,
+            273,
+            274,
+            275,
+            276,
+            279,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            289,
+            290,
+            293,
+            294,
+            295,
+            297,
+            298,
+            300,
+            301,
+            303,
+            304,
+            306,
+            307,
+            312,
+            313,
+            319,
+            321,
+            322,
+            328,
+            329,
+            334,
+            335,
+            338,
+            340,
+            341,
+            342,
+            346,
+            347,
+            350,
+            351,
+            353,
+            354,
+            355,
+            356,
+            357,
+            362,
+            365,
+            366,
+            369,
+            370,
+            371,
+            372,
+            373,
+            374,
+            375,
+            376,
+            377,
+            379,
+            380,
+            381,
+            383,
+            384,
+            392,
+            397,
+            398,
+            399,
+            400,
+            402,
+            404,
+            405,
+            406,
+            410,
+            411,
+            413,
+            415,
+            418,
+            421,
+            423,
+            428,
+            430,
+            432,
+            435,
+            437,
+            441,
+            442,
+            445,
+            446,
+            455,
+            456,
+            457,
+            459,
+            461,
+            462,
+            465,
+            472,
+            474,
+            479,
+            481,
+            487,
+            489,
+            490,
+            493,
+            495,
+            496,
+            497,
+            498,
+            501,
+            502,
+            503,
+            506,
+            509,
+            511,
+            514,
+            515,
+            523,
+            524,
+            525,
+            526,
+            530,
+            531,
+            532,
+            536,
+            538,
+            545,
+            547,
+            548,
+            553,
+            559,
+            560,
+            561,
+            564,
+            566,
+            567,
+            568,
+            569,
+            572,
+            575,
+            577,
+            579,
+            580,
+            581,
+            584,
+            587,
+            590,
+            595,
+            596,
+            597,
+            605,
+            606,
+            607,
+            608,
+            610,
+            614,
+            615,
+            619,
+            624,
+            625,
+            629,
+            638,
+            642,
+            643,
+            645,
+            646,
+            647,
+            648,
+            649,
+            652,
+            654,
+            655,
+            657,
+            659,
+            665,
+            668,
+            669,
+            671,
+            673,
+            675,
+            678,
+            679,
+            682,
+            684,
+            686,
+            687,
+            688,
+            691,
+            692,
+            694,
+            696,
+            699,
+            700,
+            702,
+            704,
+            705,
+            707,
+            708,
+            711,
+            714,
+            715,
+            718,
+            721,
+            725,
+            730,
+            733,
+            742,
+            743,
+            745,
+            747,
+            749,
+            751,
+            752,
+            753,
+            756,
+            757,
+            759,
+            762,
+            765,
+            770,
+            771,
+            774,
+            775,
+            776,
+            782,
+            783,
+            785,
+            791,
+            793,
+            795,
+            796,
+            804,
+            805,
+            806,
+            807,
+            808,
+            811,
+            813,
+            814,
+            815,
+            822,
+            829,
+            831,
+            832,
+            833,
+            837,
+            838,
+            840,
+            842,
+            843,
+            845,
+            846,
+            848,
+            850,
+            853,
+            855,
+            856,
+            858,
+            860,
+            861,
+            864,
+            865,
+            867,
+            869,
+            870,
+            871,
+            875,
+            879,
+            880,
+            881,
+            884,
+            885,
+            886,
+            888,
+            890,
+            896,
+            897,
+            903,
+            908,
+            915,
+            918,
+            919,
+            920,
+            924,
+            925,
+            927,
+            932,
+            934,
+            936,
+            938,
+            939,
+            942,
+            943,
+            949,
+            950,
+            951,
+            952,
+            954,
+            956,
+            957,
+            958,
+            962,
+            963,
+            964
+          ],
+          "schedule_projection": [
+            2,
+            7,
+            8,
+            9,
+            10,
+            13,
+            1,
+            4,
+            5,
+            0,
+            3,
+            6,
+            11,
+            12
+          ],
+          "backend": "local_search_fallback"
+        },
+        "backend": "local_search_fallback"
+      }
+    }
+  },
+  "ablations": {
+    "full_cce": {
+      "order": [
+        2,
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "metadata": {
+        "iterations": 320,
+        "start_temp": 3.8,
+        "end_temp": 0.04,
+        "acceptance_ratio": 0.03125,
+        "tabu_size": 80,
+        "warm_started": false,
+        "penalties": {
+          "sram_capacity": 1.0,
+          "bandwidth_capacity": 1.0,
+          "dependency_conflict": 1.0,
+          "dram_pressure": 1.0,
+          "memory_bank_conflict": 0.9,
+          "bandwidth_imbalance": 0.8
+        }
+      },
+      "evaluation": {
+        "breakdown": {
+          "dram_access": 48649.31200000001,
+          "sram_reuse_loss": 3470.5440000000003,
+          "bandwidth_congestion": 221669.68159497742,
+          "pipeline_stalls": 8932.421234953968,
+          "fusion_gain": 0.0,
+          "parallelism_loss": 182.9628400796284,
+          "penalty_cost": 282.5325027402265,
+          "total_cost": 283187.4541727512
+        },
+        "memory": {
+          "dram_access": 48648.19200000001,
+          "sram_reuse_loss": 2872.32,
+          "peak_sram_usage": 0.0,
+          "idle_cycles": 11.0,
+          "bank_conflict_cycles": 44.0,
+          "spill_count": 14.0,
+          "avg_sram_utilization": 0.0,
+          "prefetch_bytes_saved": 5879.808000000001,
+          "violations": {
+            "sram_capacity": 14.0,
+            "memory_bank_conflict": 0.03142857142857143
+          }
+        },
+        "bandwidth": {
+          "bandwidth_congestion": 201498.68205601777,
+          "pipeline_stalls": 8922.741234953968,
+          "avg_utilization": 0.9142857142857144,
+          "read_utilization": 0.8857142857142858,
+          "write_utilization": 0.9049689440993788,
+          "backlog_pressure": 54.886580150274895,
+          "violations": {
+            "bandwidth_capacity": 11.0,
+            "bandwidth_imbalance": 0.019254658385092993
+          }
+        },
+        "fusion": {
+          "fused_edges": [],
+          "fusion_gain": 0.0,
+          "fused_triplets": []
+        },
+        "violation_rate": {
+          "sram_capacity": 1.0,
+          "bandwidth_capacity": 0.7857142857142857,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 1.863058823529412,
+          "memory_bank_conflict": 0.03142857142857143,
+          "bandwidth_imbalance": 0.019254658385092993
+        },
+        "cost_impact": {
+          "sram_capacity": 0.012287322466785083,
+          "bandwidth_capacity": 0.8151222731250776,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 0.1719634699630502,
+          "memory_bank_conflict": 0.00015906404078925632,
+          "bandwidth_imbalance": 0.00019754545032434154
+        },
+        "feasibility": 0.0,
+        "latency_cycles": 10848.974221976508,
+        "derived": {
+          "critical_path_cycles": 1507.0,
+          "frontier_mean": 1.2142857142857142
+        },
+        "energy_breakdown": {
+          "unary_cost": 26.189081664000014,
+          "pairwise_total": -0.7450293040293055,
+          "constant": 30.800000000000022,
+          "total_energy": 56.24405235997074
+        },
+        "qubo_snapshot": {
+          "num_variables": 966,
+          "linear_terms": 966,
+          "quadratic_terms": 8968,
+          "active_bits": 42,
+          "ablation": "none"
+        }
+      }
+    },
+    "no_pairwise": {
+      "order": [
+        2,
+        1,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "evaluation": {
+        "breakdown": {
+          "dram_access": 48649.31200000001,
+          "sram_reuse_loss": 3470.5440000000003,
+          "bandwidth_congestion": 221669.68159497742,
+          "pipeline_stalls": 8932.421234953968,
+          "fusion_gain": 0.0,
+          "parallelism_loss": 182.9628400796284,
+          "penalty_cost": 282.5325027402265,
+          "total_cost": 283187.4541727512
+        },
+        "memory": {
+          "dram_access": 48648.19200000001,
+          "sram_reuse_loss": 2872.32,
+          "peak_sram_usage": 0.0,
+          "idle_cycles": 11.0,
+          "bank_conflict_cycles": 44.0,
+          "spill_count": 14.0,
+          "avg_sram_utilization": 0.0,
+          "prefetch_bytes_saved": 5879.808000000001,
+          "violations": {
+            "sram_capacity": 14.0,
+            "memory_bank_conflict": 0.03142857142857143
+          }
+        },
+        "bandwidth": {
+          "bandwidth_congestion": 201498.68205601777,
+          "pipeline_stalls": 8922.741234953968,
+          "avg_utilization": 0.9142857142857144,
+          "read_utilization": 0.8857142857142858,
+          "write_utilization": 0.9049689440993788,
+          "backlog_pressure": 54.886580150274895,
+          "violations": {
+            "bandwidth_capacity": 11.0,
+            "bandwidth_imbalance": 0.019254658385092993
+          }
+        },
+        "fusion": {
+          "fused_edges": [],
+          "fusion_gain": 0.0,
+          "fused_triplets": []
+        },
+        "violation_rate": {
+          "sram_capacity": 1.0,
+          "bandwidth_capacity": 0.7857142857142857,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 1.863058823529412,
+          "memory_bank_conflict": 0.03142857142857143,
+          "bandwidth_imbalance": 0.019254658385092993
+        },
+        "cost_impact": {
+          "sram_capacity": 0.012287322466785083,
+          "bandwidth_capacity": 0.8151222731250776,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 0.1719634699630502,
+          "memory_bank_conflict": 0.00015906404078925632,
+          "bandwidth_imbalance": 0.00019754545032434154
+        },
+        "feasibility": 0.0,
+        "latency_cycles": 10848.974221976508,
+        "derived": {
+          "critical_path_cycles": 1507.0,
+          "frontier_mean": 1.2142857142857142
+        },
+        "energy_breakdown": {
+          "unary_cost": 26.189081664000014,
+          "pairwise_total": 22.0,
+          "constant": 30.800000000000022,
+          "total_energy": 78.98908166400004
+        },
+        "qubo_snapshot": {
+          "num_variables": 966,
+          "linear_terms": 966,
+          "quadratic_terms": 8696,
+          "active_bits": 42,
+          "ablation": "remove_pairwise"
+        }
+      },
+      "metadata": {}
+    },
+    "no_higher_order": {
+      "order": [
+        2,
+        1,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "evaluation": {
+        "breakdown": {
+          "dram_access": 48649.31200000001,
+          "sram_reuse_loss": 3470.5440000000003,
+          "bandwidth_congestion": 221669.68159497742,
+          "pipeline_stalls": 8932.421234953968,
+          "fusion_gain": 0.0,
+          "parallelism_loss": 182.9628400796284,
+          "penalty_cost": 282.5325027402265,
+          "total_cost": 283187.4541727512
+        },
+        "memory": {
+          "dram_access": 48648.19200000001,
+          "sram_reuse_loss": 2872.32,
+          "peak_sram_usage": 0.0,
+          "idle_cycles": 11.0,
+          "bank_conflict_cycles": 44.0,
+          "spill_count": 14.0,
+          "avg_sram_utilization": 0.0,
+          "prefetch_bytes_saved": 5879.808000000001,
+          "violations": {
+            "sram_capacity": 14.0,
+            "memory_bank_conflict": 0.03142857142857143
+          }
+        },
+        "bandwidth": {
+          "bandwidth_congestion": 201498.68205601777,
+          "pipeline_stalls": 8922.741234953968,
+          "avg_utilization": 0.9142857142857144,
+          "read_utilization": 0.8857142857142858,
+          "write_utilization": 0.9049689440993788,
+          "backlog_pressure": 54.886580150274895,
+          "violations": {
+            "bandwidth_capacity": 11.0,
+            "bandwidth_imbalance": 0.019254658385092993
+          }
+        },
+        "fusion": {
+          "fused_edges": [],
+          "fusion_gain": 0.0,
+          "fused_triplets": []
+        },
+        "violation_rate": {
+          "sram_capacity": 1.0,
+          "bandwidth_capacity": 0.7857142857142857,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 1.863058823529412,
+          "memory_bank_conflict": 0.03142857142857143,
+          "bandwidth_imbalance": 0.019254658385092993
+        },
+        "cost_impact": {
+          "sram_capacity": 0.012287322466785083,
+          "bandwidth_capacity": 0.8151222731250776,
+          "dependency_conflict": 0.0,
+          "dram_pressure": 0.1719634699630502,
+          "memory_bank_conflict": 0.00015906404078925632,
+          "bandwidth_imbalance": 0.00019754545032434154
+        },
+        "feasibility": 0.0,
+        "latency_cycles": 10848.974221976508,
+        "derived": {
+          "critical_path_cycles": 1507.0,
+          "frontier_mean": 1.2142857142857142
+        },
+        "energy_breakdown": {
+          "unary_cost": 9.805223999999988,
+          "pairwise_total": -0.7450293040293055,
+          "constant": 30.800000000000022,
+          "total_energy": 39.860194695970705
+        },
+        "qubo_snapshot": {
+          "num_variables": 868,
+          "linear_terms": 867,
+          "quadratic_terms": 8576,
+          "active_bits": 42,
+          "ablation": "remove_higher_order"
+        }
+      },
+      "metadata": {}
+    }
+  },
+  "x_metric": {
+    "weights": {
+      "cost": 0.3,
+      "latency": 0.25,
+      "dram": 0.25,
+      "stalls": 0.2
+    },
+    "cce_vs_baseline": 0.0,
+    "quantum_vs_baseline": 0.0
+  },
+  "runtime_seconds": 9.45537380001042
+}

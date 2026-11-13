@@ -7,4 +7,4 @@ baseline::Simulated Annealing    cost    4747.61 +/-  919.39   feasible  53.76 +
 cce::CCE + APR                   cost    6268.94 +/-  461.49   feasible  70.96 +/-  9.79 %
 quantum::candidates              cost    9574.83 +/-  614.57   feasible  47.31 +/-  6.34 %
 
-written: C:\Research\projects\CCE-QOS\results\sweeps\20260920-223708\sweep_summary.json
+written: results/sweeps/20260920-223708/sweep_summary.json

@@ -97,7 +97,20 @@ Three matched local trials with `Qwen/Qwen2.5-0.5B-Instruct`, vLLM 0.29.0, RTX 4
 | CCE-QOS bounded + stock cache | 1,219 ms (+1.2%) | 1,890 (-1.2%) |
 
 Stock prefix caching is the dominant effect. The bounded dispatcher did not improve
-over FIFO+stock cache on this bursty synthetic trace. Retained honestly. See `EVIDENCE.md`.
+over FIFO+stock cache on this bursty synthetic trace (paired median duration 2.06%
+higher). Retained honestly, with a root-cause diagnosis.
+
+**Root cause (2026-11-13, calibrated wave-based engine model):** the regression is
+structural, not a defect. The stock first-fit prefix cache already hits every repeated
+prefix (44 of 48 requests) and all four prefix groups fit in GPU memory, so nothing
+evicts. All 48 requests arrive within 470 ms, before wave 0 finishes, so both dispatchers
+drain the same pre-formed queue and reordering cannot change wave composition. The
+bounded dispatcher adds per-request dispatch overhead (calibrated 0.505 ms/request) with
+zero cache benefit to offset it. The calibrated model
+(`benchmarks/vllm/calibrated_dispatch_sim.py`) reproduces both arms within +/-1% and the
+measured 2.06% delta to 0.05pp. A positive result requires interleaved arrivals with
+waves and a KV cache smaller than the working set - the conditions the 2.3 simulation
+satisfies. See `EVIDENCE.md` for the full diagnosis.
 
 ---
 

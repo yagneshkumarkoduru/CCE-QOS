@@ -1,0 +1,2430 @@
+{
+  "nodes": [
+    {
+      "id": "embed",
+      "type": "dense",
+      "compute_cycles": 300,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "embed"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "embed"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "embed"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L0_q_proj",
+        "bert_L0_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L0_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L0_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L0_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_softmax",
+        "bert_L0_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L0_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_out_proj",
+        "embed"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L0_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L0_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_ffn2",
+        "bert_L0_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L0_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L0_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L1_q_proj",
+        "bert_L1_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L1_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L1_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L1_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_softmax",
+        "bert_L1_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L1_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_out_proj",
+        "bert_L0_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L1_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L1_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_ffn2",
+        "bert_L1_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L1_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L1_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L2_q_proj",
+        "bert_L2_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L2_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L2_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L2_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_softmax",
+        "bert_L2_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L2_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_out_proj",
+        "bert_L1_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L2_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L2_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_ffn2",
+        "bert_L2_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L2_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L2_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L3_q_proj",
+        "bert_L3_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L3_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L3_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L3_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_softmax",
+        "bert_L3_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L3_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_out_proj",
+        "bert_L2_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L3_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L3_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_ffn2",
+        "bert_L3_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L3_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L3_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L4_q_proj",
+        "bert_L4_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L4_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L4_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L4_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_softmax",
+        "bert_L4_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L4_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_out_proj",
+        "bert_L3_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L4_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L4_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_ffn2",
+        "bert_L4_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L4_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L4_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L5_q_proj",
+        "bert_L5_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L5_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L5_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L5_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_softmax",
+        "bert_L5_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L5_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_out_proj",
+        "bert_L4_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L5_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L5_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_ffn2",
+        "bert_L5_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L5_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L5_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L6_q_proj",
+        "bert_L6_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L6_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L6_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L6_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_softmax",
+        "bert_L6_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L6_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_out_proj",
+        "bert_L5_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L6_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L6_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_ffn2",
+        "bert_L6_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L6_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L6_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L7_q_proj",
+        "bert_L7_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L7_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L7_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L7_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_softmax",
+        "bert_L7_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L7_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_out_proj",
+        "bert_L6_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L7_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L7_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_ffn2",
+        "bert_L7_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L7_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L7_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L8_q_proj",
+        "bert_L8_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L8_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L8_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L8_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_softmax",
+        "bert_L8_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L8_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_out_proj",
+        "bert_L7_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L8_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L8_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_ffn2",
+        "bert_L8_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L8_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L8_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L9_q_proj",
+        "bert_L9_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L9_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L9_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L9_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_softmax",
+        "bert_L9_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L9_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_out_proj",
+        "bert_L8_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L9_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L9_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_ffn2",
+        "bert_L9_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L9_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L9_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L10_q_proj",
+        "bert_L10_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L10_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L10_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L10_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_softmax",
+        "bert_L10_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L10_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_out_proj",
+        "bert_L9_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L10_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L10_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_ffn2",
+        "bert_L10_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L10_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_q_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_k_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_v_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L10_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_attn_score",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L11_q_proj",
+        "bert_L11_k_proj"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L11_softmax",
+      "type": "softmax",
+      "compute_cycles": 120,
+      "input_size": 6144.0,
+      "output_size": 6144.0,
+      "dependencies": [
+        "bert_L11_attn_score"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L11_attn_out",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 6144.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_softmax",
+        "bert_L11_v_proj"
+      ],
+      "attrs": {
+        "memory_kb": 614.4,
+        "bank_preference": 1
+      }
+    },
+    {
+      "id": "bert_L11_out_proj",
+      "type": "matmul",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_attn_out"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_add1",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_out_proj",
+        "bert_L10_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_ln1",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_add1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_ffn1",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 768.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L11_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_gelu",
+      "type": "gelu",
+      "compute_cycles": 15,
+      "input_size": 3072.0,
+      "output_size": 3072.0,
+      "dependencies": [
+        "bert_L11_ffn1"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_ffn2",
+      "type": "dense",
+      "compute_cycles": 241,
+      "input_size": 3072.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_gelu"
+      ],
+      "attrs": {
+        "memory_kb": 307.2,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_add2",
+      "type": "add",
+      "compute_cycles": 15,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_ffn2",
+        "bert_L11_ln1"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "bert_L11_ln2",
+      "type": "norm",
+      "compute_cycles": 30,
+      "input_size": 768.0,
+      "output_size": 768.0,
+      "dependencies": [
+        "bert_L11_add2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    },
+    {
+      "id": "pooler",
+      "type": "dense",
+      "compute_cycles": 200,
+      "input_size": 768.0,
+      "output_size": 1.5,
+      "dependencies": [
+        "bert_L11_ln2"
+      ],
+      "attrs": {
+        "memory_kb": 76.8,
+        "bank_preference": 0
+      }
+    }
+  ]
+}
