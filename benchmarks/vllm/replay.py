@@ -164,6 +164,41 @@ def _summarize(
     return summary
 
 
+async def _read_prefix_cache_counters(client: Any, endpoint: str) -> Optional[Dict[str, float]]:
+    """Read cumulative vLLM prefix-cache counters from the Prometheus endpoint.
+
+    Returns None when the server does not expose prefix-cache metrics (for
+    example when automatic prefix caching is disabled). The counters are
+    cumulative since server start; a fresh server per configuration makes the
+    start/end delta a per-run hit total.
+    """
+    try:
+        response = await client.get(endpoint.rstrip("/") + "/metrics", timeout=5.0)
+        response.raise_for_status()
+    except Exception:
+        return None
+    hits: Optional[float] = None
+    queries: Optional[float] = None
+    for line in response.text.splitlines():
+        if line.startswith("#"):
+            continue
+        # Match the cumulative counters (e.g. vllm:prefix_cache_hits_total),
+        # not the *_created gauges that carry start timestamps.
+        if line.startswith("vllm:prefix_cache_hits_total"):
+            try:
+                hits = float(line.split()[-1])
+            except (IndexError, ValueError):
+                pass
+        elif line.startswith("vllm:prefix_cache_queries_total"):
+            try:
+                queries = float(line.split()[-1])
+            except (IndexError, ValueError):
+                pass
+    if hits is None and queries is None:
+        return None
+    return {"hits": hits or 0.0, "queries": queries or 0.0}
+
+
 async def run_replay(
     endpoint: str,
     model: str,
@@ -198,6 +233,7 @@ async def run_replay(
 
     timeout = httpx.Timeout(timeout=request_timeout_s)
     async with httpx.AsyncClient(timeout=timeout) as client:
+        counters_start = await _read_prefix_cache_counters(client, endpoint)
         while arrival_index < len(trace) or len(dispatcher) or inflight:
             elapsed_ms = (time.perf_counter() - started_at) * 1000.0
             while arrival_index < len(trace) and trace[arrival_index].arrival_offset_ms <= elapsed_ms:
@@ -231,8 +267,21 @@ async def run_replay(
             elif next_arrival_timeout is not None:
                 await asyncio.sleep(next_arrival_timeout)
 
+        counters_end = await _read_prefix_cache_counters(client, endpoint)
+
     duration_ms = (time.perf_counter() - started_at) * 1000.0
-    return _summarize(outcomes, trace, policy, max_reorder_wait_ms, duration_ms)
+    summary = _summarize(outcomes, trace, policy, max_reorder_wait_ms, duration_ms)
+    summary["prefix_cache_counters_start"] = counters_start
+    summary["prefix_cache_counters_end"] = counters_end
+    if counters_start is not None and counters_end is not None:
+        delta_hits = counters_end["hits"] - counters_start["hits"]
+        delta_queries = counters_end["queries"] - counters_start["queries"]
+        summary["prefix_cache_hit_rate"] = (
+            round(delta_hits / delta_queries, 6) if delta_queries > 0 else None
+        )
+    else:
+        summary["prefix_cache_hit_rate"] = None
+    return summary
 
 
 def write_result(path: Path, result: Dict[str, Any]) -> None:

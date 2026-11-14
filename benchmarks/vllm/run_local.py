@@ -199,6 +199,8 @@ def _start_server(
     enable_prefix_caching: bool,
     enforce_eager: bool,
     log_path: Path,
+    num_blocks: Optional[int] = None,
+    attention_backend: Optional[str] = None,
 ) -> tuple[subprocess.Popen[Any], List[str], Any, Dict[str, Any]]:
     host_port = endpoint.removeprefix("http://").removeprefix("https://").split(":")
     if len(host_port) != 2 or not host_port[1].isdigit():
@@ -227,6 +229,12 @@ def _start_server(
     ]
     if enforce_eager:
         command.append("--enforce-eager")
+    if num_blocks is not None:
+        # Cap the KV cache block pool to hold fewer prefix groups than the
+        # working set, satisfying the constrained-cache positive-result condition.
+        command.extend(["--num-gpu-blocks-override", str(num_blocks)])
+    if attention_backend is not None:
+        command.extend(["--attention-backend", attention_backend])
     if enable_prefix_caching:
         command.append("--enable-prefix-caching")
     else:
@@ -293,6 +301,8 @@ def run_configuration(
     warmup_requests: int,
     enforce_eager: bool,
     seed: int,
+    num_blocks: Optional[int] = None,
+    attention_backend: Optional[str] = None,
 ) -> Path:
     trace = load_trace(trace_path)
     log_path = result_dir / (configuration.name + ".server.log")
@@ -306,6 +316,8 @@ def run_configuration(
         enable_prefix_caching=configuration.enable_prefix_caching,
         enforce_eager=enforce_eager,
         log_path=log_path,
+        num_blocks=num_blocks,
+        attention_backend=attention_backend,
     )
     try:
         _wait_for_server(endpoint, process, server_timeout_s, log_path)
@@ -338,6 +350,8 @@ def run_configuration(
             "max_reorder_wait_ms": max_reorder_wait_ms,
             "warmup_requests": warmup_requests,
             "enforce_eager": enforce_eager,
+            "num_blocks": num_blocks,
+            "attention_backend": attention_backend,
             "seed": seed,
             "server_log": str(log_path.resolve()),
             "server_environment": server_environment,
@@ -367,6 +381,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--max-num-seqs", type=int, default=16)
     parser.add_argument("--max-inflight", type=int, default=16)
     parser.add_argument("--max-reorder-wait-ms", type=int, default=100)
+    parser.add_argument(
+        "--num-blocks",
+        type=int,
+        default=None,
+        help="Override KV cache block pool size to constrain the prefix cache below the working set.",
+    )
     parser.add_argument("--request-timeout-s", type=float, default=180.0)
     parser.add_argument("--server-timeout-s", type=float, default=600.0)
     parser.add_argument("--warmup-requests", type=int, default=4)
@@ -376,6 +396,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         help="Disable CUDA graphs only for debugging; default uses stock vLLM optimization.",
     )
     parser.add_argument("--seed", type=int, default=20260911)
+    parser.add_argument(
+        "--attention-backend",
+        default=None,
+        help="Pin the vLLM attention backend (for example TRITON) on hosts where the auto-selected backend fails.",
+    )
     parser.add_argument(
         "--only",
         choices=[configuration.name for configuration in CONFIGURATIONS],
@@ -416,6 +441,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             warmup_requests=args.warmup_requests,
             enforce_eager=args.enforce_eager,
             seed=args.seed,
+            num_blocks=args.num_blocks,
+            attention_backend=args.attention_backend,
         )
         outputs.append(str(output))
     print(json.dumps({"result_files": outputs}, indent=2))

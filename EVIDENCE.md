@@ -185,6 +185,36 @@ The CCE+APR arm achieves +16.13pp feasibility over greedy baseline, but at highe
 Class: BENCHMARK (Python pipeline on synthetic workload, 1 trial each, ultra-fast config).
 Results in: `outputs_48/metrics.txt`, `outputs_48/schedules.json`
 
+## MEASURED server-class GPU paired comparison (2026-11-13, g5.xlarge A10G)
+
+The real-vLLM run called for in the 2026-11-13 diagnosis section above has been executed on a server-class GPU. Class: MEASURED (LOCAL_EXTERNAL_BENCHMARK on rented cloud hardware, not simulation).
+
+**Setup:** AWS EC2 g5.xlarge spot (NVIDIA A10G, 23,028 MiB), Deep Learning AMI (Amazon Linux 2023, PyTorch), `vllm==0.29.0`, `torch==2.13.0+cu130`, model `Qwen/Qwen2.5-1.5B-Instruct`, attention backend pinned to TRITON_ATTN with `VLLM_USE_FLASHINFER_SAMPLER=0` (the AMI ships no `ninja`, so FlashInfer JIT compilation fails; both arms used the identical backend). Trace: `make_poisson_trace.py`, 300 requests, 8 prefix groups, Poisson arrivals at 50 ms mean inter-arrival, 64 max tokens, seed 20261114 (sha256 recorded per-run). Constrained KV cache: `--num-gpu-blocks-override 80` (holds only a few of the 8 prefix groups), max_model_len 1024, max_num_seqs 16, max_inflight 16, reorder window 500 ms. Both positive-result conditions from the 2026-11-13 diagnosis are satisfied: interleaved arrivals with waves (300 requests arrive over ~15 s while waves run) and a prefix working set larger than the cache. Three seeds (42, 123, 2026) x two arms (fifo_prefix_cache vs cce_prefix_bounded), identical trace and server config per arm. All 6 runs completed 300/300 requests, zero failures.
+
+**Results (per seed and mean):**
+
+| Seed | Arm | Prefix hit rate | Mean TTFT ms | Output tok/s | Duration ms |
+|---|---|---:|---:|---:|---:|
+| 42 | FIFO | 0.17144 | 63,474.99 | 132.07 | 145,376.52 |
+| 42 | CCE | 0.17369 | 62,735.33 | 132.99 | 144,376.65 |
+| 123 | FIFO | 0.17144 | 63,024.00 | 132.51 | 144,890.32 |
+| 123 | CCE | 0.17144 | 63,050.77 | 132.46 | 144,943.51 |
+| 2026 | FIFO | 0.17144 | 63,036.18 | 132.49 | 144,917.87 |
+| 2026 | CCE | 0.17144 | 63,048.89 | 132.48 | 144,926.25 |
+| **Mean delta (CCE vs FIFO)** | | **+0.44%** | **-0.37%** | **+0.22%** | **-0.22%** |
+
+**Interpretation - honest negative-to-null result.** Under the intended-workload conditions, the bounded prefix-local dispatcher produced no meaningful improvement over stock FIFO + prefix cache on a server-class GPU:
+
+1. The dispatch policy itself is functional: seed 42 records a different dispatch order (paired same-prefix requeues) and a small consistent benefit (-1.17% TTFT, +0.69% throughput, +0.23pp hit rate). On seeds 123 and 2026 the recorded dispatch order is identical to FIFO and every metric matches within 0.05%. Reordering fires only when two or more requests sharing a prefix are queued within the 500 ms window; at 50 ms mean inter-arrival against an A10G serving 300 short requests, queue depth stays too low for that to happen on most seeds.
+2. The vLLM prefix cache on identical traces produces identical global hit counters (hits 48,656 of 283,842 queries on both arms, all seeds): the engine-level LRU on the 80-block pool dominates ordering effects at this scale.
+3. The absolute hit rate (17.1%) is far below the 48-request bursty trace (91.7%), confirming the constrained-cache condition held; and the FIFO arm on A10G is ~7.7x faster than the local RTX 4060 run, confirming the hardware regime changed. The positive result predicted by the capacity simulation (+10.3pp hit rate, 9.5% TTFT) does NOT reproduce on real vLLM at this scale: the simulation's cache model (hit = full prefix present or absent) does not capture vLLM's block-level LRU, which keeps partial prefixes hot and compresses the reordering advantage to zero on two of three seeds.
+
+Conclusion: CCE-QOS bounded dispatch is not harmful (-0.22% mean duration is within seed noise) but provides no measured benefit over stock FIFO + prefix cache on a server-class GPU under the diagnosed positive-result conditions at 1.5B scale. A positive result, if one exists, requires a regime with deeper queues (higher request rate or slower per-request service), which is a workload claim, not a dispatch claim.
+
+**Blocker documented:** S3 upload from the instance failed (no IAM instance profile on the spot launch; `NoCredentialsError`). Results were downloaded by scp and uploaded from the local machine; identical content. Instance terminated after 4.75 hours (22:38 - 03:23 UTC, 2026-11-13/14). **Spend: $2.42** (g5.xlarge spot us-east-1f, 4.75 h x $0.509/h; $75 budget, 3.2% used).
+
+Sources: `results/prefix_locality/measured-20261113-233532/seed-{42,123,2026}/` locally and `s3://esthien-atlas-eda-969739653654/engineering/cce-qos/measured-20261113-233532/`.
+
 ## Next measurements required
 
 - [x] Add one published serving baseline on the same workload files (done 2026-09-11)
@@ -196,7 +226,7 @@ Results in: `outputs_48/metrics.txt`, `outputs_48/schedules.json`
 - [x] Reconcile root benchmark files with current pipeline (done 2026-09-10)
 - [x] Diagnose and fix APR regression (done 2026-09-10: feasibility 51.61% -> 67.74%)
 - [x] Diagnose the -2.06% vLLM dispatch result and calibrate the simulation to it (done 2026-11-13: structural; stock prefix cache already optimal on this trace, no inter-wave arrival window; model reproduces both arms within +/-5%)
-- [ ] Run PrefixLocality dispatcher against real vLLM on interleaved-prefix workload
+- [x] Run PrefixLocality dispatcher against real vLLM on interleaved-prefix workload (done 2026-11-13: MEASURED on g5.xlarge A10G, 3 seeds x 2 arms, null result - dispatch is not harmful but no benefit over FIFO+prefix cache at this scale; see MEASURED section above)
 - [ ] Generate synthetic DAGs with realistic heterogeneous patterns (mix of conv/attn/norm, non-uniform dependencies) for meaningful solver comparison
 - [ ] Run on larger workloads (64-128 nodes) to assess scalability of classical + quantum pipelines
 
